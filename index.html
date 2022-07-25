@@ -10,18 +10,33 @@
   <body>
     <header class="header">
       <div class="tools">
-        <button>Row</button>
+        <button>Import</button>
+        <button>Area</button>
         <button>Table</button>
         <button>Chair</button>
-        <button>Bar</button>
         <button>Stage</button>
-        <button>Wall</button>
+        <button>Bar</button>
       </div>
-      <div><button class="action">Generate JSON</div>
+      <div><button class="action">Generate JSON</button></div>
     </header>
     <main>
       <div class="side-bar"></div>
-      <div class="board"></div>
+      <div class="board">
+        <form class="size-form">
+          <p class="caption">Enter the width and height of Arena</p>
+          <div class="sizes">
+            <div class="width">
+              <input id="width" type="number" min="100" value="1000" />
+              <label for="width">Width</label>
+            </div>
+            <div class="height">
+              <input id="height" type="number" min="100" value="1000" />
+              <label for="height">Height</label>
+            </div>
+          </div>
+          <button type="submit" class="action">Start Building</button>
+        </form>
+      </div>
     </main>
     <script async src="/scripts/index.js" />
   </body>
