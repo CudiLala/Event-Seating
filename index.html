@@ -5,7 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Event Seating Arrangement Application</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
+      integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <link rel="stylesheet" href="/styles/index.css" />
+    <link rel="stylesheet" href="/styles/app.css" />
   </head>
   <body>
     <header class="header">
@@ -19,25 +27,51 @@
       </div>
       <div><button class="action">Generate JSON</button></div>
     </header>
+
     <main>
-      <div class="side-bar"></div>
-      <div class="board">
-        <form class="size-form">
-          <p class="caption">Enter the width and height of Arena</p>
-          <div class="sizes">
-            <div class="width">
-              <input id="width" type="number" min="100" value="1000" />
-              <label for="width">Width</label>
-            </div>
-            <div class="height">
-              <input id="height" type="number" min="100" value="1000" />
-              <label for="height">Height</label>
-            </div>
+      <div class="side-bar">
+        <header>
+          Event Name - 07/08/2022 <i class="fa-solid fa-chevron-down"></i>
+        </header>
+      </div>
+      <div class="main-display">
+        <div class="board" id="board">
+          <div class="magnifier" id="magnifier">
+            <input type="range" min="-10" max="10" step="0.1" value="1" />
           </div>
-          <button type="submit" class="action">Start Building</button>
-        </form>
+          <div class="arena" id="arena"></div>
+        </div>
+        <div class="form-container" id="form-container">
+          <form class="size-form" id="size-form">
+            <p class="caption">Enter the width and length of venue in meters</p>
+            <div class="sizes">
+              <div class="width">
+                <input
+                  id="width"
+                  name="width"
+                  type="number"
+                  min="100"
+                  value="1000"
+                />
+                <label for="width">Width</label>
+              </div>
+              <div class="height">
+                <input
+                  id="height"
+                  name="height"
+                  type="number"
+                  min="100"
+                  value="1000"
+                />
+                <label for="height">Height</label>
+              </div>
+            </div>
+            <button type="submit" class="action">Start Building</button>
+          </form>
+        </div>
       </div>
     </main>
-    <script async src="/scripts/index.js" />
+    <script src="/scripts/index.js"></script>
+    <script src="/scripts/events.js"></script>
   </body>
 </html>
