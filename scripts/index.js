@@ -37,8 +37,9 @@ function setArenaSize([width, height]) {
 
 function setScale(scale) {
   appState.scale = scale;
-  svg.setAttribute("width", `${100 * scale}%`);
-  svg.setAttribute("height", `${100 * scale}%`);
+  // svg.setAttribute("width", `${100 * scale}%`);
+  // svg.setAttribute("height", `${100 * scale}%`);
+  svg.style.transform = `scale(${scale})`;
 }
 
 function initializeArena() {
