@@ -37,9 +37,18 @@
       <div class="main-display">
         <div class="board" id="board">
           <div class="magnifier" id="magnifier">
-            <input type="range" min="-10" max="10" step="0.1" value="1" />
+            <input
+              type="range"
+              min="0.5"
+              max="2"
+              step="0.01"
+              value="1"
+              id="zoom-scale"
+            />
           </div>
-          <div class="arena" id="arena"></div>
+          <div class="arena-container">
+            <div class="arena" id="arena"></div>
+          </div>
         </div>
         <div class="form-container" id="form-container">
           <form class="size-form" id="size-form">

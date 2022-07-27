@@ -1,4 +1,5 @@
 let sizeForm = document.getElementById("size-form");
+let zoomScale = document.getElementById("zoom-scale");
 
 sizeForm.addEventListener("submit", (ev) => {
   ev.preventDefault();
@@ -8,4 +9,8 @@ sizeForm.addEventListener("submit", (ev) => {
 
   setArenaSize([width, height]);
   setDisplay("board");
+});
+
+zoomScale.addEventListener("input", () => {
+  setScale(zoomScale.value);
 });
