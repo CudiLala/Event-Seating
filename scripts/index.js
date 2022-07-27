@@ -23,6 +23,11 @@ function setDisplay(display) {
   localStorage.setItem("appState", JSON.stringify(appState));
 }
 
+function setResizeForm() {
+  document.getElementById("resize-form").style.display = "flex";
+  document.getElementById("forma").style.display = "flex";
+}
+
 function setArenaSize([width, height]) {
   appState.arenaSize = [width, height];
   localStorage.setItem("appState", JSON.stringify(appState));
@@ -53,11 +58,16 @@ function initializeArena() {
   svg.style.position = "absolute";
 
   const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-  rect.setAttribute("width", "100%");
-  rect.setAttribute("height", "100%");
+  rect.setAttribute("x", "5%");
+  rect.setAttribute("y", "5%");
+  rect.setAttribute("width", "90%");
+  rect.setAttribute("height", "90%");
   rect.setAttribute("stroke", "black");
   rect.setAttribute("fill", "transparent");
-  rect.setAttribute("stroke-width", "2px");
+  rect.setAttribute("stroke-width", 2);
+  rect.addEventListener("click", () => {
+    setResizeForm();
+  });
 
   svg.append(rect);
 
