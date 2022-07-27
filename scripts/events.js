@@ -13,4 +13,5 @@ sizeForm.addEventListener("submit", (ev) => {
 
 zoomScale.addEventListener("input", () => {
   setScale(zoomScale.value);
+  console.log(svg.getAttribute("width"), svg.getAttribute("viewBox"));
 });
