@@ -18,12 +18,13 @@
   <body>
     <header class="header">
       <div class="tools">
-        <button>Import</button>
-        <button>Area</button>
-        <button>Table</button>
-        <button>Chair</button>
-        <button>Stage</button>
-        <button>Bar</button>
+        <button tool-button="new">New</button>
+        <button tool-button="import">Import</button>
+        <button tool-button="area">Area</button>
+        <button tool-button="table">Table</button>
+        <button tool-button="chair">Chair</button>
+        <button tool-button="stage">Stage</button>
+        <button tool-button="bar">Bar</button>
       </div>
       <div><button class="action">Generate JSON</button></div>
     </header>
@@ -33,28 +34,21 @@
         <header>
           Event Name - 07/08/2022 <i class="fa-solid fa-chevron-down"></i>
         </header>
-        <div id="forma">
-          <form name="resize-form" id="resize-form">
-            <input type="number" name="width" id="width" />
-            <input type="number" name="height" id="height" />
-            <button>Enter</button>
-          </form>
-        </div>
       </div>
       <div class="main-display">
-        <div class="board" id="board">
+        <div class="board-container" id="board-container">
           <div class="magnifier" id="magnifier">
             <input
               type="range"
-              min="0.5"
-              max="2"
+              min="1"
+              max="3"
               step="0.01"
               value="1"
               id="zoom-scale"
             />
           </div>
-          <div class="arena-container">
-            <div class="arena" id="arena"></div>
+          <div class="board-box">
+            <div class="board" id="board"></div>
           </div>
         </div>
         <div class="form-container" id="form-container">
@@ -66,8 +60,8 @@
                   id="width"
                   name="width"
                   type="number"
-                  min="100"
-                  value="1000"
+                  min="1"
+                  value="100"
                 />
                 <label for="width">Width</label>
               </div>
@@ -76,8 +70,8 @@
                   id="height"
                   name="height"
                   type="number"
-                  min="100"
-                  value="1000"
+                  min="1"
+                  value="100"
                 />
                 <label for="height">Height</label>
               </div>
@@ -88,6 +82,11 @@
       </div>
     </main>
     <script src="/scripts/index.js"></script>
+    <script src="/scripts/app.js"></script>
     <script src="/scripts/events.js"></script>
+    <script src="/scripts/diagram.js"></script>
+    <script src="/scripts/state.js"></script>
+    <script src="/scripts/controls.js"></script>
+    <script src="/scripts/domEventListeners.js"></script>
   </body>
 </html>
