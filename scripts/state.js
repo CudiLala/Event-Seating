@@ -76,21 +76,6 @@ class State {
     if (typeof value != "object")
       throw "the board transform should be an object";
 
-    for (let key in value) {
-      this.#boardTransform[key] = value[key];
-    }
-
-    Diagram.svg.style.transform = (() => {
-      let result = "";
-
-      for (let key in this.#boardTransform) {
-        result = result.concat(`${key}(${this.#boardTransform[key]})`);
-      }
-
-      return result;
-    })();
-
-    zoomScale.value = this.#boardTransform.scale;
     this.store();
   }
 

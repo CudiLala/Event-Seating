@@ -178,26 +178,15 @@ main {
   padding: 2px 4px;
   flex: 0;
 }
+
 .board-container .board-box {
-  padding: 8px;
-  width: 100%;
-  height: 100%;
-}
-.board-box .board {
   position: relative;
-  display: flex;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  scrollbar-width: none;
-}
-.board-box .board::-webkit-scrollbar {
-  display: none;
+  flex: 1;
 }
 
-.board svg {
+.board-container svg {
+  overflow: auto;
   position: absolute;
-  border: 1px solid green;
   transform-origin: top left;
 }
 

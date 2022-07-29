@@ -1,13 +1,7 @@
 class App {
   static createBoard() {
     State.display = "board";
-    Diagram.init();
-  }
-
-  static addAttributes(elem, attirbutes) {
-    for (let key in attirbutes) {
-      elem.setAttribute(key, attirbutes[key]);
-    }
+    Board.init();
   }
 
   static init() {
@@ -35,6 +29,6 @@ class App {
   static renew() {
     State.clear();
     App.init();
-    Diagram.denit();
+    board.innerHTML = "";
   }
 }
