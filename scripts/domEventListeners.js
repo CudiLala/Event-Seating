@@ -17,20 +17,8 @@ toolNew.addEventListener("click", () => {
 toolArea.addEventListener("click", () => {
   if (Board.isInitialized) displayAreaForm();
 });
-toolTable.addEventListener("click", () => {
-  if (Board.isInitialized) displayTableForm();
-});
-toolChair.addEventListener("click", () => {
-  if (Board.isInitialized) displayChairForm();
-});
-toolStand.addEventListener("click", () => {
-  if (Board.isInitialized) displayStandForm();
-});
 toolStage.addEventListener("click", () => {
   if (Board.isInitialized) displayStageForm();
-});
-toolBar.addEventListener("click", () => {
-  if (Board.isInitialized) displayBarForm();
 });
 toolGenerateJson.addEventListener("click", () => {
   if (Board.isInitialized) {

@@ -12,8 +12,6 @@ class Board {
           .addAttributes({
             x: `${0.02 * State.width}`,
             y: `${0.02 * State.height}`,
-            rx: `${0.02 * ((State.width + State.height) / 2)}`,
-            ry: `${0.02 * ((State.width + State.height) / 2)}`,
             width: `${0.96 * State.width}`,
             height: `${0.96 * State.height}`,
             fill: "transparent",

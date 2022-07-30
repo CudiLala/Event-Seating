@@ -41,6 +41,10 @@ main {
   background-color: white;
 }
 
+button {
+  cursor: pointer;
+}
+
 .header {
   background-color: #222;
   color: white;
@@ -56,10 +60,16 @@ main {
   font-family: inherit;
   font-size: inherit;
   background-color: transparent;
-  padding: 0 4px;
+  padding: 4px 2px;
   color: rgba(255, 255, 255, 0.9);
   border: none;
   cursor: pointer;
+  margin-right: 8px;
+  transition: all 300ms;
+}
+.header .tools button:disabled {
+  color: rgba(255, 255, 255, 0.65);
+  cursor: not-allowed;
 }
 .header button {
   line-height: 1.25em;
@@ -75,10 +85,24 @@ main {
   cursor: pointer;
   border-radius: 5px;
   line-height: 1.25em;
+  border: 1px solid rgb(23, 96, 253);
+  transition: all 300ms;
 }
 
-.action.not {
-  background-color: #888;
+.action:hover,
+.action:focus {
+  box-shadow: 0 0 8px rgb(23, 96, 253);
+}
+
+.action.action-secondary {
+  background-color: white;
+  border: 1px solid rgb(23, 96, 253);
+  color: rgb(23, 96, 253);
+}
+.action.action-secondary:hover,
+.action.action-secondary:focus {
+  box-shadow: none;
+  background-color: rgba(23, 96, 253, 0.05);
 }
 
 .side-bar {
@@ -108,11 +132,6 @@ main {
   margin: 4px 0;
   display: flex;
   flex-direction: column;
-}
-.input-container .caption {
-  font-weight: 500;
-  font-size: 15px;
-  margin-bottom: 4px;
 }
 .input-box {
   padding: 0 8px;
@@ -223,7 +242,7 @@ main {
 .tool-form {
   position: absolute;
   background-color: white;
-  box-shadow: 0 0 10px #aaa;
+  box-shadow: 0 0 10px rgba(23, 96, 253, 0.5);
   border-radius: 5px;
   z-index: 10;
   padding: 16px;
@@ -242,19 +261,30 @@ main {
 }
 .form-one .heading {
   text-align: center;
-  border-bottom: 1px solid #aaa;
+  border-bottom: 1px solid rgba(23, 96, 253, 0.3);
   font-size: 15px;
   font-weight: 600;
   padding-bottom: 2px;
+  color: #333;
 }
 .form-one .note {
   font-size: 14px;
   text-align: center;
   color: #666;
 }
+.form-one .caption {
+  font-weight: 500;
+  font-size: 15px;
+  margin-bottom: 4px;
+  color: #333;
+}
 .form-one .footer {
-  border-top: 1px solid #aaa;
+  border-top: 1px solid rgba(23, 96, 253, 0.3);
   padding-top: 8px;
+}
+
+.no-display {
+  display: none;
 }
 
 @media screen and (max-width: 767px) {

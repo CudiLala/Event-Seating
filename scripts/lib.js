@@ -1,18 +1,15 @@
 /**
- * @param {HTMLElement} relativeElem
- * @returns {{x: number, y: number}}
+ * @param  {...HTMLButtonElement|HTMLInputElement} elems
  */
-function getPositionsForToolForm(relativeElem) {
-  return {
-    x: relativeElem.getBoundingClientRect().left + 2,
-    y: header.getBoundingClientRect().bottom + 8,
-  };
+function disableElements(...elems) {
+  for (let elem of elems) {
+    elem.disabled = true;
+  }
 }
 
 function displayAreaForm() {
   function handleCancel(e) {
     e.stopPropagation();
-    toolForm.innerHTML = "";
     toolForm.style.transform = `translate(${-toolForm.getBoundingClientRect()
       .right}px, ${getPositionsForToolForm(toolArea).y}px)`;
   }
@@ -48,7 +45,7 @@ function displayAreaForm() {
         </div>
       </div>
       <div class="footer input-box linear end" style="margin-top: 8px">
-        <button class="not action" type="button" style="margin-right: 10px" id="cancel">
+        <button class="action-secondary action" type="button" style="margin-right: 10px" id="cancel">
           Cancel
         </button>
         <button class="action">Next</button>
@@ -115,4 +112,24 @@ function displayBarForm() {
 
   let { x, y } = getPositionsForToolForm(toolBar);
   toolForm.style.transform = `translate(${x}px, ${y}px)`;
+}
+
+/**
+ * @param  {...HTMLButtonElement|HTMLInputElement} elems
+ */
+function enableElements(...elems) {
+  for (let elem of elems) {
+    elem.disabled = false;
+  }
+}
+
+/**
+ * @param {HTMLElement} relativeElem
+ * @returns {{x: number, y: number}}
+ */
+function getPositionsForToolForm(relativeElem) {
+  return {
+    x: relativeElem.getBoundingClientRect().left + 2,
+    y: header.getBoundingClientRect().bottom + 8,
+  };
 }

@@ -54,6 +54,9 @@ class State {
       }
     }
 
+    if (value == "board") enableElements(toolNew, toolArea, toolStage);
+    else if (value == "form") disableElements(toolNew, toolArea, toolStage);
+
     this.#display = value;
     this.store();
   }
