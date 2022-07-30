@@ -1,26 +1,35 @@
-class Component {
+class SVGComponent {
   static #components = {};
   #name;
   #comp;
+  #selected;
 
   constructor(type, name) {
     this.#name = name;
     this.#comp = document.createElementNS("http://www.w3.org/2000/svg", type);
 
-    Component.#components[name] = {
+    SVGComponent.#components[name] = {
       html: this.#comp,
       type: type,
       component: this,
     };
 
-    this.#comp.addEventListener("click", () => {
-      console.log("handle click");
+    this.#comp.addEventListener("click", (ev) => {
+      ev.stopPropagation();
+      this.select();
+    });
+
+    this.addAttributes({
+      name,
     });
   }
 
   addAttributes(attirbutes) {
     for (let key in attirbutes) {
-      Component.#components[this.#name].html.setAttribute(key, attirbutes[key]);
+      SVGComponent.#components[this.#name].html.setAttribute(
+        key,
+        attirbutes[key]
+      );
     }
 
     return this;
@@ -31,13 +40,19 @@ class Component {
    * @returns {Component}
    */
   static get(name) {
-    return Component.#components[name].component;
+    return SVGComponent.#components[name].component;
   }
 
   /**
    * @returns {Element}
    */
   html() {
-    return Component.#components[this.#name].html;
+    return SVGComponent.#components[this.#name].html;
+  }
+
+  select() {
+    this.#selected = !this.#selected;
+    if (this.#selected) this.addAttributes({ stroke: "#1760fd" });
+    else this.addAttributes({ stroke: "black" });
   }
 }
