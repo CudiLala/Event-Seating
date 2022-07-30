@@ -16,17 +16,19 @@
     <link rel="stylesheet" href="/styles/app.css" />
   </head>
   <body>
-    <header class="header">
+    <header class="header" id="header">
       <div class="tools">
-        <button tool-button="new">New</button>
-        <button tool-button="import">Import</button>
-        <button tool-button="area">Area</button>
-        <button tool-button="table">Table</button>
-        <button tool-button="chair">Chair</button>
-        <button tool-button="stage">Stage</button>
-        <button tool-button="bar">Bar</button>
+        <button id="tool-new">New</button>
+        <button id="tool-area">Area</button>
+        <button id="tool-table">Table</button>
+        <button id="tool-chair">Chair</button>
+        <button id="tool-stand">Stand</button>
+        <button id="tool-stage">Stage</button>
+        <button id="tool-bar">Bar</button>
       </div>
-      <div><button class="action">Generate JSON</button></div>
+      <div>
+        <button class="action" id="tool-generate-json">Generate JSON</button>
+      </div>
     </header>
 
     <main>
@@ -34,7 +36,7 @@
         <header>
           Event Name - 07/08/2022 <i class="fa-solid fa-chevron-down"></i>
         </header>
-        <div class="body"></div>
+        <div id="side-bar-body"></div>
       </div>
       <div class="main-display">
         <div class="board-container" id="board-container">
@@ -56,23 +58,25 @@
           <form class="size-form" id="size-form">
             <p class="caption">Enter the width and length of venue in meters</p>
             <div class="sizes">
-              <div class="width">
+              <div class="input-box">
                 <input
                   id="width"
                   name="width"
                   type="number"
                   min="1"
                   value="100"
+                  class="tiny"
                 />
                 <label for="width">Width(m)</label>
               </div>
-              <div class="height">
+              <div class="input-box">
                 <input
                   id="height"
                   name="height"
                   type="number"
                   min="1"
                   value="100"
+                  class="tiny"
                 />
                 <label for="height">Height(m)</label>
               </div>
@@ -82,13 +86,17 @@
         </div>
       </div>
     </main>
+
+    <!--used by scripts-->
+    <div class="tool-form" id="tool-form"></div>
+
     <script src="/scripts/index.js"></script>
     <script src="/scripts/app.js"></script>
     <script src="/scripts/events.js"></script>
     <script src="/scripts/board.js"></script>
     <script src="/scripts/components.js"></script>
     <script src="/scripts/state.js"></script>
-    <script src="/scripts/controls.js"></script>
     <script src="/scripts/domEventListeners.js"></script>
+    <script src="/scripts/lib.js"></script>
   </body>
 </html>

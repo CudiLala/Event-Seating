@@ -29,6 +29,7 @@ class App {
   static renew() {
     State.clear();
     App.init();
-    board.innerHTML = "";
+    Board.denit();
+    sideBarBody.innerHTML = "";
   }
 }

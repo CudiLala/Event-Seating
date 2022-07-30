@@ -3,6 +3,8 @@ class SVGComponent {
   #name;
   #comp;
   #selected;
+  #selectFn;
+  #deselectFn;
 
   constructor(type, name) {
     this.#name = name;
@@ -37,22 +39,41 @@ class SVGComponent {
 
   /**
    * @param {string} name
-   * @returns {Component}
+   * @returns {SVGComponent}
    */
   static get(name) {
     return SVGComponent.#components[name].component;
   }
 
   /**
-   * @returns {Element}
+   * @returns {SVGElement}
    */
   html() {
     return SVGComponent.#components[this.#name].html;
   }
 
   select() {
-    this.#selected = !this.#selected;
-    if (this.#selected) this.addAttributes({ stroke: "#1760fd" });
-    else this.addAttributes({ stroke: "black" });
+    this.#selected = true;
+    this.addAttributes({ stroke: "#1760fd" });
+    if (this.#selectFn) this.#selectFn();
+  }
+
+  deselect() {
+    this.#selected = false;
+    this.addAttributes({ stroke: "black" });
+    if (this.#deselectFn) this.#deselectFn();
+  }
+
+  onselect(fn) {
+    this.#selectFn = fn;
+
+    return this;
+  }
+
+  static deselectAll(args = { except: null }) {
+    for (let svgComponent in this.#components) {
+      if (svgComponent != args.except)
+        this.#components[svgComponent].component.deselect();
+    }
   }
 }

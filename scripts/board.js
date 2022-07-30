@@ -20,6 +20,14 @@ class Board {
             stroke: "black",
             "stroke-width": `${0.001 * ((State.width + State.height) / 2)}`,
           })
+          .onselect(() => {
+            sideBarBody.innerHTML = `
+            <form class="resizeForm" onsubmit="console.log('submited')">
+              <input type="number" />
+              <input type="number"/>
+              <input type="submit" />
+            </form>`;
+          })
           .html()
       );
 
