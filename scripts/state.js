@@ -56,7 +56,13 @@ class State {
   }
 
   static set scale(value) {
+    value = Number(value);
     if (value < 1) throw "Value cannot be less than 1";
+
+    board.style.transform = `scale(${value})`;
+    boardBox.scrollBy({ top: value, left: value });
+
+    zoomScale.value = value;
 
     this.#store.scale = value;
     this.store();

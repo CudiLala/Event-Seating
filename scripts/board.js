@@ -37,12 +37,10 @@ class Board {
           height="${0.96 * length}"
           fill="transparent"
           stroke="black"
-          stroke-width="${0.002 * ((width + length) / 2)}"
+          stroke-width="${0.0015 * ((width + length) / 2)}"
         />
       </g>
     `;
-
-    console.log((width + length) / 2);
   }
 
   static init() {

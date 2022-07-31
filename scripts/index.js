@@ -2,7 +2,8 @@ let root = document.documentElement;
 let sizeForm = document.getElementById("size-form");
 let resizeForm = document.getElementById("resize-form");
 let zoomScale = document.getElementById("zoom-scale");
-let board = document.querySelector(".board-container svg");
+let board = document.getElementById("board");
+let boardBox = document.getElementById("board-box");
 let sideBarBody = document.getElementById("side-bar-body");
 let header = document.getElementById("header");
 

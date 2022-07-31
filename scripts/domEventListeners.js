@@ -40,3 +40,7 @@ document.addEventListener("fullscreenchange", () => {
     toolToggleFullscreen.innerText = "Exit Fullscreen";
   else toolToggleFullscreen.innerText = "Enter Fullscreen";
 });
+
+zoomScale.addEventListener("input", () => {
+  State.scale = zoomScale.value;
+});
