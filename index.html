@@ -21,10 +21,7 @@
         <button id="tool-new" disabled>New</button>
         <button id="tool-area" disabled>Add Area</button>
         <button id="tool-stage" disabled>Add Stage</button>
-        <button id="tool-enter-fullscreen">Enter Fullscreen</button>
-        <button id="tool-exit-fullscreen" class="no-display">
-          Exit Fullscreen
-        </button>
+        <button id="tool-toggle-fullscreen">Enter Fullscreen</button>
       </div>
       <div>
         <button class="action" id="tool-generate-json">Generate JSON</button>
@@ -56,7 +53,7 @@
         </div>
         <div class="form-container" id="form-container">
           <form class="size-form" id="size-form">
-            <p class="caption">Enter the width and length of venue in meters</p>
+            <p class="caption">Enter the width and length of arena in meters</p>
             <div class="sizes">
               <div class="input-box">
                 <input
@@ -71,14 +68,14 @@
               </div>
               <div class="input-box">
                 <input
-                  id="height"
-                  name="height"
+                  id="length"
+                  name="length"
                   type="number"
                   min="1"
                   value="100"
                   class="tiny"
                 />
-                <label for="height">Height(m)</label>
+                <label for="length">Length(m)</label>
               </div>
             </div>
             <button type="submit" class="action">Start Building</button>

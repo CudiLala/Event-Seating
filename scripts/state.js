@@ -1,41 +1,26 @@
 class State {
-  static #width = 5;
-  static #height = 5;
-  static #display = "form";
-  static #boardTransform = {};
-  static boardWidth = 0;
-  static boardHeight = 0;
+  static #store = {
+    display: "form",
+    scale: 1,
+    scroll: { x: 0, y: 0 },
+    fullscreen: false,
+  };
 
-  static get width() {
-    return this.#width;
-  }
+  static clear() {
+    localStorage.removeItem("state");
+    this.#store = {
+      display: "form",
+      scale: 1,
+      scroll: { x: 0, y: 0 },
+      fullscreen: false,
+    };
 
-  static set width(value) {
-    value = Number(value);
-
-    if (value == NaN) throw "Value given to width is not a number";
-    if (value < 1) throw "Width is too small";
-
-    this.#width = value;
-    this.store();
-  }
-
-  static get height() {
-    return this.#height;
-  }
-
-  static set height(value) {
-    value = Number(value);
-
-    if (value == NaN) throw "Value given to height is not a number";
-    if (value < 1) throw "Height is too small";
-
-    this.#height = value;
-    this.store();
+    this.init();
+    return this;
   }
 
   static get display() {
-    return this.#display;
+    return this.#store.display;
   }
 
   static set display(value) {
@@ -55,40 +40,42 @@ class State {
     }
 
     if (value == "board") enableElements(toolNew, toolArea, toolStage);
-    else if (value == "form") disableElements(toolNew, toolArea, toolStage);
+    else disableElements(toolNew, toolArea, toolStage);
 
-    this.#display = value;
+    this.#store.display = value;
+    this.store();
+  }
+
+  static init() {
+    let state = localStorage.getItem("state");
+    if (state) this.#store = JSON.parse(state);
+
+    for (let key in this.#store) {
+      this[key] = this.#store[key];
+    }
+  }
+
+  static set scale(value) {
+    if (value < 1) throw "Value cannot be less than 1";
+
+    this.#store.scale = value;
+    this.store();
+  }
+
+  static set scroll({ x, y }) {
+    if (x < 0 || y < 0) throw "Cannot scroll beyond 0";
+
+    this.#store.scroll = { x, y };
+    this.store();
+  }
+
+  static set fullscreen(value) {
+    this.#store.fullscreen = value;
     this.store();
   }
 
   static store() {
-    localStorage.setItem(
-      "state",
-      JSON.stringify({
-        display: this.#display,
-        width: this.#width,
-        height: this.#height,
-        boardTransform: this.#boardTransform,
-      })
-    );
-
-    return this;
-  }
-
-  static set boardTransform(value) {
-    if (typeof value != "object")
-      throw "the board transform should be an object";
-
-    this.store();
-  }
-
-  static setBoardTransform(transformFn) {
-    this.boardTransform = transformFn(this.#boardTransform);
-  }
-
-  static clear() {
-    localStorage.removeItem("state");
-    App.init();
+    localStorage.setItem("state", JSON.stringify(this.#store));
 
     return this;
   }

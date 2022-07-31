@@ -231,10 +231,10 @@ button {
 .board-container .board-box {
   position: relative;
   flex: 1;
+  overflow: auto;
 }
 
 .board-container svg {
-  overflow: auto;
   position: absolute;
   transform-origin: top left;
 }

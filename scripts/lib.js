@@ -39,8 +39,8 @@ function displayAreaForm() {
             <label for="area-width">Width</label>
           </div>
           <div class="input-box linear">
-            <input id="area-height" name="area-height" value="10" type="number" class="tiny"/>
-            <label for="area-height">Height</label>
+            <input id="area-length" name="area-length" value="10" type="number" class="tiny"/>
+            <label for="area-length">Length</label>
           </div>
         </div>
       </div>
