@@ -13,11 +13,11 @@ toolNew.addEventListener("click", () => {
 });
 
 toolArea.addEventListener("click", () => {
-  if (State.display == "board") displayAreaForm();
+  if (State.display == "board") Lib.displayAreaForm();
 });
 
 toolStage.addEventListener("click", () => {
-  if (State.display == "board") displayStageForm();
+  if (State.display == "board") Lib.displayStageForm();
 });
 
 toolToggleFullscreen.addEventListener("click", () => {
@@ -32,8 +32,6 @@ toolGenerateJson.addEventListener("click", () => {
     console.log("click generate json");
   }
 });
-
-window.addEventListener("resize", () => console.log("handle resize"));
 
 document.addEventListener("fullscreenchange", () => {
   if (document.fullscreenElement)

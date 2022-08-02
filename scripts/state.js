@@ -39,8 +39,8 @@ class State {
       }
     }
 
-    if (value == "board") enableElements(toolNew, toolArea, toolStage);
-    else disableElements(toolNew, toolArea, toolStage);
+    if (value == "board") Lib.enableElements(toolNew, toolArea, toolStage);
+    else Lib.disableElements(toolNew, toolArea, toolStage);
 
     this.#store.display = value;
     this.store();
@@ -60,8 +60,6 @@ class State {
     if (value < 1) throw "Value cannot be less than 1";
 
     board.style.transform = `scale(${value})`;
-    boardBox.scrollBy({ top: value, left: value });
-
     zoomScale.value = value;
 
     this.#store.scale = value;
