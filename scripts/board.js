@@ -16,8 +16,7 @@ class Board {
       throw "Width and length should be greater than or equal to one";
 
     this.#store.size = { width, length };
-    this.store();
-    this.draw();
+    this.store().draw();
   }
 
   static createArea(name) {
@@ -79,12 +78,14 @@ class Board {
   }
 
   static updateAreaNameEdit(oldName, newName) {
-    if (!oldName || !newName) return false;
+    if (oldName === undefined || newName === undefined) return false;
 
     this.#store.content[`${newName}--e`] = JSON.parse(
       JSON.stringify(this.#store.content[`${oldName}--e`])
     ) /* deep copy */;
     delete this.#store.content[`${oldName}--e`];
+
+    console.log(this.#store);
 
     this.draw().store();
     return true;
