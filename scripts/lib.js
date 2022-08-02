@@ -25,7 +25,7 @@ class Lib {
             setAreaName,
           }),
           buttons: [
-            Component.ToolFormCancelButton(state.areaProps.name),
+            Component.ToolFormCancelButton({ state }),
             Component.ToolFormNextButton({ state, setStage }),
           ],
         },
@@ -36,7 +36,7 @@ class Lib {
             setAreaProps,
           }),
           buttons: [
-            Component.ToolFormCancelButton(state.areaProps.name),
+            Component.ToolFormCancelButton({ state }),
             Component.ToolFormBackButton({ state, setStage }),
             Component.ToolFormNextButton({ state, setStage }),
           ],
@@ -48,9 +48,9 @@ class Lib {
             setAreaProps,
           }),
           buttons: [
-            Component.ToolFormCancelButton(state.areaProps.name),
+            Component.ToolFormCancelButton({ state }),
             Component.ToolFormBackButton({ state, setStage }),
-            Component.ToolFormCreateButton(state.areaProps.name),
+            Component.ToolFormCreateButton({ state }),
           ],
         },
       };
@@ -72,7 +72,7 @@ class Lib {
       Board.updateAreaEdit(state.areaProps);
     }
 
-    setAreaName("Area 1");
+    setAreaName(Board.getUniqueAreaName());
     setAreaProps({
       x: Board.arenaSize.width / 20,
       y: Board.arenaSize.length / 20,

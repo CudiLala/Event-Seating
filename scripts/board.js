@@ -55,6 +55,15 @@ class Board {
     return this;
   }
 
+  static getUniqueAreaName(num = 1) {
+    let result = `Area ${num}`;
+
+    if (Object.keys(this.#store.content).includes(result))
+      result = this.getUniqueAreaName(num + 1);
+
+    return result;
+  }
+
   static init() {
     let store = localStorage.getItem("board");
     if (store) this.#store = JSON.parse(store);

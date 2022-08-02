@@ -114,7 +114,7 @@ class Component {
     return elem;
   }
 
-  static ToolFormCancelButton(name) {
+  static ToolFormCancelButton({ state }) {
     let elem = Lib.parseHtml(`
       <button 
         class="action action-secondary" 
@@ -126,14 +126,14 @@ class Component {
     `);
 
     elem.querySelector("button").addEventListener("click", () => {
-      Board.removeAreaEdit(name);
+      Board.removeAreaEdit(state.areaProps.name);
       Lib.slideOutToolForm();
     });
 
     return elem;
   }
 
-  static ToolFormCreateButton(name) {
+  static ToolFormCreateButton({ state }) {
     let elem = Lib.parseHtml(`
       <button 
         class="action" 
@@ -144,7 +144,7 @@ class Component {
     `);
 
     elem.querySelector("button").addEventListener("click", () => {
-      Board.createArea(name);
+      Board.createArea(state.areaProps.name);
       Lib.slideOutToolForm();
     });
 
