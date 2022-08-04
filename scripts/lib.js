@@ -20,10 +20,11 @@ class Lib {
 
       let props = {
         1: {
-          child: Component.areaToolFormNameSection({
+          child: Component.areaToolSectionOne({
             id: "a83",
             state,
-            setAreaName,
+            setAreaId,
+            setAreaProps,
           }),
           buttons: [
             Component.ToolFormCancelButton({ state }),
@@ -60,9 +61,9 @@ class Lib {
       toolForm.append(Component.areaToolFormLayout(props[state.stage]));
     }
 
-    function setAreaName(value) {
-      Board.updateAreaNameEdit(state.areaProps.name, value);
-      state.areaProps.name = value;
+    function setAreaId(value) {
+      Board.updateAreaIdEdit(state.areaProps.id, value);
+      state.areaProps.id = value;
     }
 
     function setAreaProps(value) {
@@ -73,8 +74,10 @@ class Lib {
       Board.updateAreaEdit(state.areaProps);
     }
 
-    setAreaName(Board.getUniqueAreaName());
     setAreaProps({
+      id: Board.getUniqueAreaId(),
+      name: "",
+      type: "seat",
       x: Board.arenaSize.width / 20,
       y: Board.arenaSize.length / 20,
       width: Board.arenaSize.width / 10,
@@ -83,17 +86,6 @@ class Lib {
     setStage(1);
 
     let { x, y } = Lib.getPositionsForToolForm(toolArea);
-    toolForm.style.transform = `translate(${x}px, ${y}px)`;
-  }
-
-  static displayStageForm() {
-    toolForm.innerHTML = `
-      <form class="form-one">
-        <h3 class="heading">Stage Properties</h3>
-      </form>
-    `;
-
-    let { x, y } = Lib.getPositionsForToolForm(toolStage);
     toolForm.style.transform = `translate(${x}px, ${y}px)`;
   }
 
@@ -113,7 +105,7 @@ class Lib {
   static getPositionsForToolForm(relativeElem) {
     return {
       x: relativeElem.getBoundingClientRect().left + 2,
-      y: header.getBoundingClientRect().bottom + 8,
+      y: header.getBoundingClientRect().bottom + 4,
     };
   }
 
@@ -129,7 +121,7 @@ class Lib {
 
   static slideOutToolForm() {
     toolForm.style.transform = `translate(${-toolForm.getBoundingClientRect()
-      .right}px, ${header.getBoundingClientRect().bottom + 8}px`;
+      .right}px, ${header.getBoundingClientRect().bottom + 4}px`;
   }
 
   static startContinousScaleDownAfter500ms() {

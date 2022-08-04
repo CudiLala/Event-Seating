@@ -12,7 +12,6 @@ let zoomValue = document.getElementById("zoom-value");
 //tools
 let toolNew = document.getElementById("tool-new");
 let toolArea = document.getElementById("tool-area");
-let toolStage = document.getElementById("tool-stage");
 let toolToggleFullscreen = document.getElementById("tool-toggle-fullscreen");
 let toolGenerateJson = document.getElementById("tool-generate-json");
 let toolForm = document.getElementById("tool-form");

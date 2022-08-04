@@ -2,8 +2,6 @@ class State {
   static #store = {
     display: "form",
     scale: 1,
-    scroll: { x: 0, y: 0 },
-    fullscreen: false,
   };
 
   static clear() {
@@ -11,8 +9,6 @@ class State {
     this.#store = {
       display: "form",
       scale: 1,
-      scroll: { x: 0, y: 0 },
-      fullscreen: false,
     };
 
     this.init();
@@ -39,8 +35,8 @@ class State {
       }
     }
 
-    if (value == "board") Lib.enableElements(toolNew, toolArea, toolStage);
-    else Lib.disableElements(toolNew, toolArea, toolStage);
+    if (value == "board") Lib.enableElements(toolNew, toolArea);
+    else Lib.disableElements(toolNew, toolArea);
 
     this.#store.display = value;
     this.store();
@@ -91,15 +87,7 @@ class State {
   static set scroll({ x, y }) {
     if (x < 0 || y < 0) throw "Cannot scroll beyond 0";
 
-    this.#store.scroll = { x, y };
-    this.store();
-
     boardBox.scroll(x, y);
-  }
-
-  static set fullscreen(value) {
-    this.#store.fullscreen = value;
-    this.store();
   }
 
   static store() {

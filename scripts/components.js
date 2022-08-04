@@ -1,7 +1,7 @@
 class Component {
   static areaToolFormLayout({ child = "", buttons = [] }) {
     let elem = Lib.parseHtml(`
-      <form class="form-one" autocomplete="off">
+      <form class="form-one" autocomplete="off" style="width: 260px">
         <h3 class="heading">Area Properties</h3>
         <div class="child-parent"></div>
         <div class="button-insertions footer input-box linear end" style="margin-top: 8px">
@@ -18,12 +18,11 @@ class Component {
     return elem;
   }
 
-  static areaToolFormNameSection({ id, state, setAreaName }) {
+  static areaToolFormNameSection({ id, state, setAreaProps }) {
     let elem = Lib.parseHtml(`
-      <p class="note">Name should be unique</p>
       <div class="input-container">
         <div class="input-box">
-          <input id="${id}" name="${id}" value="${state.areaProps.name}" style="width: 240px"/>
+          <input id="${id}" name="${id}" value="${state.areaProps.name}" />
           <label for="${id}">Name</label>
         </div>
       </div>
@@ -32,7 +31,7 @@ class Component {
     let nameInput = elem.querySelector(`#${id}`);
 
     nameInput.addEventListener("input", () => {
-      setAreaName(nameInput.value);
+      setAreaProps({ name: nameInput.value });
     });
 
     return elem;
@@ -67,6 +66,19 @@ class Component {
     return elem;
   }
 
+  static areaToolSectionOne({ id, state, setAreaId, setAreaProps }) {
+    let elem = Lib.parseHtml(`
+      <p class="note" style="text-align: left">Name should be the same as the ticket type</p>
+    `);
+    elem.append(
+      Component.areaToolFormNameSection({ id, state, setAreaProps }),
+      Component.areaToolFormRowIdSection({ id, state, setAreaId }),
+      Component.areaToolFormTypeSection({ id, state, setAreaProps })
+    );
+
+    return elem;
+  }
+
   static areaToolFormSizeSection({ id, state, setAreaProps }) {
     let elem = Lib.parseHtml(`
       <p class="note">All values in meters</p>
@@ -92,6 +104,69 @@ class Component {
     lInput.addEventListener("input", () => {
       setAreaProps({ length: lInput.value });
     });
+
+    return elem;
+  }
+
+  static areaToolFormRowIdSection({ id, state, setAreaId }) {
+    let elem = Lib.parseHtml(`
+      <div class="input-container">
+        <div class="input-box">
+          <input id="ai-${id}" name="ai-${id}" value="${state.areaProps.id}" />
+          <label for="ai-${id}">Area Id</label>
+        </div>
+      </div>
+    `);
+
+    let areaIdInput = elem.querySelector(`#ai-${id}`);
+
+    areaIdInput.addEventListener("input", () => {
+      setAreaId(areaIdInput.value);
+    });
+
+    return elem;
+  }
+
+  static areaToolFormTypeSection({ id, state, setAreaProps }) {
+    let elem = Lib.parseHtml(`
+    <div class="input-container">
+      <div class="input-box">
+        <label>Area Type</label>
+      </div>
+      <div class="input-box linear">
+        <input type="radio" name="area-type" id="stage" value="stage"/>
+        <label for="stage">Stage</label>
+      </div>
+      <div class="input-box linear">
+        <input type="radio" name="area-type" id="standing" value="standing"/>
+        <label for="standing">Standing</label>
+      </div>
+      <div class="input-box linear">
+        <input type="radio" name="area-type" id="seat" value="seat"/>
+        <label for="seat">Seat</label>
+      </div>
+      <div class="input-box linear">
+        <input type="radio" name="area-type" id="table-seat" value="table-seat"/>
+        <label for="table-seat">Table & Seat</label>
+      </div>
+      <div class="input-box linear">
+        <input type="radio" name="area-type" id="block" value="block"/>
+        <label for="block">Block</label>
+      </div>
+    </div>
+    `);
+
+    let inputs = elem.querySelectorAll("input[type='radio']");
+
+    for (let input of inputs) {
+      input.addEventListener("click", () => {
+        setAreaProps({ type: input.value });
+      });
+
+      if (state.areaProps.type == input.value) {
+        input.checked = true;
+      }
+    }
 
     return elem;
   }
@@ -126,7 +201,7 @@ class Component {
     `);
 
     elem.querySelector("button").addEventListener("click", () => {
-      Board.removeAreaEdit(state.areaProps.name);
+      Board.removeAreaEdit(state.areaProps.id);
       Lib.slideOutToolForm();
     });
 
@@ -144,7 +219,7 @@ class Component {
     `);
 
     elem.querySelector("button").addEventListener("click", () => {
-      Board.createArea(state.areaProps.name);
+      Board.createArea(state.areaProps.id);
       Lib.slideOutToolForm();
     });
 

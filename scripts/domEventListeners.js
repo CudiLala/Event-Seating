@@ -16,10 +16,6 @@ toolArea.addEventListener("click", () => {
   if (State.display == "board") Lib.displayAreaForm();
 });
 
-toolStage.addEventListener("click", () => {
-  if (State.display == "board") Lib.displayStageForm();
-});
-
 toolToggleFullscreen.addEventListener("click", () => {
   if (!document.fullscreenEnabled) return;
 

@@ -19,11 +19,11 @@ class Board {
     this.store().draw();
   }
 
-  static createArea(name) {
-    this.#store.content[name] = JSON.parse(
-      JSON.stringify(this.#store.content[`${name}--e`])
+  static createArea(id) {
+    this.#store.content[id] = JSON.parse(
+      JSON.stringify(this.#store.content[`${id}--e`])
     );
-    delete this.#store.content[`${name}--e`];
+    delete this.#store.content[`${id}--e`];
 
     this.store().draw();
   }
@@ -54,11 +54,11 @@ class Board {
     return this;
   }
 
-  static getUniqueAreaName(num = 1) {
+  static getUniqueAreaId(num = 1) {
     let result = `Area ${num}`;
 
     if (Object.keys(this.#store.content).includes(result))
-      result = this.getUniqueAreaName(num + 1);
+      result = this.getUniqueAreaId(num + 1);
 
     return result;
   }
@@ -71,35 +71,35 @@ class Board {
     return this;
   }
 
-  static removeAreaEdit(name) {
-    delete this.#store.content[`${name}--e`];
+  static removeAreaEdit(id) {
+    delete this.#store.content[`${id}--e`];
 
     this.store().draw();
   }
 
-  static updateAreaNameEdit(oldName, newName) {
-    if (oldName === undefined || newName === undefined) return false;
+  static updateAreaIdEdit(oldId, newId) {
+    if (oldId === undefined || newId === undefined) return false;
 
-    this.#store.content[`${newName}--e`] = JSON.parse(
-      JSON.stringify(this.#store.content[`${oldName}--e`])
+    this.#store.content[`${newId}--e`] = JSON.parse(
+      JSON.stringify(this.#store.content[`${oldId}--e`])
     ) /* deep copy */;
-    delete this.#store.content[`${oldName}--e`];
-
-    console.log(this.#store);
+    delete this.#store.content[`${oldId}--e`];
 
     this.draw().store();
     return true;
   }
 
-  static updateAreaEdit({ name, x, y, width, length }) {
+  static updateAreaEdit({ id, name, x, y, width, length, ...others }) {
     let boardWidth = Number(this.#store.size.width);
     let boardLength = Number(this.#store.size.length);
 
-    this.#store.content[`${name}--e`] = {
+    this.#store.content[`${id}--e`] = {
+      name,
       x: x / boardWidth,
       y: y / boardLength,
       width: width / boardWidth,
       length: length / boardLength,
+      ...others,
     };
 
     this.draw().store();
@@ -120,20 +120,21 @@ class Board {
 
       let result = "";
 
-      for (let name in obj.content) {
+      for (let id in obj.content) {
         result = result.concat(
           `<g>
             <rect 
-              id="${name}"
-              x="${obj.content[name].x * width}"
-              y="${obj.content[name].y * length}"
-              width="${obj.content[name].width * width}"
-              height="${obj.content[name].length * length}"
+              id="${id}"
+              x="${obj.content[id].x * width}"
+              y="${obj.content[id].y * length}"
+              width="${obj.content[id].width * width}"
+              height="${obj.content[id].length * length}"
               fill="transparent"
-              stroke="${name.endsWith("--e") ? "green" : "black"}"
+              stroke="${id.endsWith("--e") ? "green" : "black"}"
               stroke-width="${strokeWidth}"
+              style="cursor: grab"
             />
-            ${addContent(obj.content[name])}
+            ${addContent(obj.content[id])}
           </g>`
         );
       }
@@ -148,9 +149,8 @@ class Board {
           y="0"
           width="${width}"
           height="${length}"
-          fill="transparent"
-          stroke="black"
-          stroke-width="${0.0015 * ((width + length) / 2)}"
+          fill="white"
+          stroke-width="${0 * ((width + length) / 2)}"
         />
         ${addContent(this.#store)}
       </g>
