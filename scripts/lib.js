@@ -1,4 +1,5 @@
 class Lib {
+  static globalParams = {};
   /**
    * @param  {...HTMLButtonElement|HTMLInputElement} elems
    */
@@ -129,5 +130,32 @@ class Lib {
   static slideOutToolForm() {
     toolForm.style.transform = `translate(${-toolForm.getBoundingClientRect()
       .right}px, ${header.getBoundingClientRect().bottom + 8}px`;
+  }
+
+  static startContinousScaleDownAfter500ms() {
+    this.globalParams.scaleDownSetTime = setTimeout(() => {
+      this.globalParams.scaleDownSetInerval = setInterval(() => {
+        State.scale -= 0.01;
+      }, 25);
+    }, 300);
+  }
+
+  static startContinousScaleUpAfter500ms() {
+    this.globalParams.scaleUpSetTime = setTimeout(() => {
+      this.globalParams.scaleUpSetInerval = setInterval(() => {
+        State.scale += 0.01;
+      }, 25);
+    }, 300);
+  }
+
+  static stopContinousScale() {
+    if (this.globalParams.scaleDownSetTime !== undefined)
+      clearTimeout(this.globalParams.scaleDownSetTime);
+    if (this.globalParams.scaleDownSetInerval !== undefined)
+      clearInterval(this.globalParams.scaleDownSetInerval);
+    if (this.globalParams.scaleUpSetTime !== undefined)
+      clearTimeout(this.globalParams.scaleUpSetTime);
+    if (this.globalParams.scaleUpSetInerval !== undefined)
+      clearInterval(this.globalParams.scaleUpSetInerval);
   }
 }

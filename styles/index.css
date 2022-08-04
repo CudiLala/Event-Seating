@@ -233,22 +233,70 @@ button {
   margin: 0 8px;
 }
 
+.magnifier {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+.magnifier .magnifier-container {
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  margin: 8px auto;
+  position: absolute;
+  z-index: 10;
+  padding: 2px 16px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  font-family: consolas, monospace;
+}
+.magnifier .button {
+  margin: 0 8px;
+  font-size: 24px;
+  line-height: 32px;
+  height: 32px;
+  width: 32px;
+  border-radius: 50%;
+  background-color: transparent;
+  border: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 300ms;
+}
+
+.magnifier .button:hover,
+.magnifier .button:focus {
+  border-color: rgba(23, 96, 253, 0.5);
+  color: rgba(23, 96, 253, 0.8);
+  outline: none;
+}
+
+.magnifier #zoom-value {
+  margin: 0 16px;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 32px;
+}
+
 .board-container {
   display: none;
   width: 100%;
   height: 100%;
   flex-direction: column;
-  padding-bottom: 10px;
-}
-.board-container .magnifier {
-  padding: 2px 4px;
-  flex: 0;
 }
 
 .board-container .board-box {
   position: relative;
   flex: 1;
-  overflow: auto;
+  overflow: scroll;
+  scrollbar-color: transparent;
+  scrollbar-width: none;
+  margin: 4px 4px 8px;
+}
+
+.board-container .board-box::-webkit-scrollbar {
+  display: none;
 }
 
 .board-container svg {

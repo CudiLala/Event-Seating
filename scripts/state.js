@@ -55,15 +55,37 @@ class State {
     }
   }
 
+  static updateZoomValue(value) {
+    //implemented promise due to chrome bugs
+    return new Promise((resolve, reject) => {
+      try {
+        zoomValue.innerText = `${Math.floor(value * 100)}%`;
+        resolve();
+      } catch (err) {
+        reject(err);
+      }
+    });
+  }
+
+  static get scale() {
+    return this.#store.scale;
+  }
+
   static set scale(value) {
     value = Number(value);
-    if (value < 1) throw "Value cannot be less than 1";
+    if (value < 1) return;
+    if (value > 5) return;
 
     board.style.transform = `scale(${value})`;
-    zoomScale.value = value;
+
+    this.scroll = {
+      x: (boardBox.clientWidth * (value - 1)) / 2,
+      y: (boardBox.clientHeight * (value - 1)) / 2,
+    };
 
     this.#store.scale = value;
     this.store();
+    this.updateZoomValue(value);
   }
 
   static set scroll({ x, y }) {
@@ -71,6 +93,8 @@ class State {
 
     this.#store.scroll = { x, y };
     this.store();
+
+    boardBox.scroll(x, y);
   }
 
   static set fullscreen(value) {
