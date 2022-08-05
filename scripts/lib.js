@@ -89,6 +89,10 @@ class Lib {
     toolForm.style.transform = `translate(${x}px, ${y}px)`;
   }
 
+  static emptySideBar() {
+    sideBarBody.innerHTML = "<p class='empty-text'><span>Sidebar</span></p>";
+  }
+
   /**
    * @param  {...HTMLButtonElement|HTMLInputElement} elems
    */
@@ -109,6 +113,23 @@ class Lib {
     };
   }
 
+  static handleBoardComponentClick(area) {
+    // console.log("clicked a board component");
+  }
+
+  static handleAreaClick(area) {
+    let areaObj = Board.getAreaById(area.id.slice(5));
+    if (!areaObj) return;
+
+    Board.select(area.id.slice(5));
+    if (!area.id.endsWith("--s")) {
+      areaObj.id = area.id.slice(5);
+    } else {
+      areaObj.id = area.id.slice(5, area.id.length - 3);
+    }
+    this.showAreaEditor(areaObj);
+  }
+
   static parseHtml(htmlstring) {
     let div = document.createElement("div");
     let fragement = new DocumentFragment();
@@ -117,6 +138,11 @@ class Lib {
     fragement.append(...div.children);
 
     return fragement;
+  }
+
+  static showAreaEditor(areaObj) {
+    sideBarBody.innerHTML = "";
+    sideBarBody.append(Component.areaEditor(areaObj));
   }
 
   static slideOutToolForm() {
@@ -149,5 +175,11 @@ class Lib {
       clearTimeout(this.globalParams.scaleUpSetTime);
     if (this.globalParams.scaleUpSetInerval !== undefined)
       clearInterval(this.globalParams.scaleUpSetInerval);
+  }
+
+  static unselectBoardComponents() {
+    board.querySelectorAll("[id^='area']").forEach((area) => {
+      Board.unselect(area.id.slice(5));
+    });
   }
 }

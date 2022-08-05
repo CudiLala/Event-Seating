@@ -1,14 +1,13 @@
 class State {
+  static globalParmas = {};
   static #store = {
     display: "form",
-    scale: 1,
   };
 
   static clear() {
     localStorage.removeItem("state");
     this.#store = {
       display: "form",
-      scale: 1,
     };
 
     this.init();
@@ -51,20 +50,8 @@ class State {
     }
   }
 
-  static updateZoomValue(value) {
-    //implemented promise due to chrome bugs
-    return new Promise((resolve, reject) => {
-      try {
-        zoomValue.innerText = `${Math.floor(value * 100)}%`;
-        resolve();
-      } catch (err) {
-        reject(err);
-      }
-    });
-  }
-
   static get scale() {
-    return this.#store.scale;
+    return this.globalParmas.scale || 1;
   }
 
   static set scale(value) {
@@ -72,22 +59,23 @@ class State {
     if (value < 1) return;
     if (value > 5) return;
 
-    board.style.transform = `scale(${value})`;
+    if (this.globalParmas.scale) {
+      board.style.transform = `scale(${value})`;
+      this.scroll = {
+        x: (board.clientWidth * (value - this.globalParmas.scale)) / 2,
+        y: (board.clientHeight * (value - this.globalParmas.scale)) / 2,
+      };
+    } else {
+      this.scroll = { x: 0, y: 0 };
+      board.style.transform = `scale(1)`;
+    }
 
-    this.scroll = {
-      x: (boardBox.clientWidth * (value - 1)) / 2,
-      y: (boardBox.clientHeight * (value - 1)) / 2,
-    };
-
-    this.#store.scale = value;
-    this.store();
-    this.updateZoomValue(value);
+    this.globalParmas.scale = value;
   }
 
   static set scroll({ x, y }) {
-    if (x < 0 || y < 0) throw "Cannot scroll beyond 0";
-
-    boardBox.scroll(x, y);
+    console.log(x, y);
+    boardBox.scrollBy({ left: x, top: y, behavior: "auto" });
   }
 
   static store() {

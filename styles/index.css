@@ -9,6 +9,7 @@
 :root {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  user-select: none;
 }
 
 body {
@@ -110,17 +111,21 @@ button {
   width: 250px;
   flex: 0 0 250px;
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
+  height: calc(100vh - 45px);
+  overflow: auto;
+  scrollbar-color: transparent;
+  scrollbar-width: none;
+}
+.side-bar::-webkit-scrollbar {
+  display: none;
 }
 
 #side-bar-body {
   width: 100%;
   height: 100%;
-  overflow: hidden;
-  position: relative;
 }
 
 #side-bar-body .empty-text {
-  position: absolute;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -302,7 +307,7 @@ button {
 .board-container .board-box {
   position: relative;
   flex: 1;
-  overflow: scroll;
+  overflow: auto;
   scrollbar-color: transparent;
   scrollbar-width: none;
   margin: 4px 4px 8px;
@@ -359,6 +364,26 @@ button {
 .form-one .footer {
   border-top: 1px solid rgba(23, 96, 253, 0.3);
   padding-top: 8px;
+}
+
+.area-editor {
+  padding: 16px;
+}
+.area-editor .heading {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  text-align: center;
+  border-bottom: 1px solid rgba(23, 96, 253, 0.3);
+  padding-bottom: 4px;
+}
+.area-editor .group {
+  display: flex;
+  flex-direction: column;
+  margin: 16px 0;
+}
+.area-editor .group.linear {
+  flex-direction: row;
 }
 
 .no-display {

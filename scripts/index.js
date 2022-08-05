@@ -7,7 +7,6 @@ let sideBarBody = document.getElementById("side-bar-body");
 let header = document.getElementById("header");
 let zoomScaleUp = document.getElementById("zoom-scale-up");
 let zoomScaleDown = document.getElementById("zoom-scale-down");
-let zoomValue = document.getElementById("zoom-value");
 
 //tools
 let toolNew = document.getElementById("tool-new");

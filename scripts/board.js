@@ -4,6 +4,70 @@ class Board {
     content: {},
   };
 
+  static globalParams = { allowGrag: [] };
+
+  static addEventListeners() {
+    board.querySelectorAll("[id^='area']").forEach((area) => {
+      area.addEventListener("click", (e) => {
+        e.stopPropagation();
+
+        Lib.unselectBoardComponents();
+        Lib.handleBoardComponentClick(area);
+        Lib.handleAreaClick(area);
+      });
+    });
+    /*
+      area.addEventListener("mousedown", (e) => {
+        this.globalParams.allowGrag.push({
+          id: area.id,
+          x: e.offsetX,
+          y: e.offsetY,
+        });
+      });
+      document.addEventListener("mouseup", (e) => {
+        this.globalParams.allowGrag = this.globalParams.allowGrag.filter(
+          (areaObj) => {
+            let res = areaObj.id == area.id;
+
+            if (res) {
+              let rect = area.querySelector("rect");
+              let x = rect.getAttribute("x");
+              let y = rect.getAttribute("y");
+
+              Board.updateAreaPosition({ id: area.id.slice(5), x, y });
+            }
+
+            return !res;
+          }
+        );
+      });
+      document.addEventListener("mousemove", (e) => {
+        let areaIndex = this.globalParams.allowGrag.findIndex(
+          (elem) => elem.id == area.id
+        );
+        if (areaIndex > -1) {
+          let areaObj = this.globalParams.allowGrag[areaIndex];
+          let boardWidth = Number(this.#store.size.width);
+          let boardLength = Number(this.#store.size.length);
+          let rect = area.querySelector("rect");
+
+          rect.setAttribute(
+            "x",
+            Number(rect.getAttribute("x")) +
+              ((e.offsetX - areaObj.x) * boardWidth) / window.innerWidth
+          );
+          rect.setAttribute(
+            "y",
+            Number(rect.getAttribute("y")) +
+              ((e.offsetY - areaObj.y) * boardLength) / window.innerHeight
+          );
+
+          areaObj.x = e.offsetX;
+          areaObj.y = e.offsetY;
+        }
+      });*/
+  }
+
   static get arenaSize() {
     return this.#store.size;
   }
@@ -51,7 +115,13 @@ class Board {
     let parsed = this.zParse();
     board.innerHTML = parsed;
 
+    this.addEventListeners();
+
     return this;
+  }
+
+  static getAreaById(areaId) {
+    return this.#store.content[areaId];
   }
 
   static getUniqueAreaId(num = 1) {
@@ -90,17 +160,52 @@ class Board {
   }
 
   static updateAreaEdit({ id, name, x, y, width, length, ...others }) {
-    let boardWidth = Number(this.#store.size.width);
-    let boardLength = Number(this.#store.size.length);
-
     this.#store.content[`${id}--e`] = {
       name,
-      x: x / boardWidth,
-      y: y / boardLength,
-      width: width / boardWidth,
-      length: length / boardLength,
+      x: x,
+      y: y,
+      width: width,
+      length: length,
       ...others,
     };
+
+    this.draw().store();
+  }
+
+  static updateAreaPositionSelect({ id, x, y }) {
+    if (x !== undefined) this.#store.content[`${id}--s`].x = x;
+    if (y !== undefined) this.#store.content[`${id}--s`].y = y;
+
+    this.draw().store();
+  }
+
+  static updateAreaSizeSelect({ id, width, length }) {
+    if (width !== undefined) this.#store.content[`${id}--s`].width = width;
+    if (length !== undefined) this.#store.content[`${id}--s`].length = length;
+
+    this.draw().store();
+  }
+
+  static select(id) {
+    if (this.#store.content[id] && !id.endsWith("--s")) {
+      this.#store.content[`${id}--s`] = JSON.parse(
+        JSON.stringify(this.#store.content[id])
+      );
+      console.log(id);
+
+      delete this.#store.content[id];
+    }
+
+    this.draw().store();
+  }
+
+  static unselect(id) {
+    if (this.#store.content[id] && id.endsWith("--s")) {
+      this.#store.content[`${id.slice(0, id.length - 3)}`] = JSON.parse(
+        JSON.stringify(this.#store.content[id])
+      );
+      delete this.#store.content[id];
+    }
 
     this.draw().store();
   }
@@ -122,17 +227,21 @@ class Board {
 
       for (let id in obj.content) {
         result = result.concat(
-          `<g>
+          `<g id="area-${id}" style="cursor: pointer" tab-index="0">
             <rect 
-              id="${id}"
-              x="${obj.content[id].x * width}"
-              y="${obj.content[id].y * length}"
-              width="${obj.content[id].width * width}"
-              height="${obj.content[id].length * length}"
+              x="${obj.content[id].x}"
+              y="${obj.content[id].y}"
+              width="${obj.content[id].width}"
+              height="${obj.content[id].length}"
               fill="transparent"
-              stroke="${id.endsWith("--e") ? "green" : "black"}"
+              stroke="${
+                id.endsWith("--e")
+                  ? "green"
+                  : id.endsWith("--s")
+                  ? "blue"
+                  : "black"
+              }"
               stroke-width="${strokeWidth}"
-              style="cursor: grab"
             />
             ${addContent(obj.content[id])}
           </g>`
@@ -149,6 +258,7 @@ class Board {
           y="0"
           width="${width}"
           height="${length}"
+          id="master"
           fill="white"
           stroke-width="${0 * ((width + length) / 2)}"
         />

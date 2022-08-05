@@ -1,4 +1,63 @@
 class Component {
+  static areaEditor(areaObj) {
+    let elem = Lib.parseHtml(`
+      <div class="area-editor">
+        <h3 class="heading">Area Properties</h3>
+        <div class="group linear">
+          <div class="input-box linear">
+            <input id="xi-${areaObj.id}" value="${areaObj.x}" class="tiny" type="number"/>
+            <label for="xi-${areaObj.id}">X</label>
+          </div>
+          <div class="input-box linear" >
+            <input value="${areaObj.y}" id="yi-${areaObj.id}" class="tiny" type="number"/>
+            <label for="yi-${areaObj.id}">Y</label>
+          </div>
+        </div>
+        <div class="group">
+          <div class="input-box linear">
+            <input value="${areaObj.width}" id="wi-${areaObj.id}" class="tiny" type="number"/>
+            <label for="wi-${areaObj.id}">Width</label>
+          </div>
+          <div class="input-box linear" style="margin-top: 8px">
+            <input id="li-${areaObj.id}" value="${areaObj.length}" class="tiny" type="number"/>
+            <label for="li-${areaObj.id}">Height</label>
+          </div>
+        </div>
+      </div>
+    `);
+
+    let xInput = elem.getElementById(`xi-${areaObj.id}`);
+    let yInput = elem.getElementById(`yi-${areaObj.id}`);
+    let wInput = elem.getElementById(`wi-${areaObj.id}`);
+    let lInput = elem.getElementById(`li-${areaObj.id}`);
+
+    xInput.addEventListener("input", () => {
+      Board.updateAreaPositionSelect({
+        id: areaObj.id,
+        x: xInput.value,
+      });
+    });
+    yInput.addEventListener("input", () => {
+      Board.updateAreaPositionSelect({
+        id: areaObj.id,
+        y: yInput.value,
+      });
+    });
+    wInput.addEventListener("input", () => {
+      Board.updateAreaSizeSelect({
+        id: areaObj.id,
+        width: wInput.value,
+      });
+    });
+    lInput.addEventListener("input", () => {
+      Board.updateAreaSizeSelect({
+        id: areaObj.id,
+        length: lInput.value,
+      });
+    });
+    return elem;
+  }
+
   static areaToolFormLayout({ child = "", buttons = [] }) {
     let elem = Lib.parseHtml(`
       <form class="form-one" autocomplete="off" style="width: 260px">

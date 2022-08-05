@@ -1,3 +1,8 @@
+board.addEventListener("click", () => {
+  Lib.emptySideBar();
+  Lib.unselectBoardComponents();
+});
+
 sizeForm.addEventListener("submit", (ev) => {
   ev.preventDefault();
 
