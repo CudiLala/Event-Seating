@@ -32,13 +32,13 @@ class Component {
     let lInput = elem.getElementById(`li-${areaObj.id}`);
 
     xInput.addEventListener("input", () => {
-      Board.updateAreaPositionSelect({
+      Board.updateSelectedAreaPosition({
         id: areaObj.id,
         x: xInput.value,
       });
     });
     yInput.addEventListener("input", () => {
-      Board.updateAreaPositionSelect({
+      Board.updateSelectedAreaPosition({
         id: areaObj.id,
         y: yInput.value,
       });
@@ -58,111 +58,131 @@ class Component {
     return elem;
   }
 
-  static areaToolFormLayout({ child = "", buttons = [] }) {
+  static areaToolForm(areaProps, setAreaProps) {
     let elem = Lib.parseHtml(`
       <form class="form-one" autocomplete="off" style="width: 260px">
         <h3 class="heading">Area Properties</h3>
-        <div class="child-parent"></div>
-        <div class="button-insertions footer input-box linear end" style="margin-top: 8px">
+        <div class="area-tool-form-container">
+          <div class="input-container" style="margin-top: 8px">
+            <p class="caption">Meta</p>
+            <p class="note">Name should be the same as the ticket type</p>
+            <div class="input-box">
+              <input id="${areaProps.id}-name" name="${areaProps.id}-name" value="${areaProps.name}" />
+              <label for="${areaProps.id}-name">Name</label>
+            </div>
+            <div class="input-box">
+              <input id="ai-${areaProps.id}" name="ai-${areaProps.id}" value="${areaProps.id}" disabled/>
+              <label for="ai-${areaProps.id}">Area Id</label>
+            </div>
+            <div class="input-box" style="margin-top: 4px">
+              <label>Area Type</label>
+            </div>
+            <div class="input-box linear">
+              <input type="radio" name="area-type" id="stage" value="stage"/>
+              <label for="stage">Stage</label>
+            </div>
+            <div class="input-box linear">
+              <input type="radio" name="area-type" id="bar" value="bar"/>
+              <label for="bar">Bar</label>
+            </div>
+            <div class="input-box linear">
+              <input type="radio" name="area-type" id="block" value="block"/>
+              <label for="block">Block</label>
+            </div>
+          </div>
+          <div class="input-container" style="margin-top: 8px">
+            <p class="caption">Position</p>
+            <p class="note">All values in meters</p>
+            <div class="input-box">
+              <input type="number" id="x-${areaProps.id}" name="x-${areaProps.id}" value="${areaProps.x}"/>
+              <label for="x-${areaProps.id}">X</label>
+            </div>
+            <div class="input-box">
+              <input type="number" id="y-${areaProps.id}" name="y-${areaProps.id}" value="${areaProps.y}"/>
+              <label for="y-${areaProps.id}">Y</label>
+            </div>
+          </div>
+          <div class="input-container" style="margin-top: 8px">
+            <p class="caption">Size</p>
+            <p class="note">All values in meters</p>
+            <div class="input-box">
+              <input type="number" id="w-${areaProps.id}" name="w-${areaProps.id}" value="${areaProps.width}"/>
+              <label for="w-${areaProps.id}">Width</label>
+            </div>
+            <div class="input-box">
+              <input type="number" id="l-${areaProps.id}" name="l-${areaProps.id}" value="${areaProps.length}"/>
+              <label name="l-${areaProps.id}">Length</label>
+            </div>
+          </div>
+        </div>
+        <div class="footer input-box linear end" style="margin-top: 8px">
+          <button 
+            class="action action-secondary" 
+            type="button" 
+            style="margin-right: 10px"
+            id="${areaProps.id}-cancel"
+          >
+            Cancel
+          </button>
+          <button 
+            class="action" 
+            type="button" 
+            id="${areaProps.id}-create"
+          >
+            Create
+          </button>
         </div>
       </form>
     `);
 
-    elem.querySelector(".child-parent").append(child);
-    elem.querySelector(".button-insertions").append(...buttons);
+    let nameInput = elem.querySelector(`#${areaProps.id}-name`);
+    let xInput = elem.querySelector(`#x-${areaProps.id}`);
+    let yInput = elem.querySelector(`#y-${areaProps.id}`);
+    let wInput = elem.querySelector(`#w-${areaProps.id}`);
+    let lInput = elem.querySelector(`#l-${areaProps.id}`);
+    let areaTypeInputs = elem.querySelectorAll("input[name='area-type']");
+
     elem.querySelector("form").addEventListener("submit", (e) => {
       e.preventDefault();
     });
-
-    return elem;
-  }
-
-  static areaToolFormNameSection({ id, state, setAreaProps }) {
-    let elem = Lib.parseHtml(`
-      <div class="input-container">
-        <div class="input-box">
-          <input id="${id}" name="${id}" value="${state.areaProps.name}" />
-          <label for="${id}">Name</label>
-        </div>
-      </div>
-    `);
-
-    let nameInput = elem.querySelector(`#${id}`);
+    elem
+      .querySelector(`#${areaProps.id}-cancel`)
+      .addEventListener("click", () => {
+        Board.removeNewArea(areaProps.id);
+        Lib.slideOutToolForm();
+      });
+    elem
+      .querySelector(`#${areaProps.id}-create`)
+      .addEventListener("click", () => {
+        Board.createArea(areaProps.id);
+        Lib.slideOutToolForm();
+      });
 
     nameInput.addEventListener("input", () => {
       setAreaProps({ name: nameInput.value });
     });
-
-    return elem;
-  }
-
-  static areaToolFormPositionSection({ id, state, setAreaProps }) {
-    let elem = Lib.parseHtml(`
-      <p class="note">All values in meters</p>
-      <div class="input-container">
-        <p class="caption">Position</p>
-        <div class="input-box">
-          <input type="number" id="x-${id}" name="x-${id}" value="${state.areaProps.x}"/>
-          <label for="x-${id}">X</label>
-        </div>
-        <div class="input-box">
-          <input type="number" id="y-${id}" name="y-${id}" value="${state.areaProps.y}"/>
-          <label for="y-${id}">Y</label>
-        </div>
-      </div>
-    `);
-
-    let xInput = elem.querySelector(`#x-${id}`);
-    let yInput = elem.querySelector(`#y-${id}`);
-
     xInput.addEventListener("input", () => {
-      setAreaProps({ x: xInput.value });
+      setAreaProps({ x: Number(xInput.value) });
     });
     yInput.addEventListener("input", () => {
-      setAreaProps({ y: yInput.value });
+      setAreaProps({ y: Number(yInput.value) });
     });
-
-    return elem;
-  }
-
-  static areaToolSectionOne({ id, state, setAreaId, setAreaProps }) {
-    let elem = Lib.parseHtml(`
-      <p class="note" style="text-align: left">Name should be the same as the ticket type</p>
-    `);
-    elem.append(
-      Component.areaToolFormNameSection({ id, state, setAreaProps }),
-      Component.areaToolFormRowIdSection({ id, state, setAreaId }),
-      Component.areaToolFormTypeSection({ id, state, setAreaProps })
-    );
-
-    return elem;
-  }
-
-  static areaToolFormSizeSection({ id, state, setAreaProps }) {
-    let elem = Lib.parseHtml(`
-      <p class="note">All values in meters</p>
-      <div class="input-container">
-        <p class="caption">Size</p>
-        <div class="input-box">
-          <input type="number" id="w-${id}" name="w-${id}" value="${state.areaProps.width}"/>
-          <label for="w-${id}">Width</label>
-        </div>
-        <div class="input-box">
-          <input type="number" id="l-${id}" name="l-${id}" value="${state.areaProps.length}"/>
-          <label name="l-${id}">Length</label>
-        </div>
-      </div>
-    `);
-
-    let wInput = elem.querySelector(`#w-${id}`);
-    let lInput = elem.querySelector(`#l-${id}`);
-
     wInput.addEventListener("input", () => {
-      setAreaProps({ width: wInput.value });
+      setAreaProps({ width: Number(wInput.value) });
     });
     lInput.addEventListener("input", () => {
-      setAreaProps({ length: lInput.value });
+      setAreaProps({ length: Number(lInput.value) });
     });
+
+    for (let areaTypeInput of areaTypeInputs) {
+      areaTypeInput.addEventListener("click", () => {
+        setAreaProps({ type: areaTypeInput.value });
+      });
+
+      if (areaProps.type == areaTypeInput.value) {
+        areaTypeInput.checked = true;
+      }
+    }
 
     return elem;
   }
@@ -171,7 +191,7 @@ class Component {
     let elem = Lib.parseHtml(`
       <div class="input-container">
         <div class="input-box">
-          <input id="ai-${id}" name="ai-${id}" value="${state.areaProps.id}" />
+          <input id="ai-${id}" name="ai-${id}" value="${state.areaProps.id}" disabled/>
           <label for="ai-${id}">Area Id</label>
         </div>
       </div>
@@ -226,78 +246,6 @@ class Component {
         input.checked = true;
       }
     }
-
-    return elem;
-  }
-
-  static ToolFormBackButton({ state, setStage }) {
-    let elem = Lib.parseHtml(`
-      <button 
-        class="action action-secondary" 
-        type="button" 
-        style="margin-right: 10px"
-      >
-        Back
-      </button>
-    `);
-
-    elem.querySelector("button").addEventListener("click", () => {
-      setStage(state.stage - 1);
-    });
-
-    return elem;
-  }
-
-  static ToolFormCancelButton({ state }) {
-    let elem = Lib.parseHtml(`
-      <button 
-        class="action action-secondary" 
-        type="button" 
-        style="margin-right: 10px"
-      >
-        Cancel
-      </button>
-    `);
-
-    elem.querySelector("button").addEventListener("click", () => {
-      Board.removeAreaEdit(state.areaProps.id);
-      Lib.slideOutToolForm();
-    });
-
-    return elem;
-  }
-
-  static ToolFormCreateButton({ state }) {
-    let elem = Lib.parseHtml(`
-      <button 
-        class="action" 
-        type="button" 
-      >
-        Create
-      </button>
-    `);
-
-    elem.querySelector("button").addEventListener("click", () => {
-      Board.createArea(state.areaProps.id);
-      Lib.slideOutToolForm();
-    });
-
-    return elem;
-  }
-
-  static ToolFormNextButton({ state, setStage }) {
-    let elem = Lib.parseHtml(`
-      <button 
-        class="action" 
-        type="button" 
-      >
-        Next
-      </button>
-    `);
-
-    elem.querySelector("button").addEventListener("click", () => {
-      setStage(state.stage + 1);
-    });
 
     return elem;
   }

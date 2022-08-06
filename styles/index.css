@@ -181,14 +181,14 @@ button {
 .input-box input.tiny {
   max-width: 60px;
 }
-.input-box input:hover,
-.input-box input:focus {
+.input-box input:not(:disabled):hover,
+.input-box input:not(:disabled):focus {
   outline: none;
   color: rgb(23, 96, 253);
   box-shadow: 0 0 5px rgb(23, 96, 253);
 }
-.input-box input:hover ~ label,
-.input-box input:focus ~ label {
+.input-box input:not(:disabled):hover ~ label,
+.input-box input:not(:disabled):focus ~ label {
   outline: none;
   border-color: rgb(23, 96, 253);
   color: rgb(23, 96, 253);
@@ -206,7 +206,7 @@ button {
 }
 .input-box input[type="radio"] {
   order: 1;
-  box-shadow: none;
+  box-shadow: none !important;
   display: inline;
   width: fit-content;
   cursor: pointer;
@@ -352,8 +352,8 @@ button {
 }
 .form-one .note {
   font-size: 14px;
-  text-align: center;
   color: #666;
+  margin: 0 8px;
 }
 .form-one .caption {
   font-weight: 500;
@@ -384,6 +384,15 @@ button {
 }
 .area-editor .group.linear {
   flex-direction: row;
+}
+
+.area-tool-form-container {
+  max-height: 50vh;
+  overflow: auto;
+  scrollbar-width: none;
+}
+.area-tool-form-container::-webkit-scrollbar {
+  display: none;
 }
 
 .no-display {

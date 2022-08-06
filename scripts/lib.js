@@ -10,80 +10,28 @@ class Lib {
   }
 
   static displayAreaForm() {
-    let state = {
-      stage: 1,
-      areaProps: {},
-    };
-
-    function setStage(value) {
-      state.stage = value;
-
-      let props = {
-        1: {
-          child: Component.areaToolSectionOne({
-            id: "a83",
-            state,
-            setAreaId,
-            setAreaProps,
-          }),
-          buttons: [
-            Component.ToolFormCancelButton({ state }),
-            Component.ToolFormNextButton({ state, setStage }),
-          ],
-        },
-        2: {
-          child: Component.areaToolFormPositionSection({
-            id: "23e",
-            state,
-            setAreaProps,
-          }),
-          buttons: [
-            Component.ToolFormCancelButton({ state }),
-            Component.ToolFormBackButton({ state, setStage }),
-            Component.ToolFormNextButton({ state, setStage }),
-          ],
-        },
-        3: {
-          child: Component.areaToolFormSizeSection({
-            id: "ade",
-            state,
-            setAreaProps,
-          }),
-          buttons: [
-            Component.ToolFormCancelButton({ state }),
-            Component.ToolFormBackButton({ state, setStage }),
-            Component.ToolFormCreateButton({ state }),
-          ],
-        },
-      };
-
-      toolForm.innerHTML = "";
-      toolForm.append(Component.areaToolFormLayout(props[state.stage]));
-    }
-
-    function setAreaId(value) {
-      Board.updateAreaIdEdit(state.areaProps.id, value);
-      state.areaProps.id = value;
-    }
+    let areaProps = {};
 
     function setAreaProps(value) {
       for (let key in value) {
-        state.areaProps[key] = value[key];
+        areaProps[key] = value[key];
       }
 
-      Board.updateAreaEdit(state.areaProps);
+      Board.updateNewAreaProps(areaProps);
     }
 
     setAreaProps({
       id: Board.getUniqueAreaId(),
       name: "",
-      type: "seat",
+      type: "block",
       x: Board.arenaSize.width / 20,
       y: Board.arenaSize.length / 20,
       width: Board.arenaSize.width / 10,
       length: Board.arenaSize.length / 10,
     });
-    setStage(1);
+
+    toolForm.innerHTML = "";
+    toolForm.append(Component.areaToolForm(areaProps, setAreaProps));
 
     let { x, y } = Lib.getPositionsForToolForm(toolArea);
     toolForm.style.transform = `translate(${x}px, ${y}px)`;
@@ -122,11 +70,7 @@ class Lib {
     if (!areaObj) return;
 
     Board.select(area.id.slice(5));
-    if (!area.id.endsWith("--s")) {
-      areaObj.id = area.id.slice(5);
-    } else {
-      areaObj.id = area.id.slice(5, area.id.length - 3);
-    }
+    areaObj.id = area.id.slice(5);
     this.showAreaEditor(areaObj);
   }
 
@@ -146,8 +90,9 @@ class Lib {
   }
 
   static slideOutToolForm() {
-    toolForm.style.transform = `translate(${-toolForm.getBoundingClientRect()
-      .right}px, ${header.getBoundingClientRect().bottom + 4}px`;
+    toolForm.style.transform = `translate(${
+      -toolForm.getBoundingClientRect().width - 5
+    }px, ${header.getBoundingClientRect().bottom + 4}px`;
   }
 
   static startContinousScaleDownAfter500ms() {

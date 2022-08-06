@@ -16,56 +16,6 @@ class Board {
         Lib.handleAreaClick(area);
       });
     });
-    /*
-      area.addEventListener("mousedown", (e) => {
-        this.globalParams.allowGrag.push({
-          id: area.id,
-          x: e.offsetX,
-          y: e.offsetY,
-        });
-      });
-      document.addEventListener("mouseup", (e) => {
-        this.globalParams.allowGrag = this.globalParams.allowGrag.filter(
-          (areaObj) => {
-            let res = areaObj.id == area.id;
-
-            if (res) {
-              let rect = area.querySelector("rect");
-              let x = rect.getAttribute("x");
-              let y = rect.getAttribute("y");
-
-              Board.updateAreaPosition({ id: area.id.slice(5), x, y });
-            }
-
-            return !res;
-          }
-        );
-      });
-      document.addEventListener("mousemove", (e) => {
-        let areaIndex = this.globalParams.allowGrag.findIndex(
-          (elem) => elem.id == area.id
-        );
-        if (areaIndex > -1) {
-          let areaObj = this.globalParams.allowGrag[areaIndex];
-          let boardWidth = Number(this.#store.size.width);
-          let boardLength = Number(this.#store.size.length);
-          let rect = area.querySelector("rect");
-
-          rect.setAttribute(
-            "x",
-            Number(rect.getAttribute("x")) +
-              ((e.offsetX - areaObj.x) * boardWidth) / window.innerWidth
-          );
-          rect.setAttribute(
-            "y",
-            Number(rect.getAttribute("y")) +
-              ((e.offsetY - areaObj.y) * boardLength) / window.innerHeight
-          );
-
-          areaObj.x = e.offsetX;
-          areaObj.y = e.offsetY;
-        }
-      });*/
   }
 
   static get arenaSize() {
@@ -121,13 +71,18 @@ class Board {
   }
 
   static getAreaById(areaId) {
-    return this.#store.content[areaId];
+    return (
+      this.#store.content[areaId] ||
+      this.#store.content[`${areaId}--e`] ||
+      this.#store.content[`${areaId}--s`]
+    );
   }
 
   static getUniqueAreaId(num = 1) {
-    let result = `Area ${num}`;
+    let result = `Area-${num}`;
+    let ids = Object.keys(this.#store.content);
 
-    if (Object.keys(this.#store.content).includes(result))
+    if (ids.some((id) => id.includes(result)))
       result = this.getUniqueAreaId(num + 1);
 
     return result;
@@ -141,70 +96,21 @@ class Board {
     return this;
   }
 
-  static removeAreaEdit(id) {
+  static removeNewArea(id) {
     delete this.#store.content[`${id}--e`];
 
     this.store().draw();
   }
 
-  static updateAreaIdEdit(oldId, newId) {
-    if (oldId === undefined || newId === undefined) return false;
-
-    this.#store.content[`${newId}--e`] = JSON.parse(
-      JSON.stringify(this.#store.content[`${oldId}--e`])
-    ) /* deep copy */;
-    delete this.#store.content[`${oldId}--e`];
-
-    this.draw().store();
-    return true;
-  }
-
-  static updateAreaEdit({ id, name, x, y, width, length, ...others }) {
-    this.#store.content[`${id}--e`] = {
-      name,
-      x: x,
-      y: y,
-      width: width,
-      length: length,
-      ...others,
-    };
-
-    this.draw().store();
-  }
-
-  static updateAreaPositionSelect({ id, x, y }) {
-    if (x !== undefined) this.#store.content[`${id}--s`].x = x;
-    if (y !== undefined) this.#store.content[`${id}--s`].y = y;
-
-    this.draw().store();
-  }
-
-  static updateAreaSizeSelect({ id, width, length }) {
-    if (width !== undefined) this.#store.content[`${id}--s`].width = width;
-    if (length !== undefined) this.#store.content[`${id}--s`].length = length;
-
-    this.draw().store();
-  }
-
   static select(id) {
-    if (this.#store.content[id] && !id.endsWith("--s")) {
-      this.#store.content[`${id}--s`] = JSON.parse(
-        JSON.stringify(this.#store.content[id])
-      );
-      console.log(id);
+    let object = this.#store.content[id] || this.#store.content[`${id}--e`];
 
+    if (object) {
+      id = id.replace(/\-\-w+/g);
+
+      this.#store.content[`${id}--s`] = JSON.parse(JSON.stringify(object));
       delete this.#store.content[id];
-    }
-
-    this.draw().store();
-  }
-
-  static unselect(id) {
-    if (this.#store.content[id] && id.endsWith("--s")) {
-      this.#store.content[`${id.slice(0, id.length - 3)}`] = JSON.parse(
-        JSON.stringify(this.#store.content[id])
-      );
-      delete this.#store.content[id];
+      delete this.#store.content[`${id}--e`];
     }
 
     this.draw().store();
@@ -213,6 +119,44 @@ class Board {
   static store() {
     localStorage.setItem("board", JSON.stringify(this.#store));
     return this;
+  }
+
+  static updateNewAreaProps({ id, ...props }) {
+    for (let prop in props) {
+      if (!this.#store.content[`${id}--e`])
+        this.#store.content[`${id}--e`] = {};
+
+      this.#store.content[`${id}--e`][prop] = props[prop];
+    }
+
+    this.draw().store();
+  }
+
+  static updateSelectedAreaPosition({ id, x, y }) {
+    if (x !== undefined) this.#store.content[`${id}--s`].x = x;
+    if (y !== undefined) this.#store.content[`${id}--s`].y = y;
+
+    this.draw().store();
+  }
+
+  static updateSelectedAreaSize({ id, width, length }) {
+    if (width !== undefined) this.#store.content[`${id}--s`].width = width;
+    if (length !== undefined) this.#store.content[`${id}--s`].length = length;
+
+    this.draw().store();
+  }
+
+  static unselect(id) {
+    if (!id) return;
+
+    if (this.#store.content[`${id}--s`]) {
+      this.#store.content[id] = JSON.parse(
+        JSON.stringify(this.#store.content[`${id}--s`])
+      );
+      delete this.#store.content[`${id}--s`];
+    }
+
+    this.draw().store();
   }
 
   static zParse() {
@@ -227,7 +171,10 @@ class Board {
 
       for (let id in obj.content) {
         result = result.concat(
-          `<g id="area-${id}" style="cursor: pointer" tab-index="0">
+          `<g id="area-${id.replace(
+            /\-\-\w+/g,
+            ""
+          )}" style="cursor: pointer" tab-index="0">
             <rect 
               x="${obj.content[id].x}"
               y="${obj.content[id].y}"
@@ -236,9 +183,9 @@ class Board {
               fill="transparent"
               stroke="${
                 id.endsWith("--e")
-                  ? "green"
+                  ? "#00a929"
                   : id.endsWith("--s")
-                  ? "blue"
+                  ? "#1760fd"
                   : "black"
               }"
               stroke-width="${strokeWidth}"

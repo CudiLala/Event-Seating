@@ -15,6 +15,8 @@ sizeForm.addEventListener("submit", (ev) => {
 
 toolNew.addEventListener("click", () => {
   App.renew();
+  Lib.emptySideBar();
+  Lib.slideOutToolForm();
 });
 
 toolArea.addEventListener("click", () => {
