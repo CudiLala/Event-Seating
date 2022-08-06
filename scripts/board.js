@@ -34,9 +34,10 @@ class Board {
   }
 
   static createArea(id) {
-    this.#store.content[id] = JSON.parse(
-      JSON.stringify(this.#store.content[`${id}--e`])
-    );
+    if (this.#store.content[`${id}--e`])
+      this.#store.content[id] = JSON.parse(
+        JSON.stringify(this.#store.content[`${id}--e`])
+      );
     delete this.#store.content[`${id}--e`];
 
     this.store().draw();
@@ -96,8 +97,12 @@ class Board {
     return this;
   }
 
-  static removeNewArea(id) {
+  static removeArea(id) {
+    delete this.#store.content[id];
     delete this.#store.content[`${id}--e`];
+    delete this.#store.content[`${id}--s`];
+
+    Lib.emptySideBar();
 
     this.store().draw();
   }
@@ -132,7 +137,16 @@ class Board {
     this.draw().store();
   }
 
+  static updateSelectedAreaName({ id, name }) {
+    if (!this.#store.content[`${id}--s`] || name === undefined) return;
+
+    this.#store.content[`${id}--s`].name = name;
+    this.draw().store();
+  }
+
   static updateSelectedAreaPosition({ id, x, y }) {
+    if (!this.#store.content[`${id}--s`]) return;
+
     if (x !== undefined) this.#store.content[`${id}--s`].x = x;
     if (y !== undefined) this.#store.content[`${id}--s`].y = y;
 
@@ -140,9 +154,18 @@ class Board {
   }
 
   static updateSelectedAreaSize({ id, width, length }) {
+    if (!this.#store.content[`${id}--s`]) return;
+
     if (width !== undefined) this.#store.content[`${id}--s`].width = width;
     if (length !== undefined) this.#store.content[`${id}--s`].length = length;
 
+    this.draw().store();
+  }
+
+  static updateSelectedAreaType({ id, type }) {
+    if (!this.#store.content[`${id}--s`] || type === undefined) return;
+
+    this.#store.content[`${id}--s`].type = type;
     this.draw().store();
   }
 

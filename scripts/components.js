@@ -2,25 +2,51 @@ class Component {
   static areaEditor(areaObj) {
     let elem = Lib.parseHtml(`
       <div class="area-editor">
-        <h3 class="heading">Area Properties</h3>
+        <h3 class="heading">
+          <span class="text">${areaObj.id}</span>
+          <button id="rm-${areaObj.id}">${this.deleteIcon}</button>
+        </h3>
         <div class="group linear">
-          <div class="input-box linear">
+          <div class="input-box">
             <input id="xi-${areaObj.id}" value="${areaObj.x}" class="tiny" type="number"/>
             <label for="xi-${areaObj.id}">X</label>
           </div>
-          <div class="input-box linear" >
+          <div class="input-box">
             <input value="${areaObj.y}" id="yi-${areaObj.id}" class="tiny" type="number"/>
             <label for="yi-${areaObj.id}">Y</label>
           </div>
         </div>
-        <div class="group">
-          <div class="input-box linear">
+        <div class="group linear">
+          <div class="input-box">
             <input value="${areaObj.width}" id="wi-${areaObj.id}" class="tiny" type="number"/>
             <label for="wi-${areaObj.id}">Width</label>
           </div>
-          <div class="input-box linear" style="margin-top: 8px">
+          <div class="input-box">
             <input id="li-${areaObj.id}" value="${areaObj.length}" class="tiny" type="number"/>
             <label for="li-${areaObj.id}">Height</label>
+          </div>
+        </div>
+        <div class="group">
+          <div class="input-box">
+            <input id="${areaObj.id}-name" name="${areaObj.id}-name" value="${areaObj.name}" />
+            <label for="${areaObj.id}-name">Area Name</label>
+          </div>
+        </div>
+        <div class="group">
+          <div class="input-box">
+            <label>Area Type</label>
+          </div>
+          <div class="input-box linear">
+            <input type="radio" name="area-type" id="stage" value="stage"/>
+            <label for="stage">Stage</label>
+          </div>
+          <div class="input-box linear">
+            <input type="radio" name="area-type" id="bar" value="bar"/>
+            <label for="bar">Bar</label>
+          </div>
+          <div class="input-box linear">
+            <input type="radio" name="area-type" id="block" value="block"/>
+            <label for="block">Block</label>
           </div>
         </div>
       </div>
@@ -30,6 +56,8 @@ class Component {
     let yInput = elem.getElementById(`yi-${areaObj.id}`);
     let wInput = elem.getElementById(`wi-${areaObj.id}`);
     let lInput = elem.getElementById(`li-${areaObj.id}`);
+    let nameInput = elem.getElementById(`${areaObj.id}-name`);
+    let areaTypeInputs = elem.querySelectorAll("input[name='area-type']");
 
     xInput.addEventListener("input", () => {
       Board.updateSelectedAreaPosition({
@@ -44,17 +72,40 @@ class Component {
       });
     });
     wInput.addEventListener("input", () => {
-      Board.updateAreaSizeSelect({
+      Board.updateSelectedAreaSize({
         id: areaObj.id,
         width: wInput.value,
       });
     });
     lInput.addEventListener("input", () => {
-      Board.updateAreaSizeSelect({
+      Board.updateSelectedAreaSize({
         id: areaObj.id,
         length: lInput.value,
       });
     });
+    nameInput.addEventListener("input", () => {
+      Board.updateSelectedAreaName({
+        id: areaObj.id,
+        name: nameInput.value,
+      });
+    });
+    elem.querySelector(`#rm-${areaObj.id}`).addEventListener("click", () => {
+      Board.removeArea(areaObj.id);
+    });
+
+    for (let areaTypeInput of areaTypeInputs) {
+      areaTypeInput.addEventListener("click", () => {
+        Board.updateSelectedAreaType({
+          id: areaObj.id,
+          type: areaTypeInput.value,
+        });
+      });
+
+      if (areaObj.type == areaTypeInput.value) {
+        areaTypeInput.checked = true;
+      }
+    }
+
     return elem;
   }
 
@@ -65,14 +116,13 @@ class Component {
         <div class="area-tool-form-container">
           <div class="input-container" style="margin-top: 8px">
             <p class="caption">Meta</p>
-            <p class="note">Name should be the same as the ticket type</p>
             <div class="input-box">
               <input id="${areaProps.id}-name" name="${areaProps.id}-name" value="${areaProps.name}" />
-              <label for="${areaProps.id}-name">Name</label>
+              <label for="${areaProps.id}-name">Area Name</label>
             </div>
             <div class="input-box">
               <input id="ai-${areaProps.id}" name="ai-${areaProps.id}" value="${areaProps.id}" disabled/>
-              <label for="ai-${areaProps.id}">Area Id</label>
+              <label for="ai-${areaProps.id}">Area ID</label>
             </div>
             <div class="input-box" style="margin-top: 4px">
               <label>Area Type</label>
@@ -148,7 +198,7 @@ class Component {
     elem
       .querySelector(`#${areaProps.id}-cancel`)
       .addEventListener("click", () => {
-        Board.removeNewArea(areaProps.id);
+        Board.removeArea(areaProps.id);
         Lib.slideOutToolForm();
       });
     elem
@@ -187,66 +237,27 @@ class Component {
     return elem;
   }
 
-  static areaToolFormRowIdSection({ id, state, setAreaId }) {
-    let elem = Lib.parseHtml(`
-      <div class="input-container">
-        <div class="input-box">
-          <input id="ai-${id}" name="ai-${id}" value="${state.areaProps.id}" disabled/>
-          <label for="ai-${id}">Area Id</label>
-        </div>
-      </div>
-    `);
-
-    let areaIdInput = elem.querySelector(`#ai-${id}`);
-
-    areaIdInput.addEventListener("input", () => {
-      setAreaId(areaIdInput.value);
-    });
-
-    return elem;
-  }
-
-  static areaToolFormTypeSection({ id, state, setAreaProps }) {
-    let elem = Lib.parseHtml(`
-    <div class="input-container">
-      <div class="input-box">
-        <label>Area Type</label>
-      </div>
-      <div class="input-box linear">
-        <input type="radio" name="area-type" id="stage" value="stage"/>
-        <label for="stage">Stage</label>
-      </div>
-      <div class="input-box linear">
-        <input type="radio" name="area-type" id="standing" value="standing"/>
-        <label for="standing">Standing</label>
-      </div>
-      <div class="input-box linear">
-        <input type="radio" name="area-type" id="seat" value="seat"/>
-        <label for="seat">Seat</label>
-      </div>
-      <div class="input-box linear">
-        <input type="radio" name="area-type" id="table-seat" value="table-seat"/>
-        <label for="table-seat">Table & Seat</label>
-      </div>
-      <div class="input-box linear">
-        <input type="radio" name="area-type" id="block" value="block"/>
-        <label for="block">Block</label>
-      </div>
-    </div>
-    `);
-
-    let inputs = elem.querySelectorAll("input[type='radio']");
-
-    for (let input of inputs) {
-      input.addEventListener("click", () => {
-        setAreaProps({ type: input.value });
-      });
-
-      if (state.areaProps.type == input.value) {
-        input.checked = true;
-      }
-    }
-
-    return elem;
-  }
+  static deleteIcon = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 512 512">
+      <path 
+        d="M112 112l20 320c.95 18.49 14.4 32 32 32h184c17.67 0 30.87-13.51 32-32l20-320" 
+        fill="none" 
+        stroke="currentColor" 
+        stroke-linecap="round" 
+        stroke-linejoin="round" 
+        stroke-width="32"/>
+      <path 
+        stroke="currentColor" 
+        stroke-linecap="round" 
+        stroke-miterlimit="10" 
+        stroke-width="32" 
+        d="M80 112h352"/>
+      <path 
+        d="M192 112V72h0a23.93 23.93 0 0124-24h80a23.93 23.93 0 0124 24h0v40M256 176v224M184 176l8 224M328 176l-8 224" 
+        fill="none" 
+        stroke="currentColor" 
+        stroke-linecap="round" 
+        stroke-linejoin="round" 
+        stroke-width="32"/>
+    </svg>`;
 }
