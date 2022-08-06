@@ -34,8 +34,8 @@ class State {
       }
     }
 
-    if (value == "board") Lib.enableElements(toolNew, toolArea);
-    else Lib.disableElements(toolNew, toolArea);
+    if (value == "board") Lib.enableElements(toolNew, toolArea, toolRow);
+    else Lib.disableElements(toolNew, toolArea, toolRow);
 
     this.#store.display = value;
     this.store();

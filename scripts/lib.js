@@ -37,6 +37,18 @@ class Lib {
     toolForm.style.transform = `translate(${x}px, ${y}px)`;
   }
 
+  static displayRowForm() {
+    let rowProps = {};
+
+    function setRowProps() {}
+
+    toolForm.innerHTML = "";
+    toolForm.append(Component.rowToolForm(rowProps, setRowProps));
+
+    let { x, y } = Lib.getPositionsForToolForm(toolRow);
+    toolForm.style.transform = `translate(${x}px, ${y}px)`;
+  }
+
   static emptySideBar() {
     sideBarBody.innerHTML = "<p class='empty-text'><span>Sidebar</span></p>";
   }

@@ -1,28 +1,28 @@
 class Component {
   static areaEditor(areaObj) {
     let elem = Lib.parseHtml(`
-      <div class="area-editor">
+      <form class="area-editor" autocomplete="off">
         <h3 class="heading">
           <span class="text">${areaObj.id}</span>
           <button id="rm-${areaObj.id}">${this.deleteIcon}</button>
         </h3>
         <div class="group linear">
           <div class="input-box">
-            <input id="xi-${areaObj.id}" value="${areaObj.x}" class="tiny" type="number"/>
+            <input id="xi-${areaObj.id}" value="${areaObj.x}" type="number"/>
             <label for="xi-${areaObj.id}">X</label>
           </div>
           <div class="input-box">
-            <input value="${areaObj.y}" id="yi-${areaObj.id}" class="tiny" type="number"/>
+            <input value="${areaObj.y}" id="yi-${areaObj.id}" type="number"/>
             <label for="yi-${areaObj.id}">Y</label>
           </div>
         </div>
         <div class="group linear">
           <div class="input-box">
-            <input value="${areaObj.width}" id="wi-${areaObj.id}" class="tiny" type="number"/>
+            <input value="${areaObj.width}" id="wi-${areaObj.id}" type="number"/>
             <label for="wi-${areaObj.id}">Width</label>
           </div>
           <div class="input-box">
-            <input id="li-${areaObj.id}" value="${areaObj.length}" class="tiny" type="number"/>
+            <input id="li-${areaObj.id}" value="${areaObj.length}" type="number"/>
             <label for="li-${areaObj.id}">Height</label>
           </div>
         </div>
@@ -49,7 +49,7 @@ class Component {
             <label for="block">Block</label>
           </div>
         </div>
-      </div>
+      </form>
     `);
 
     let xInput = elem.getElementById(`xi-${areaObj.id}`);
@@ -92,6 +92,9 @@ class Component {
     elem.querySelector(`#rm-${areaObj.id}`).addEventListener("click", () => {
       Board.removeArea(areaObj.id);
     });
+    elem.querySelector("form").addEventListener("submit", (ev) => {
+      ev.preventDefault();
+    });
 
     for (let areaTypeInput of areaTypeInputs) {
       areaTypeInput.addEventListener("click", () => {
@@ -113,7 +116,7 @@ class Component {
     let elem = Lib.parseHtml(`
       <form class="form-one" autocomplete="off" style="width: 260px">
         <h3 class="heading">Area Properties</h3>
-        <div class="area-tool-form-container">
+        <div class="tool-form-container">
           <div class="input-container" style="margin-top: 8px">
             <p class="caption">Meta</p>
             <div class="input-box">
@@ -143,25 +146,29 @@ class Component {
           <div class="input-container" style="margin-top: 8px">
             <p class="caption">Position</p>
             <p class="note">All values in meters</p>
-            <div class="input-box">
-              <input type="number" id="x-${areaProps.id}" name="x-${areaProps.id}" value="${areaProps.x}"/>
-              <label for="x-${areaProps.id}">X</label>
-            </div>
-            <div class="input-box">
-              <input type="number" id="y-${areaProps.id}" name="y-${areaProps.id}" value="${areaProps.y}"/>
-              <label for="y-${areaProps.id}">Y</label>
+            <div style="display: flex">
+              <div class="input-box">
+                <input type="number" id="x-${areaProps.id}" name="x-${areaProps.id}" value="${areaProps.x}"/>
+                <label for="x-${areaProps.id}">X</label>
+              </div>
+              <div class="input-box">
+                <input type="number" id="y-${areaProps.id}" name="y-${areaProps.id}" value="${areaProps.y}"/>
+                <label for="y-${areaProps.id}">Y</label>
+              </div>
             </div>
           </div>
           <div class="input-container" style="margin-top: 8px">
             <p class="caption">Size</p>
             <p class="note">All values in meters</p>
-            <div class="input-box">
-              <input type="number" id="w-${areaProps.id}" name="w-${areaProps.id}" value="${areaProps.width}"/>
-              <label for="w-${areaProps.id}">Width</label>
-            </div>
-            <div class="input-box">
-              <input type="number" id="l-${areaProps.id}" name="l-${areaProps.id}" value="${areaProps.length}"/>
-              <label name="l-${areaProps.id}">Length</label>
+            <div style="display: flex">
+              <div class="input-box">
+                <input type="number" id="w-${areaProps.id}" name="w-${areaProps.id}" value="${areaProps.width}"/>
+                <label for="w-${areaProps.id}">Width</label>
+              </div>
+              <div class="input-box">
+                <input type="number" id="l-${areaProps.id}" name="l-${areaProps.id}" value="${areaProps.length}"/>
+                <label name="l-${areaProps.id}">Length</label>
+              </div>
             </div>
           </div>
         </div>
@@ -260,4 +267,88 @@ class Component {
         stroke-linejoin="round" 
         stroke-width="32"/>
     </svg>`;
+
+  static rowToolForm(rowProps, setRowProps) {
+    let elem = Lib.parseHtml(`
+      <form class="form-one" autocomplete="off" style="width: 260px">
+        <h3 class="heading">Row Properties</h3>
+        <div class="tool-form-container">
+          <div class="input-container" style="margin-top: 8px">
+            <p class="caption">Meta</p>
+            <p class="note">Row name should be the same as the ticket type</p>
+            <div class="input-box">
+              <input id="${rowProps.id}-name" name="${rowProps.id}-name" value="${rowProps.name}" />
+              <label for="${rowProps.id}-name">Row Name/Ticket type</label>
+            </div>
+            <div class="input-box">
+              <input id="ai-${rowProps.id}" name="ai-${rowProps.id}" value="${rowProps.id}" disabled/>
+              <label for="ai-${rowProps.id}">Row ID</label>
+            </div>
+            <div class="input-box" style="margin-top: 4px">
+              <label>Row Type</label>
+            </div>
+            <div class="input-box linear">
+              <input type="radio" name="row-type" id="standing" value="standing"/>
+              <label for="standing">Standing</label>
+            </div>
+            <div class="input-box linear">
+              <input type="radio" name="row-type" id="seat" value="seat"/>
+              <label for="seat">Seat</label>
+            </div>
+            <div class="input-box linear">
+              <input type="radio" name="row-type" id="table-seat" value="table-seat"/>
+              <label for="table-seat">Table and Seat</label>
+            </div>
+          </div>
+          <div class="input-container" style="margin-top: 8px">
+            <p class="caption">Position</p>
+            <p class="note">All values in meters</p>
+            <div style="display: flex">
+              <div class="input-box">
+                <input type="number" id="x-${rowProps.id}" name="x-${rowProps.id}" value="${rowProps.x}"/>
+                <label for="x-${rowProps.id}">X</label>
+              </div>
+              <div class="input-box">
+                <input type="number" id="y-${rowProps.id}" name="y-${rowProps.id}" value="${rowProps.y}"/>
+                <label for="y-${rowProps.id}">Y</label>
+              </div>
+            </div>
+          </div>
+          <div class="input-container" style="margin-top: 8px">
+            <p class="caption">Size</p>
+            <p class="note">All values in meters</p>
+            <div style="display: flex">
+              <div class="input-box">
+                <input type="number" id="w-${rowProps.id}" name="w-${rowProps.id}" value="${rowProps.width}"/>
+                <label for="w-${rowProps.id}">Width</label>
+              </div>
+              <div class="input-box">
+                <input type="number" id="l-${rowProps.id}" name="l-${rowProps.id}" value="${rowProps.length}"/>
+                <label name="l-${rowProps.id}">Length</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="footer input-box linear end" style="margin-top: 8px">
+          <button 
+            class="action action-secondary" 
+            type="button" 
+            style="margin-right: 10px"
+            id="${rowProps.id}-cancel"
+          >
+            Cancel
+          </button>
+          <button 
+            class="action" 
+            type="button" 
+            id="${rowProps.id}-create"
+          >
+            Create
+          </button>
+        </div>
+      </form>
+    `);
+
+    return elem;
+  }
 }

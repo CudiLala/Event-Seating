@@ -23,6 +23,10 @@ toolArea.addEventListener("click", () => {
   if (State.display == "board") Lib.displayAreaForm();
 });
 
+toolRow.addEventListener("click", () => {
+  if (State.display == "board") Lib.displayRowForm();
+});
+
 toolToggleFullscreen.addEventListener("click", () => {
   if (!document.fullscreenEnabled) return;
 

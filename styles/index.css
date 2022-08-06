@@ -406,12 +406,12 @@ button {
   flex-direction: row;
 }
 
-.area-tool-form-container {
+.tool-form-container {
   max-height: 50vh;
   overflow: auto;
   scrollbar-width: none;
 }
-.area-tool-form-container::-webkit-scrollbar {
+.tool-form-container::-webkit-scrollbar {
   display: none;
 }
 

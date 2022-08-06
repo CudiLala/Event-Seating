@@ -11,6 +11,7 @@ let zoomScaleDown = document.getElementById("zoom-scale-down");
 //tools
 let toolNew = document.getElementById("tool-new");
 let toolArea = document.getElementById("tool-area");
+let toolRow = document.getElementById("tool-row");
 let toolToggleFullscreen = document.getElementById("tool-toggle-fullscreen");
 let toolGenerateJson = document.getElementById("tool-generate-json");
 let toolForm = document.getElementById("tool-form");
