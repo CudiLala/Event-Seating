@@ -43,6 +43,16 @@ class Board {
     this.store().draw();
   }
 
+  static createRow(id) {
+    if (this.#store.content[`${id}--e`])
+      this.#store.content[id] = JSON.parse(
+        JSON.stringify(this.#store.content[`${id}--e`])
+      );
+    delete this.#store.content[`${id}--e`];
+
+    this.store().draw();
+  }
+
   static clear() {
     localStorage.removeItem("board");
     this.#store = {
@@ -89,6 +99,16 @@ class Board {
     return result;
   }
 
+  static getUniqueRowId(num = 1) {
+    let result = `Row-${num}`;
+    let ids = Object.keys(this.#store.content);
+
+    if (ids.some((id) => id.includes(result)))
+      result = this.getUniqueRowId(num + 1);
+
+    return result;
+  }
+
   static init() {
     let store = localStorage.getItem("board");
     if (store) this.#store = JSON.parse(store);
@@ -98,6 +118,16 @@ class Board {
   }
 
   static removeArea(id) {
+    delete this.#store.content[id];
+    delete this.#store.content[`${id}--e`];
+    delete this.#store.content[`${id}--s`];
+
+    Lib.emptySideBar();
+
+    this.store().draw();
+  }
+
+  static removeRow(id) {
     delete this.#store.content[id];
     delete this.#store.content[`${id}--e`];
     delete this.#store.content[`${id}--s`];
@@ -127,6 +157,17 @@ class Board {
   }
 
   static updateNewAreaProps({ id, ...props }) {
+    for (let prop in props) {
+      if (!this.#store.content[`${id}--e`])
+        this.#store.content[`${id}--e`] = {};
+
+      this.#store.content[`${id}--e`][prop] = props[prop];
+    }
+
+    this.draw().store();
+  }
+
+  static updateNewRowProps({ id, ...props }) {
     for (let prop in props) {
       if (!this.#store.content[`${id}--e`])
         this.#store.content[`${id}--e`] = {};
@@ -206,12 +247,15 @@ class Board {
           : id.endsWith("--s")
           ? "#1760fd"
           : "black";
+        let type = id.startsWith("Area") ? "Area" : "Row";
+        let elemId =
+          type === "Area"
+            ? `area-${id.replace(/\-\-\w+/g, "")}`
+            : `${id.replace(/\-\-\w+/g, "")}`;
 
-        result = result.concat(
-          `<g id="area-${id.replace(
-            /\-\-\w+/g,
-            ""
-          )}" style="cursor: pointer" tab-index="0">
+        if (type === "Area")
+          result = result.concat(
+            `<g id="${elemId}" style="cursor: pointer" tab-index="0">
           <text x=${textX} y=${textY} font-size=${textFS} fill=${color} text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
             ${name}
           </text>
@@ -226,7 +270,21 @@ class Board {
             />
             ${addContent(id)}
           </g>`
-        );
+          );
+        else
+          result = result.concat(`
+            <g id="${elemId}" style="cursor: pointer" tab-index="0">
+              <rect 
+                x="${x}"
+                y="${y}"
+                width="${width}"
+                height="${length}"
+                fill="transparent"
+                stroke="${color}"
+                stroke-width="${strokeWidth}"
+              />
+              ${addContent(id)}
+           </g>`);
       }
 
       return result;

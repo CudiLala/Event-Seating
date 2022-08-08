@@ -24,8 +24,8 @@ class Lib {
       id: Board.getUniqueAreaId(),
       name: "",
       type: "block",
-      x: Board.arenaSize.width / 20,
-      y: Board.arenaSize.length / 20,
+      x: Board.arenaSize.width / 50,
+      y: Board.arenaSize.length / 50,
       width: Board.arenaSize.width / 10,
       length: Board.arenaSize.length / 10,
     });
@@ -40,7 +40,22 @@ class Lib {
   static displayRowForm() {
     let rowProps = {};
 
-    function setRowProps() {}
+    function setRowProps(value) {
+      for (let key in value) {
+        rowProps[key] = value[key];
+      }
+      Board.updateNewRowProps(rowProps);
+    }
+
+    setRowProps({
+      id: Board.getUniqueRowId(),
+      name: "",
+      type: "seat",
+      x: Board.arenaSize.width / 50,
+      y: Board.arenaSize.length / 50,
+      width: Board.arenaSize.width - Board.arenaSize.width / 25,
+      length: Board.arenaSize.length / 20,
+    });
 
     toolForm.innerHTML = "";
     toolForm.append(Component.rowToolForm(rowProps, setRowProps));

@@ -349,6 +349,55 @@ class Component {
       </form>
     `);
 
+    let nameInput = elem.getElementById(`${rowProps.id}-name`);
+    let xInput = elem.getElementById(`x-${rowProps.id}`);
+    let yInput = elem.getElementById(`y-${rowProps.id}`);
+    let wInput = elem.getElementById(`w-${rowProps.id}`);
+    let lInput = elem.getElementById(`l-${rowProps.id}`);
+    let rowTypeInputs = elem.querySelectorAll("input[name='row-type']");
+
+    elem.querySelector("form").addEventListener("submit", (e) => {
+      e.preventDefault();
+    });
+    elem
+      .getElementById(`${rowProps.id}-cancel`)
+      .addEventListener("click", () => {
+        Board.removeRow(rowProps.id);
+        Lib.slideOutToolForm();
+      });
+    elem
+      .getElementById(`${rowProps.id}-create`)
+      .addEventListener("click", () => {
+        Board.createRow(rowProps.id);
+        Lib.slideOutToolForm();
+      });
+
+    nameInput.addEventListener("input", () => {
+      setRowProps({ name: nameInput.value });
+    });
+    xInput.addEventListener("input", () => {
+      setRowProps({ x: Number(xInput.value) });
+    });
+    yInput.addEventListener("input", () => {
+      setRowProps({ y: Number(yInput.value) });
+    });
+    wInput.addEventListener("input", () => {
+      setRowProps({ width: Number(wInput.value) });
+    });
+    lInput.addEventListener("input", () => {
+      setRowProps({ length: Number(lInput.value) });
+    });
+
+    for (let rowTypeInput of rowTypeInputs) {
+      rowTypeInput.addEventListener("click", () => {
+        setRowProps({ type: rowTypeInput.value });
+      });
+
+      if (rowProps.type == rowTypeInput.value) {
+        rowTypeInput.checked = true;
+      }
+    }
+
     return elem;
   }
 }
