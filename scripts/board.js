@@ -4,8 +4,6 @@ class Board {
     content: {},
   };
 
-  static globalParams = { allowGrag: [] };
-
   static addEventListeners() {
     board.querySelectorAll("[id^='area']").forEach((area) => {
       area.addEventListener("click", (e) => {
@@ -278,13 +276,39 @@ class Board {
     let bLength = Number(this.#store.size.length);
     let strokeWidth = 0.001 * ((bWidth + bLength) / 2);
 
+    function addSeating({ x, y, width, length, type, color }) {
+      let result = "";
+      if (type === "standing") {
+      } else if (type === "seat") {
+        for (let i = 1; i < Math.floor(width / 2); i++) {
+          let cy = y + length / 2;
+          let cx = x + i * 2;
+          let r = 0.5;
+
+          result = result.concat(`
+            <circle 
+              cx="${cx}" 
+              cy="${cy}" 
+              r="${r}" 
+              stroke="${color}" 
+              fill="transparent"
+              stroke-width="${strokeWidth}" 
+            />
+          `);
+        }
+      } else if (type === "table-seat") {
+      }
+
+      return result;
+    }
+
     function addContent(obj) {
       if (!obj.content) return "";
 
       let result = "";
 
       for (let id in obj.content) {
-        let { x, y, width, length, name } = obj.content[id];
+        let { x, y, width, length, name, type } = obj.content[id];
 
         let textFS = Math.min(
           Math.max(length / 2, bLength / 150),
@@ -297,37 +321,36 @@ class Board {
           : id.endsWith("--s")
           ? "#1760fd"
           : "black";
-        let type = id.startsWith("Area")
+        let objType = id.startsWith("Area")
           ? "Area"
           : id.startsWith("Row")
           ? "Row"
           : "";
         let elemId =
-          type === "Area"
+          objType === "Area"
             ? `area-${id.replace(/\-\-\w+/g, "")}`
-            : type === "Row"
+            : objType === "Row"
             ? `row-${id.replace(/\-\-\w+/g, "")}`
             : "";
 
-        if (type === "Area")
+        if (objType === "Area")
           result = result.concat(
-            `<g id="${elemId}" style="cursor: pointer" tab-index="0">
-          <text x=${textX} y=${textY} font-size=${textFS} fill=${color} text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
-            ${name}
-          </text>
-            <rect 
-              x="${x}"
-              y="${y}"
-              width="${width}"
-              height="${length}"
-              fill="transparent"
-              stroke="${color}"
-              stroke-width="${strokeWidth}"
-            />
-            ${addContent(id)}
-          </g>`
+            `<g id="${elemId}" fill="transparent" style="cursor: pointer" tab-index="0">
+              <text x=${textX} y=${textY} font-size=${textFS} fill=${color} text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
+                ${name}
+              </text>
+              <rect 
+                x="${x}"
+                y="${y}"
+                width="${width}"
+                height="${length}"
+                fill="transparent"
+                stroke="${color}"
+                stroke-width="${strokeWidth}"
+              />
+            </g>`
           );
-        else if (type === "Row")
+        else if (objType === "Row")
           result = result.concat(`
             <g id="${elemId}" style="cursor: pointer" tab-index="0">
               <rect 
@@ -339,7 +362,7 @@ class Board {
                 stroke="${color}"
                 stroke-width="${strokeWidth}"
               />
-              ${addContent(id)}
+              ${addSeating({ x, y, width, length, type, color })} 
            </g>`);
       }
 

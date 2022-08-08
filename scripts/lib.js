@@ -54,7 +54,8 @@ class Lib {
       x: Board.arenaSize.width / 50,
       y: Board.arenaSize.length / 50,
       width: Board.arenaSize.width - Board.arenaSize.width / 25,
-      length: Board.arenaSize.length / 20,
+      // length: Board.arenaSize.length / 20,
+      length: 2,
     });
 
     toolForm.innerHTML = "";
