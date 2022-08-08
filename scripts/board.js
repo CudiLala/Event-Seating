@@ -183,9 +183,9 @@ class Board {
   }
 
   static zParse() {
-    let width = Number(this.#store.size.width);
-    let length = Number(this.#store.size.length);
-    let strokeWidth = 0.001 * ((width + length) / 2);
+    let bWidth = Number(this.#store.size.width);
+    let bLength = Number(this.#store.size.length);
+    let strokeWidth = 0.001 * ((bWidth + bLength) / 2);
 
     function addContent(obj) {
       if (!obj.content) return "";
@@ -193,27 +193,38 @@ class Board {
       let result = "";
 
       for (let id in obj.content) {
+        let { x, y, width, length, name } = obj.content[id];
+
+        let textFS = Math.min(
+          Math.max(length / 2, bLength / 150),
+          bLength / 50
+        );
+        let textX = x + width / 2;
+        let textY = y + length / 2;
+        let color = id.endsWith("--e")
+          ? "#00a929"
+          : id.endsWith("--s")
+          ? "#1760fd"
+          : "black";
+
         result = result.concat(
           `<g id="area-${id.replace(
             /\-\-\w+/g,
             ""
           )}" style="cursor: pointer" tab-index="0">
+          <text x=${textX} y=${textY} font-size=${textFS} fill=${color} text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
+            ${name}
+          </text>
             <rect 
-              x="${obj.content[id].x}"
-              y="${obj.content[id].y}"
-              width="${obj.content[id].width}"
-              height="${obj.content[id].length}"
+              x="${x}"
+              y="${y}"
+              width="${width}"
+              height="${length}"
               fill="transparent"
-              stroke="${
-                id.endsWith("--e")
-                  ? "#00a929"
-                  : id.endsWith("--s")
-                  ? "#1760fd"
-                  : "black"
-              }"
+              stroke="${color}"
               stroke-width="${strokeWidth}"
             />
-            ${addContent(obj.content[id])}
+            ${addContent(id)}
           </g>`
         );
       }
@@ -226,11 +237,11 @@ class Board {
         <rect 
           x="0"
           y="0"
-          width="${width}"
-          height="${length}"
+          width="${bWidth}"
+          height="${bLength}"
           id="master"
           fill="white"
-          stroke-width="${0 * ((width + length) / 2)}"
+          stroke-width="${0 * ((bWidth + bLength) / 2)}"
         />
         ${addContent(this.#store)}
       </g>

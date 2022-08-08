@@ -4,7 +4,7 @@ class Component {
       <form class="area-editor" autocomplete="off">
         <h3 class="heading">
           <span class="text">${areaObj.id}</span>
-          <button id="rm-${areaObj.id}">${this.deleteIcon}</button>
+          <button id="rm-${areaObj.id}" type="button">${this.deleteIcon}</button>
         </h3>
         <div class="group linear">
           <div class="input-box">
@@ -62,25 +62,25 @@ class Component {
     xInput.addEventListener("input", () => {
       Board.updateSelectedAreaPosition({
         id: areaObj.id,
-        x: xInput.value,
+        x: Number(xInput.value),
       });
     });
     yInput.addEventListener("input", () => {
       Board.updateSelectedAreaPosition({
         id: areaObj.id,
-        y: yInput.value,
+        y: Number(yInput.value),
       });
     });
     wInput.addEventListener("input", () => {
       Board.updateSelectedAreaSize({
         id: areaObj.id,
-        width: wInput.value,
+        width: Number(wInput.value),
       });
     });
     lInput.addEventListener("input", () => {
       Board.updateSelectedAreaSize({
         id: areaObj.id,
-        length: lInput.value,
+        length: Number(lInput.value),
       });
     });
     nameInput.addEventListener("input", () => {
