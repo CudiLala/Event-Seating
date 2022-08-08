@@ -16,6 +16,16 @@ class Board {
         Lib.handleAreaClick(area);
       });
     });
+
+    board.querySelectorAll("[id^='row']").forEach((row) => {
+      row.addEventListener("click", (e) => {
+        e.stopPropagation();
+
+        Lib.unselectBoardComponents();
+        Lib.handleBoardComponentClick(row);
+        Lib.handleRowClick(row);
+      });
+    });
   }
 
   static get arenaSize() {
@@ -86,6 +96,14 @@ class Board {
       this.#store.content[areaId] ||
       this.#store.content[`${areaId}--e`] ||
       this.#store.content[`${areaId}--s`]
+    );
+  }
+
+  static getRowById(rowId) {
+    return (
+      this.#store.content[rowId] ||
+      this.#store.content[`${rowId}--e`] ||
+      this.#store.content[`${rowId}--s`]
     );
   }
 
@@ -185,7 +203,23 @@ class Board {
     this.draw().store();
   }
 
+  static updateSelectedRowName({ id, name }) {
+    if (!this.#store.content[`${id}--s`] || name === undefined) return;
+
+    this.#store.content[`${id}--s`].name = name;
+    this.draw().store();
+  }
+
   static updateSelectedAreaPosition({ id, x, y }) {
+    if (!this.#store.content[`${id}--s`]) return;
+
+    if (x !== undefined) this.#store.content[`${id}--s`].x = x;
+    if (y !== undefined) this.#store.content[`${id}--s`].y = y;
+
+    this.draw().store();
+  }
+
+  static updateSelectedRowPosition({ id, x, y }) {
     if (!this.#store.content[`${id}--s`]) return;
 
     if (x !== undefined) this.#store.content[`${id}--s`].x = x;
@@ -203,7 +237,23 @@ class Board {
     this.draw().store();
   }
 
+  static updateSelectedRowSize({ id, width, length }) {
+    if (!this.#store.content[`${id}--s`]) return;
+
+    if (width !== undefined) this.#store.content[`${id}--s`].width = width;
+    if (length !== undefined) this.#store.content[`${id}--s`].length = length;
+
+    this.draw().store();
+  }
+
   static updateSelectedAreaType({ id, type }) {
+    if (!this.#store.content[`${id}--s`] || type === undefined) return;
+
+    this.#store.content[`${id}--s`].type = type;
+    this.draw().store();
+  }
+
+  static updateSelectedRowType({ id, type }) {
     if (!this.#store.content[`${id}--s`] || type === undefined) return;
 
     this.#store.content[`${id}--s`].type = type;
@@ -247,11 +297,17 @@ class Board {
           : id.endsWith("--s")
           ? "#1760fd"
           : "black";
-        let type = id.startsWith("Area") ? "Area" : "Row";
+        let type = id.startsWith("Area")
+          ? "Area"
+          : id.startsWith("Row")
+          ? "Row"
+          : "";
         let elemId =
           type === "Area"
             ? `area-${id.replace(/\-\-\w+/g, "")}`
-            : `${id.replace(/\-\-\w+/g, "")}`;
+            : type === "Row"
+            ? `row-${id.replace(/\-\-\w+/g, "")}`
+            : "";
 
         if (type === "Area")
           result = result.concat(
@@ -271,7 +327,7 @@ class Board {
             ${addContent(id)}
           </g>`
           );
-        else
+        else if (type === "Row")
           result = result.concat(`
             <g id="${elemId}" style="cursor: pointer" tab-index="0">
               <rect 

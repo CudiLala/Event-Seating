@@ -101,6 +101,15 @@ class Lib {
     this.showAreaEditor(areaObj);
   }
 
+  static handleRowClick(row) {
+    let rowObj = Board.getRowById(row.id.slice(4));
+    if (!rowObj) return;
+
+    Board.select(row.id.slice(4));
+    rowObj.id = row.id.slice(4);
+    this.showRowEditor(rowObj);
+  }
+
   static parseHtml(htmlstring) {
     let div = document.createElement("div");
     let fragement = new DocumentFragment();
@@ -114,6 +123,11 @@ class Lib {
   static showAreaEditor(areaObj) {
     sideBarBody.innerHTML = "";
     sideBarBody.append(Component.areaEditor(areaObj));
+  }
+
+  static showRowEditor(rowObj) {
+    sideBarBody.innerHTML = "";
+    sideBarBody.append(Component.rowEditor(rowObj));
   }
 
   static slideOutToolForm() {
@@ -152,6 +166,9 @@ class Lib {
   static unselectBoardComponents() {
     board.querySelectorAll("[id^='area']").forEach((area) => {
       Board.unselect(area.id.slice(5));
+    });
+    board.querySelectorAll("[id^='row']").forEach((row) => {
+      Board.unselect(row.id.slice(4));
     });
   }
 }

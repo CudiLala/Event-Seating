@@ -268,6 +268,119 @@ class Component {
         stroke-width="32"/>
     </svg>`;
 
+  static rowEditor(rowObj) {
+    let elem = Lib.parseHtml(`
+      <form class="area-editor" autocomplete="off">
+        <h3 class="heading">
+          <span class="text">${rowObj.id}</span>
+          <button id="rm-${rowObj.id}" type="button">${this.deleteIcon}</button>
+        </h3>
+        <div class="group linear">
+          <div class="input-box">
+            <input id="xi-${rowObj.id}" value="${rowObj.x}" type="number"/>
+            <label for="xi-${rowObj.id}">X</label>
+          </div>
+          <div class="input-box">
+            <input value="${rowObj.y}" id="yi-${rowObj.id}" type="number"/>
+            <label for="yi-${rowObj.id}">Y</label>
+          </div>
+        </div>
+        <div class="group linear">
+          <div class="input-box">
+            <input value="${rowObj.width}" id="wi-${rowObj.id}" type="number"/>
+            <label for="wi-${rowObj.id}">Width</label>
+          </div>
+          <div class="input-box">
+            <input id="li-${rowObj.id}" value="${rowObj.length}" type="number"/>
+            <label for="li-${rowObj.id}">Height</label>
+          </div>
+        </div>
+        <div class="group">
+          <div class="input-box">
+            <input id="${rowObj.id}-name" name="${rowObj.id}-name" value="${rowObj.name}" />
+            <label for="${rowObj.id}-name">Row Name/Ticket Type</label>
+          </div>
+        </div>
+        <div class="group">
+          <div class="input-box">
+            <label>Row Type</label>
+          </div>
+          <div class="input-box linear">
+            <input type="radio" name="row-type" id="standing" value="standing"/>
+            <label for="standing">Standing</label>
+          </div>
+          <div class="input-box linear">
+            <input type="radio" name="row-type" id="seat" value="seat"/>
+            <label for="seat">Seat</label>
+          </div>
+          <div class="input-box linear">
+            <input type="radio" name="row-type" id="table-seat" value="table-seat"/>
+            <label for="table-seat">Table and Seat</label>
+          </div>
+        </div>
+      </form>
+    `);
+
+    let xInput = elem.getElementById(`xi-${rowObj.id}`);
+    let yInput = elem.getElementById(`yi-${rowObj.id}`);
+    let wInput = elem.getElementById(`wi-${rowObj.id}`);
+    let lInput = elem.getElementById(`li-${rowObj.id}`);
+    let nameInput = elem.getElementById(`${rowObj.id}-name`);
+    let rowTypeInputs = elem.querySelectorAll("input[name='row-type']");
+
+    xInput.addEventListener("input", () => {
+      Board.updateSelectedRowPosition({
+        id: rowObj.id,
+        x: Number(xInput.value),
+      });
+    });
+    yInput.addEventListener("input", () => {
+      Board.updateSelectedRowPosition({
+        id: rowObj.id,
+        y: Number(yInput.value),
+      });
+    });
+    wInput.addEventListener("input", () => {
+      Board.updateSelectedRowSize({
+        id: rowObj.id,
+        width: Number(wInput.value),
+      });
+    });
+    lInput.addEventListener("input", () => {
+      Board.updateSelectedRowSize({
+        id: rowObj.id,
+        length: Number(lInput.value),
+      });
+    });
+    nameInput.addEventListener("input", () => {
+      Board.updateSelectedRowName({
+        id: rowObj.id,
+        name: nameInput.value,
+      });
+    });
+    elem.querySelector(`#rm-${rowObj.id}`).addEventListener("click", () => {
+      Board.removeRow(rowObj.id);
+    });
+    elem.querySelector("form").addEventListener("submit", (ev) => {
+      ev.preventDefault();
+    });
+
+    for (let rowTypeInput of rowTypeInputs) {
+      rowTypeInput.addEventListener("click", () => {
+        Board.updateSelectedRowType({
+          id: rowObj.id,
+          type: rowTypeInput.value,
+        });
+      });
+
+      if (rowObj.type == rowTypeInput.value) {
+        rowTypeInput.checked = true;
+      }
+    }
+
+    return elem;
+  }
+
   static rowToolForm(rowProps, setRowProps) {
     let elem = Lib.parseHtml(`
       <form class="form-one" autocomplete="off" style="width: 260px">
