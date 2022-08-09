@@ -275,6 +275,29 @@ class Component {
           <span class="text">${rowObj.id}</span>
           <button id="rm-${rowObj.id}" type="button">${this.deleteIcon}</button>
         </h3>
+        <div class="group">
+          <div class="input-box">
+            <input id="${rowObj.id}-name" name="${rowObj.id}-name" value="${rowObj.name}" />
+            <label for="${rowObj.id}-name">Row Name/Ticket Type</label>
+          </div>
+        </div>
+        <div class="group">
+          <div class="input-box">
+            <label>Row Type</label>
+          </div>
+          <div class="input-box linear">
+            <input type="radio" name="e-row-type" id="standing-${rowObj.id}" value="standing"/>
+            <label for="standing-${rowObj.id}">Standing</label>
+          </div>
+          <div class="input-box linear">
+            <input type="radio" name="e-row-type" id="seat-${rowObj.id}" value="seat"/>
+            <label for="seat-${rowObj.id}">Seat</label>
+          </div>
+          <div class="input-box linear">
+            <input type="radio" name="e-row-type" id="table-seat-${rowObj.id}" value="table-seat"/>
+            <label for="table-seat-${rowObj.id}">Table and Seat</label>
+          </div>
+        </div>
         <div class="group linear">
           <div class="input-box">
             <input id="xi-${rowObj.id}" value="${rowObj.x}" type="number"/>
@@ -291,33 +314,11 @@ class Component {
             <label for="wi-${rowObj.id}">Width</label>
           </div>
           <div class="input-box">
-            <input id="li-${rowObj.id}" value="${rowObj.length}" type="number"/>
-            <label for="li-${rowObj.id}">Height</label>
+            <input id="li-${rowObj.id}" value="${rowObj.rows}" type="number"/>
+            <label for="li-${rowObj.id}">Rows</label>
           </div>
         </div>
-        <div class="group">
-          <div class="input-box">
-            <input id="${rowObj.id}-name" name="${rowObj.id}-name" value="${rowObj.name}" />
-            <label for="${rowObj.id}-name">Row Name/Ticket Type</label>
-          </div>
-        </div>
-        <div class="group">
-          <div class="input-box">
-            <label>Row Type</label>
-          </div>
-          <div class="input-box linear">
-            <input type="radio" name="row-type" id="standing" value="standing"/>
-            <label for="standing">Standing</label>
-          </div>
-          <div class="input-box linear">
-            <input type="radio" name="row-type" id="seat" value="seat"/>
-            <label for="seat">Seat</label>
-          </div>
-          <div class="input-box linear">
-            <input type="radio" name="row-type" id="table-seat" value="table-seat"/>
-            <label for="table-seat">Table and Seat</label>
-          </div>
-        </div>
+        <div id="capacity"></div>
       </form>
     `);
 
@@ -326,7 +327,8 @@ class Component {
     let wInput = elem.getElementById(`wi-${rowObj.id}`);
     let lInput = elem.getElementById(`li-${rowObj.id}`);
     let nameInput = elem.getElementById(`${rowObj.id}-name`);
-    let rowTypeInputs = elem.querySelectorAll("input[name='row-type']");
+    let rowTypeInputs = elem.querySelectorAll("input[name='e-row-type']");
+    let capacityDiv = elem.getElementById("capacity");
 
     xInput.addEventListener("input", () => {
       Board.updateSelectedRowPosition({
@@ -341,15 +343,15 @@ class Component {
       });
     });
     wInput.addEventListener("input", () => {
-      Board.updateSelectedRowSize({
+      Board.updateSelectedRowProps({
         id: rowObj.id,
         width: Number(wInput.value),
       });
     });
     lInput.addEventListener("input", () => {
-      Board.updateSelectedRowSize({
+      Board.updateSelectedRowProps({
         id: rowObj.id,
-        length: Number(lInput.value),
+        rows: Number(lInput.value),
       });
     });
     nameInput.addEventListener("input", () => {
@@ -365,16 +367,35 @@ class Component {
       ev.preventDefault();
     });
 
+    function updateRowProps(prop) {
+      Board.updateSelectedRowProps({
+        id: rowObj.id,
+        ...prop,
+      });
+    }
+
     for (let rowTypeInput of rowTypeInputs) {
       rowTypeInput.addEventListener("click", () => {
         Board.updateSelectedRowType({
           id: rowObj.id,
           type: rowTypeInput.value,
         });
+        Lib.displayRowCapacityFormSection(
+          capacityDiv,
+          rowTypeInput,
+          rowObj,
+          updateRowProps
+        );
       });
 
       if (rowObj.type == rowTypeInput.value) {
         rowTypeInput.checked = true;
+        Lib.displayRowCapacityFormSection(
+          capacityDiv,
+          rowTypeInput,
+          rowObj,
+          updateRowProps
+        );
       }
     }
 
@@ -401,16 +422,16 @@ class Component {
               <label>Row Type</label>
             </div>
             <div class="input-box linear">
-              <input type="radio" name="row-type" id="standing" value="standing"/>
-              <label for="standing">Standing</label>
+              <input type="radio" name="row-type" id="standing-${rowProps.id}" value="standing"/>
+              <label for="standing-${rowProps.id}">Standing</label>
             </div>
             <div class="input-box linear">
-              <input type="radio" name="row-type" id="seat" value="seat"/>
-              <label for="seat">Seat</label>
+              <input type="radio" name="row-type" id="seat-${rowProps.id}" value="seat"/>
+              <label for="seat-${rowProps.id}">Seat</label>
             </div>
             <div class="input-box linear">
-              <input type="radio" name="row-type" id="table-seat" value="table-seat"/>
-              <label for="table-seat">Table and Seat</label>
+              <input type="radio" name="row-type" id="table-seat-${rowProps.id}" value="table-seat"/>
+              <label for="table-seat-${rowProps.id}">Table and Seat</label>
             </div>
           </div>
           <div class="input-container" style="margin-top: 8px">
@@ -436,10 +457,11 @@ class Component {
                 <label for="w-${rowProps.id}">Width</label>
               </div>
               <div class="input-box">
-                <input type="number" id="l-${rowProps.id}" name="l-${rowProps.id}" value="${rowProps.length}"/>
-                <label name="l-${rowProps.id}">Length</label>
+                <input type="number" id="l-${rowProps.id}" name="l-${rowProps.id}" value="${rowProps.rows}"/>
+                <label name="l-${rowProps.id}">Rows</label>
               </div>
             </div>
+            <div id="t-capacity"></div>
           </div>
         </div>
         <div class="footer input-box linear end" style="margin-top: 8px">
@@ -468,6 +490,7 @@ class Component {
     let wInput = elem.getElementById(`w-${rowProps.id}`);
     let lInput = elem.getElementById(`l-${rowProps.id}`);
     let rowTypeInputs = elem.querySelectorAll("input[name='row-type']");
+    let capacityDiv = elem.getElementById("t-capacity");
 
     elem.querySelector("form").addEventListener("submit", (e) => {
       e.preventDefault();
@@ -498,17 +521,95 @@ class Component {
       setRowProps({ width: Number(wInput.value) });
     });
     lInput.addEventListener("input", () => {
-      setRowProps({ length: Number(lInput.value) });
+      setRowProps({ rows: Number(lInput.value) });
     });
 
     for (let rowTypeInput of rowTypeInputs) {
       rowTypeInput.addEventListener("click", () => {
         setRowProps({ type: rowTypeInput.value });
+        Lib.displayRowCapacityFormSection(
+          capacityDiv,
+          rowTypeInput,
+          rowProps,
+          setRowProps
+        );
       });
 
       if (rowProps.type == rowTypeInput.value) {
         rowTypeInput.checked = true;
+        Lib.displayRowCapacityFormSection(
+          capacityDiv,
+          rowTypeInput,
+          rowProps,
+          setRowProps
+        );
       }
+    }
+
+    return elem;
+  }
+
+  static rowCapacityForm(rowType, rowProps, setRowProps) {
+    let elem;
+
+    if (rowType === "standing") {
+      elem = Lib.parseHtml(`
+        <div style="display: flex">
+          <div class="input-box">
+            <input type="number" id="stand-${rowProps.id}" name="stand-${
+        rowProps.id
+      }" value="${rowProps.rowCapacity || 1}"/>
+            <label for="stand-${rowProps.id}">Row Capacity</label>
+          </div>
+          <div class="input-box">
+            <input style="visibility: hidden" />
+          </div>
+        </div>
+      `);
+    } else if (rowType === "seat") {
+      elem = Lib.parseHtml(`
+        <div style="display: flex" class="group linear">
+          <div class="input-box">
+            <input type="number" id="cw-${rowProps.id}" value="${
+        rowProps.chairWidth || 1
+      }"/>
+            <label for="cw-${rowProps.id}">Chair Width</label>
+          </div>
+          <div class="input-box">
+            <input type="number" id="rl-${rowProps.id}" value="${
+        rowProps.rowLength || 1
+      }"/>
+            <label name="rl-${rowProps.id}">Row Length</label>
+          </div>
+        </div>
+        <div style="display: flex" class="group linear">
+          <div class="input-box">
+            <input type="number" id="cs-${rowProps.id}" value="${
+        rowProps.chairSpacing || 0.3
+      }" />
+          <label>Chair Spacing</label>
+          </div>
+          <div class="input-box">
+            <input style="visibility: hidden" />
+          </div>
+        </div>
+      `);
+
+      let cwInput = elem.getElementById(`cw-${rowProps.id}`);
+      let rlInput = elem.getElementById(`rl-${rowProps.id}`);
+      let csInput = elem.getElementById(`cs-${rowProps.id}`);
+
+      cwInput.addEventListener("input", () => {
+        setRowProps({ chairWidth: Number(cwInput.value) });
+      });
+      rlInput.addEventListener("input", () => {
+        setRowProps({ rowLength: Number(rlInput.value) });
+      });
+      csInput.addEventListener("input", () => {
+        setRowProps({ chairSpacing: Number(csInput.value) });
+      });
+    } else if (rowType === "table-seat") {
+      elem = Lib.parseHtml(`<p>Table & seat form</p>`);
     }
 
     return elem;

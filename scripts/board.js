@@ -235,11 +235,12 @@ class Board {
     this.draw().store();
   }
 
-  static updateSelectedRowSize({ id, width, length }) {
+  static updateSelectedRowProps({ id, ...props }) {
     if (!this.#store.content[`${id}--s`]) return;
 
-    if (width !== undefined) this.#store.content[`${id}--s`].width = width;
-    if (length !== undefined) this.#store.content[`${id}--s`].length = length;
+    for (let prop in props) {
+      this.#store.content[`${id}--s`][prop] = props[prop];
+    }
 
     this.draw().store();
   }
@@ -276,14 +277,28 @@ class Board {
     let bLength = Number(this.#store.size.length);
     let strokeWidth = 0.001 * ((bWidth + bLength) / 2);
 
-    function addSeating({ x, y, width, length, type, color }) {
+    function addSeating({
+      x,
+      y,
+      width,
+      rows,
+      rowLength,
+      chairWidth,
+      chairSpacing,
+      color,
+    }) {
       let result = "";
-      if (type === "standing") {
-      } else if (type === "seat") {
-        for (let i = 1; i < Math.floor(width / 2); i++) {
-          let cy = y + length / 2;
-          let cx = x + i * 2;
-          let r = 0.5;
+
+      for (let i = 1; i <= rows; i++) {
+        for (let j = 1; j <= width / (chairWidth + chairSpacing); j++) {
+          let suplus = width % (chairWidth + chairSpacing);
+          let cy = y + (i * rowLength + (i - 1) * rowLength) / 2;
+          let cx =
+            x +
+            j * (chairWidth + chairSpacing) -
+            (chairWidth + chairSpacing) / 2 +
+            suplus / 2;
+          let r = chairWidth / 2;
 
           result = result.concat(`
             <circle 
@@ -296,7 +311,6 @@ class Board {
             />
           `);
         }
-      } else if (type === "table-seat") {
       }
 
       return result;
@@ -350,20 +364,49 @@ class Board {
               />
             </g>`
           );
-        else if (objType === "Row")
-          result = result.concat(`
+        else if (objType === "Row") {
+          if (type == "seat") {
+            let { rows, rowLength, chairWidth, chairSpacing } = obj.content[id];
+
+            result = result.concat(`
             <g id="${elemId}" style="cursor: pointer" tab-index="0">
               <rect 
                 x="${x}"
                 y="${y}"
                 width="${width}"
-                height="${length}"
+                height="${rows * rowLength}"
                 fill="transparent"
                 stroke="${color}"
                 stroke-width="${strokeWidth}"
               />
-              ${addSeating({ x, y, width, length, type, color })} 
+              ${addSeating({
+                x,
+                y,
+                width,
+                rows,
+                rowLength,
+                chairWidth,
+                chairSpacing,
+                color,
+              })} 
            </g>`);
+          } else {
+            let { rows } = obj.content[id];
+            result = result.concat(`
+            <g id="${elemId}" style="cursor: pointer" tab-index="0">
+              <rect 
+                x="${x}"
+                y="${y}"
+                width="${width}"
+                height="${rows}"
+                fill="transparent"
+                stroke="${color}"
+                stroke-width="${strokeWidth}"
+              />
+            </g>
+            `);
+          }
+        }
       }
 
       return result;

@@ -407,7 +407,7 @@ button {
 }
 
 .tool-form-container {
-  max-height: 50vh;
+  max-height: 65vh;
   overflow: auto;
   scrollbar-width: none;
 }

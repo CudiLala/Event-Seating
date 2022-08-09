@@ -54,8 +54,10 @@ class Lib {
       x: Board.arenaSize.width / 50,
       y: Board.arenaSize.length / 50,
       width: Board.arenaSize.width - Board.arenaSize.width / 25,
-      // length: Board.arenaSize.length / 20,
-      length: 2,
+      rows: 2,
+      chairWidth: 0.5,
+      rowLength: 1,
+      chairSpacing: 0.3,
     });
 
     toolForm.innerHTML = "";
@@ -87,6 +89,18 @@ class Lib {
       x: relativeElem.getBoundingClientRect().left + 2,
       y: header.getBoundingClientRect().bottom + 4,
     };
+  }
+
+  static displayRowCapacityFormSection(
+    capacityDiv,
+    inputElem,
+    rowProps,
+    setRowProps
+  ) {
+    capacityDiv.innerHTML = "";
+    capacityDiv.append(
+      Component.rowCapacityForm(inputElem.value, rowProps, setRowProps)
+    );
   }
 
   static handleBoardComponentClick(area) {
