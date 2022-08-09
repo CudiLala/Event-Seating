@@ -291,13 +291,11 @@ class Board {
 
       for (let i = 1; i <= rows; i++) {
         for (let j = 1; j <= width / (chairWidth + chairSpacing); j++) {
-          let suplus = width % (chairWidth + chairSpacing);
           let cy = y + (i * rowLength + (i - 1) * rowLength) / 2;
           let cx =
             x +
             j * (chairWidth + chairSpacing) -
-            (chairWidth + chairSpacing) / 2 +
-            suplus / 2;
+            (chairWidth + chairSpacing) / 2;
           let r = chairWidth / 2;
 
           result = result.concat(`
