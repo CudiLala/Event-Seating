@@ -115,11 +115,11 @@ class Board {
     return result;
   }
 
-  static getUniqueRowId(num = 1) {
+  static getUniqueRowId(num = 26) {
     let result = Lib.getLetterFromNum(num);
     let ids = Object.keys(this.#store.content);
 
-    if (ids.some((id) => id.includes(result)))
+    if (ids.some((id) => new RegExp(`^(${result}+(\-\-\w)*)$`).test(id)))
       result = this.getUniqueRowId(num + 1);
 
     return result;
