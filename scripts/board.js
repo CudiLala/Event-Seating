@@ -370,12 +370,13 @@ class Board {
         else if (objType === "Row") {
           if (type == "seat") {
             let { rows, rowLength, chairWidth, chairSpacing } = obj.content[id];
-            let textX = x - 0.5;
+            let textX = x - bLength / 75;
             let textY = y + (rows * rowLength) / 2;
+            let textFS = bLength / 50;
 
             result = result.concat(`
             <g id="${elemId}" style="cursor: pointer" tab-index="0">
-              <text x="${textX}" y="${textY}" font-size="${1}" fill="${color}" text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
+              <text x="${textX}" y="${textY}" font-size="${textFS}" fill="${color}" text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
                 ${id.replace(/\-\-\w+/g, "")}
               </text>
               <rect 
