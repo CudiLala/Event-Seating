@@ -74,7 +74,6 @@ class State {
   }
 
   static set scroll({ x, y }) {
-    console.log(x, y);
     boardBox.scrollBy({ left: x, top: y, behavior: "auto" });
   }
 

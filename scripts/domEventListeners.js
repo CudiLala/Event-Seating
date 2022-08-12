@@ -41,7 +41,7 @@ toolGenerateJson.addEventListener("click", () => {
 });
 
 zoomScaleUp.addEventListener("click", () => {
-  State.scale += 0.01;
+  State.scale += 0.04;
 });
 zoomScaleUp.addEventListener("mousedown", () => {
   Lib.startContinousScaleUpAfter500ms();
@@ -55,7 +55,7 @@ zoomScaleUp.addEventListener("mouseleave", () => {
 });
 
 zoomScaleDown.addEventListener("click", () => {
-  State.scale -= 0.01;
+  State.scale -= 0.04;
 });
 zoomScaleDown.addEventListener("mousedown", () => {
   Lib.startContinousScaleDownAfter500ms();

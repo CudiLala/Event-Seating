@@ -80,6 +80,16 @@ class Lib {
     }
   }
 
+  static getLetterFromNum(num) {
+    let a = ((num - 1) % 26) + 1;
+    let b = Math.floor((num - 1) / 26) || "";
+
+    if (typeof a == "number") a = String.fromCharCode(64 + a);
+    if (typeof b == "number") b = String.fromCharCode(64 + b);
+
+    return b.concat(a);
+  }
+
   /**
    * @param {HTMLElement} relativeElem
    * @returns {{x: number, y: number}}
@@ -154,7 +164,7 @@ class Lib {
   static startContinousScaleDownAfter500ms() {
     this.globalParams.scaleDownSetTime = setTimeout(() => {
       this.globalParams.scaleDownSetInerval = setInterval(() => {
-        State.scale -= 0.01;
+        State.scale -= 0.04;
       }, 25);
     }, 300);
   }
@@ -162,7 +172,7 @@ class Lib {
   static startContinousScaleUpAfter500ms() {
     this.globalParams.scaleUpSetTime = setTimeout(() => {
       this.globalParams.scaleUpSetInerval = setInterval(() => {
-        State.scale += 0.01;
+        State.scale += 0.04;
       }, 25);
     }, 300);
   }

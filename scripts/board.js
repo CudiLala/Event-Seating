@@ -116,7 +116,7 @@ class Board {
   }
 
   static getUniqueRowId(num = 1) {
-    let result = `Row-${num}`;
+    let result = Lib.getLetterFromNum(num);
     let ids = Object.keys(this.#store.content);
 
     if (ids.some((id) => id.includes(result)))
@@ -291,14 +291,23 @@ class Board {
 
       for (let i = 1; i <= rows; i++) {
         for (let j = 1; j <= width / (chairWidth + chairSpacing); j++) {
+          let surplus =
+            width / (chairWidth + chairSpacing) -
+            Math.floor(width / (chairWidth + chairSpacing));
           let cy = y + (i * rowLength + (i - 1) * rowLength) / 2;
           let cx =
             x +
             j * (chairWidth + chairSpacing) -
-            (chairWidth + chairSpacing) / 2;
+            (chairWidth + chairSpacing) / 2 +
+            surplus / 2;
+
           let r = chairWidth / 2;
+          let textFS = 1.5 * r;
 
           result = result.concat(`
+            <text x="${cx}" y="${cy}" font-size="${textFS}" fill="${color}" text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
+              ${(i - 1) * Math.floor(width / (chairWidth + chairSpacing)) + j}
+            </text>
             <circle 
               cx="${cx}" 
               cy="${cy}" 
@@ -333,11 +342,7 @@ class Board {
           : id.endsWith("--s")
           ? "#1760fd"
           : "black";
-        let objType = id.startsWith("Area")
-          ? "Area"
-          : id.startsWith("Row")
-          ? "Row"
-          : "";
+        let objType = id.startsWith("Area") ? "Area" : "Row";
         let elemId =
           objType === "Area"
             ? `area-${id.replace(/\-\-\w+/g, "")}`
@@ -348,7 +353,7 @@ class Board {
         if (objType === "Area")
           result = result.concat(
             `<g id="${elemId}" fill="transparent" style="cursor: pointer" tab-index="0">
-              <text x=${textX} y=${textY} font-size=${textFS} fill=${color} text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
+              <text x="${textX}" y="${textY}" font-size="${textFS}" fill="${color}" text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
                 ${name}
               </text>
               <rect 
@@ -365,9 +370,14 @@ class Board {
         else if (objType === "Row") {
           if (type == "seat") {
             let { rows, rowLength, chairWidth, chairSpacing } = obj.content[id];
+            let textX = x - 0.5;
+            let textY = y + (rows * rowLength) / 2;
 
             result = result.concat(`
             <g id="${elemId}" style="cursor: pointer" tab-index="0">
+              <text x="${textX}" y="${textY}" font-size="${1}" fill="${color}" text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
+                ${id.replace(/\-\-\w+/g, "")}
+              </text>
               <rect 
                 x="${x}"
                 y="${y}"
