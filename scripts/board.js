@@ -382,10 +382,12 @@ class Board {
             (tableWidth + 2 * chairWidth + tableSpacing) *
               Math.floor(width / (tableWidth + 2 * chairWidth + tableSpacing));
 
+          console.log(surplus);
+
           let x =
             rX +
             (j - 1) * (tableWidth + 2 * chairWidth + tableSpacing) +
-            chairWidth +
+            2 * chairWidth +
             surplus / 2;
 
           let y =
