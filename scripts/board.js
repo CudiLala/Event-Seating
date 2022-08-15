@@ -4,6 +4,8 @@ class Board {
     content: {},
   };
 
+  static #nextYPos = 0;
+
   static addEventListeners() {
     board.querySelectorAll("[id^='area']").forEach((area) => {
       area.addEventListener("click", (e) => {
@@ -67,6 +69,7 @@ class Board {
       size: { width: 0, length: 0 },
       content: {},
     };
+    this.nextYPos = this.arenaSize.length / 50;
 
     this.init();
     return this;
@@ -119,7 +122,8 @@ class Board {
     let result = Lib.getLetterFromNum(num);
     let ids = Object.keys(this.#store.content);
 
-    if (ids.some((id) => new RegExp(`^(${result}+(\-\-\w)*)$`).test(id)))
+    let pattern = `^(${result}(\-\-\\w)*)$`;
+    if (ids.some((id) => new RegExp(pattern).test(id)))
       result = this.getUniqueRowId(num + 1);
 
     return result;
@@ -133,23 +137,49 @@ class Board {
     return this;
   }
 
+  static set nextYPos(value) {
+    value = Number(value);
+    if (value > this.arenaSize.length || !value) {
+      this.#nextYPos = this.arenaSize.length / 50;
+    } else this.#nextYPos = value;
+  }
+  static get nextYPos() {
+    if (this.#nextYPos) return this.#nextYPos;
+    this.nextYPos = this.arenaSize.length / 50;
+
+    return this.#nextYPos;
+  }
+
   static removeArea(id) {
+    const item =
+      this.#store.content[id] ||
+      this.#store.content[`${id}--e`] ||
+      this.#store.content[`${id}--s`];
+
     delete this.#store.content[id];
     delete this.#store.content[`${id}--e`];
     delete this.#store.content[`${id}--s`];
 
-    Lib.emptySideBar();
+    if (item.y + item.length >= Board.nextYPos) Board.nextYPos = item.y;
 
+    Lib.emptySideBar();
     this.store().draw();
   }
 
   static removeRow(id) {
+    const item =
+      this.#store.content[id] ||
+      this.#store.content[`${id}--e`] ||
+      this.#store.content[`${id}--s`];
+
     delete this.#store.content[id];
     delete this.#store.content[`${id}--e`];
     delete this.#store.content[`${id}--s`];
 
-    Lib.emptySideBar();
+    if (item.y + item.rows * item.rowLength >= Board.nextYPos)
+      Board.nextYPos = item.y;
 
+    Lib.emptySideBar();
     this.store().draw();
   }
 
@@ -292,8 +322,10 @@ class Board {
       for (let i = 1; i <= rows; i++) {
         for (let j = 1; j <= width / (chairWidth + chairSpacing); j++) {
           let surplus =
-            width / (chairWidth + chairSpacing) -
-            Math.floor(width / (chairWidth + chairSpacing));
+            width -
+            (chairWidth + chairSpacing) *
+              Math.floor(width / (chairWidth + chairSpacing));
+
           let cy = y + (i * rowLength + (i - 1) * rowLength) / 2;
           let cx =
             x +
@@ -317,6 +349,204 @@ class Board {
               stroke-width="${strokeWidth}" 
             />
           `);
+        }
+      }
+
+      return result;
+    }
+
+    function addTable({
+      x: rX,
+      y: rY,
+      width,
+      rows,
+      tableRowLength: rowLength,
+      tableLength,
+      tableWidth,
+      tableChairWidth: chairWidth,
+      tableSpacing,
+      tableChairSpacing: chairSpacing,
+      tableChairPositions: chairPositions,
+      color,
+    }) {
+      let result = "";
+
+      for (let i = 1; i <= rows; i++) {
+        for (
+          let j = 1;
+          j <= width / (tableWidth + 2 * chairWidth + tableSpacing);
+          j++
+        ) {
+          let surplus =
+            width -
+            (tableWidth + 2 * chairWidth + tableSpacing) *
+              Math.floor(width / (tableWidth + 2 * chairWidth + tableSpacing));
+
+          let x =
+            rX +
+            (j - 1) * (tableWidth + 2 * chairWidth + tableSpacing) +
+            chairWidth +
+            surplus / 2;
+
+          let y =
+            rY +
+            (i - 1) * rowLength +
+            chairWidth +
+            (rowLength - (tableLength + 2 * chairWidth)) / 2;
+
+          result = result.concat(`
+            <rect 
+              x="${x}"
+              y="${y}"
+              width="${tableWidth}"
+              height="${tableLength}"
+              fill="transparent"
+              stroke="${color}"
+              stroke-width="${strokeWidth}"
+            />          
+          `);
+
+          if (chairPositions.includes("north"))
+            for (
+              let k = 1;
+              k <= (tableWidth - chairSpacing) / (chairWidth + chairSpacing);
+              k++
+            ) {
+              let surplus =
+                tableWidth -
+                chairSpacing -
+                (chairWidth + chairSpacing) *
+                  Math.floor(
+                    (tableWidth - chairSpacing) / (chairWidth + chairSpacing)
+                  );
+
+              let r = chairWidth / 2;
+
+              let cx =
+                x +
+                ((2 * k - 1) * chairWidth) / 2 +
+                k * chairSpacing +
+                surplus / 2;
+
+              let cy = y - r;
+
+              result = result.concat(`
+                <circle
+                  cx="${cx}"
+                  cy="${cy}"
+                  r="${r}"
+                  fill="transparent"
+                  stroke="${color}"
+                  stroke-width="${strokeWidth}"
+                />
+              `);
+            }
+
+          if (chairPositions.includes("south"))
+            for (
+              let k = 1;
+              k <= (tableWidth - chairSpacing) / (chairWidth + chairSpacing);
+              k++
+            ) {
+              let surplus =
+                tableWidth -
+                chairSpacing -
+                (chairWidth + chairSpacing) *
+                  Math.floor(
+                    (tableWidth - chairSpacing) / (chairWidth + chairSpacing)
+                  );
+
+              let r = chairWidth / 2;
+
+              let cx =
+                x +
+                ((2 * k - 1) * chairWidth) / 2 +
+                k * chairSpacing +
+                surplus / 2;
+
+              let cy = y + tableLength + r;
+
+              result = result.concat(`
+                <circle
+                  cx="${cx}"
+                  cy="${cy}"
+                  r="${r}"
+                  fill="transparent"
+                  stroke="${color}"
+                  stroke-width="${strokeWidth}"
+                />
+              `);
+            }
+
+          if (chairPositions.includes("east"))
+            for (
+              let k = 1;
+              k <= (tableLength - chairSpacing) / (chairWidth + chairSpacing);
+              k++
+            ) {
+              let surplus =
+                tableLength -
+                chairSpacing -
+                (chairWidth + chairSpacing) *
+                  Math.floor(
+                    (tableLength - chairSpacing) / (chairWidth + chairSpacing)
+                  );
+
+              let r = chairWidth / 2;
+              let cx = x - r;
+
+              let cy =
+                y +
+                ((2 * k - 1) * chairWidth) / 2 +
+                k * chairSpacing +
+                surplus / 2;
+
+              result = result.concat(`
+                <circle 
+                  cx="${cx}"
+                  cy="${cy}"
+                  r="${r}"
+                  fill="transparent"
+                  stroke="${color}"
+                  stroke-width="${strokeWidth}"
+                />
+              `);
+            }
+
+          if (chairPositions.includes("west"))
+            for (
+              let k = 1;
+              k <= (tableLength - chairSpacing) / (chairWidth + chairSpacing);
+              k++
+            ) {
+              let surplus =
+                tableLength -
+                chairSpacing -
+                (chairWidth + chairSpacing) *
+                  Math.floor(
+                    (tableLength - chairSpacing) / (chairWidth + chairSpacing)
+                  );
+
+              let r = chairWidth / 2;
+              let cx = x + tableWidth + r;
+
+              let cy =
+                y +
+                ((2 * k - 1) * chairWidth) / 2 +
+                k * chairSpacing +
+                surplus / 2;
+
+              result = result.concat(`
+                <circle 
+                  cx="${cx}"
+                  cy="${cy}"
+                  r="${r}"
+                  fill="transparent"
+                  stroke="${color}"
+                  stroke-width="${strokeWidth}"
+                />
+              `);
+            }
         }
       }
 
@@ -350,7 +580,8 @@ class Board {
             ? `row-${id.replace(/\-\-\w+/g, "")}`
             : "";
 
-        if (objType === "Area")
+        if (objType === "Area") {
+          if (y >= Board.nextYPos) Board.nextYPos = y + length;
           result = result.concat(
             `<g id="${elemId}" fill="transparent" style="cursor: pointer" tab-index="0">
               <text x="${textX}" y="${textY}" font-size="${textFS}" fill="${color}" text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
@@ -367,9 +598,12 @@ class Board {
               />
             </g>`
           );
-        else if (objType === "Row") {
+        } else if (objType === "Row") {
           if (type == "seat") {
             let { rows, rowLength, chairWidth, chairSpacing } = obj.content[id];
+
+            Board.nextYPos = Math.max(Board.nextYPos, y + rows * rowLength);
+
             let textX = x - bLength / 75;
             let textY = y + (rows * rowLength) / 2;
             let textFS = bLength / 50;
@@ -399,8 +633,35 @@ class Board {
                 color,
               })} 
            </g>`);
+          } else if (type == "table-seat") {
+            let { rows, tableRowLength: rowLength } = obj.content[id];
+
+            Board.nextYPos = Math.max(Board.nextYPos, y + rows * rowLength);
+
+            let textX = x - bLength / 75;
+            let textY = y + (rows * rowLength) / 2;
+            let textFS = bLength / 50;
+
+            result = result.concat(`
+            <g id="${elemId}" style="cursor: pointer" tab-index="0">
+              <text x="${textX}" y="${textY}" font-size="${textFS}" fill="${color}" text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
+                ${id.replace(/\-\-\w+/g, "")}
+              </text>
+              <rect 
+                x="${x}"
+                y="${y}"
+                width="${width}"
+                height="${rows * rowLength}"
+                fill="transparent"
+                stroke="${color}"
+                stroke-width="${strokeWidth}"
+              />
+              ${addTable({ color, ...obj.content[id] })}
+           </g>`);
           } else {
             let { rows } = obj.content[id];
+            Board.nextYPos = Math.max(Board.nextYPos, rows);
+
             result = result.concat(`
             <g id="${elemId}" style="cursor: pointer" tab-index="0">
               <rect 

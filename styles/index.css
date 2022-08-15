@@ -204,14 +204,16 @@ button {
 .input-box.linear input {
   margin: 0 0 0 8px;
 }
-.input-box input[type="radio"] {
+.input-box input[type="radio"],
+.input-box input[type="checkbox"] {
   order: 1;
   box-shadow: none !important;
   display: inline;
   width: fit-content;
   cursor: pointer;
 }
-.input-box input[type="radio"] ~ label {
+.input-box input[type="radio"] ~ label,
+.input-box input[type="checkbox"] ~ label {
   order: 2;
   cursor: pointer;
   line-height: 1.625em;

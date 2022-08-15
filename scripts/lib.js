@@ -52,12 +52,19 @@ class Lib {
       name: "",
       type: "seat",
       x: Board.arenaSize.width / 50,
-      y: Board.arenaSize.length / 50,
+      y: Board.nextYPos,
       width: Board.arenaSize.width - Board.arenaSize.width / 25,
       rows: 2,
       chairWidth: 0.5,
       rowLength: 1,
       chairSpacing: 0.3,
+      tableRowLength: 3,
+      tableLength: 1,
+      tableWidth: 1,
+      tableSpacing: 0.5,
+      tableChairWidth: 0.5,
+      tableChairSpacing: 0.25,
+      tableChairPositions: ["north", "south", "east", "west"],
     });
 
     toolForm.innerHTML = "";

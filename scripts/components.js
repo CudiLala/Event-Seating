@@ -609,7 +609,101 @@ class Component {
         setRowProps({ chairSpacing: Number(csInput.value) });
       });
     } else if (rowType === "table-seat") {
-      elem = Lib.parseHtml(`<p>Table & seat form</p>`);
+      elem = Lib.parseHtml(`
+        <div style="display: flex" class="group linear">
+          <div class="input-box">
+            <input type="number" id="rowl-${rowProps.id}" value="${rowProps.tableRowLength}"/>
+            <label for="rowl-${rowProps.id}">Row Length</label>
+          </div>
+          <div class="input-box">
+            <input type="number" id="tabl-${rowProps.id}" value="${rowProps.tableLength}"/>
+            <label for="tabl-${rowProps.id}">Table Length</label>
+          </div>
+        </div>
+        <div style="display: flex" class="group linear">
+          <div class="input-box">
+            <input type="number" id="tabw-${rowProps.id}" value="${rowProps.tableWidth}"/>
+            <label for="tabw-${rowProps.id}">Table Width</label>
+          </div>
+          <div class="input-box">
+            <input type="number" id="tabs-${rowProps.id}" value="${rowProps.tableSpacing}"/>
+            <label for="tabs-${rowProps.id}">Table Spacing</label>
+          </div>
+        </div>
+        <div style="display: flex" class="group linear">
+          <div class="input-box">
+            <input type="number" id="tcw-${rowProps.id}" value="${rowProps.tableChairWidth}"/>
+            <label for="tcw-${rowProps.id}">Chair Width</label>
+          </div>
+          <div class="input-box">
+            <input type="number" id="tcs-${rowProps.id}" value="${rowProps.tableChairSpacing}"/>
+            <label for="tcs-${rowProps.id}">Chair Spacing</label>
+          </div>
+        </div>
+        <div class="group">
+          <div class="input-box">
+            <label>Chair Position</label>
+          </div>
+          <div class="input-box linear">
+            <input name="chair-pos" id="north-${rowProps.id}" type="checkbox" value="north" />
+            <label for="north-${rowProps.id}">North</label>
+          </div>
+          <div class="input-box linear">
+            <input name="chair-pos" id="south-${rowProps.id}" type="checkbox" value="south"/>
+            <label for="south-${rowProps.id}">South</label>
+          </div>
+          <div class="input-box linear">
+            <input name="chair-pos" id="east-${rowProps.id}" type="checkbox" value="east"/>
+            <label for="east-${rowProps.id}">East</label>
+          </div>
+          <div class="input-box linear">
+            <input name="chair-pos" id="west-${rowProps.id}" type="checkbox" value="west"/>
+            <label for="west-${rowProps.id}">West</label>
+          </div>
+        </div>
+      `);
+
+      let rowlInput = elem.getElementById(`rowl-${rowProps.id}`);
+      let tablInput = elem.getElementById(`tabl-${rowProps.id}`);
+      let tabwInput = elem.getElementById(`tabw-${rowProps.id}`);
+      let tabsInput = elem.getElementById(`tabs-${rowProps.id}`);
+      let tcwInput = elem.getElementById(`tcw-${rowProps.id}`);
+      let tcsInput = elem.getElementById(`tcs-${rowProps.id}`);
+      let chairPositionInputs = elem.querySelectorAll("[name='chair-pos']");
+
+      rowlInput.addEventListener("input", () => {
+        setRowProps({ tableRowLength: Number(rowlInput.value) });
+      });
+      tablInput.addEventListener("input", () => {
+        setRowProps({ tableLength: Number(tablInput.value) });
+      });
+      tabwInput.addEventListener("input", () => {
+        setRowProps({ tableWidth: Number(tabwInput.value) });
+      });
+      tabsInput.addEventListener("input", () => {
+        setRowProps({ tableSpacing: Number(tabsInput.value) });
+      });
+      tcwInput.addEventListener("input", () => {
+        setRowProps({ tableChairWidth: Number(tcwInput.value) });
+      });
+      tcsInput.addEventListener("input", () => {
+        setRowProps({ tableChairSpacing: Number(tcsInput.value) });
+      });
+
+      for (let chairPositionInput of chairPositionInputs) {
+        chairPositionInput.addEventListener("input", () => {
+          let arr = [];
+
+          for (let chairPositionInput of chairPositionInputs) {
+            if (chairPositionInput.checked) arr.push(chairPositionInput.value);
+          }
+
+          setRowProps({ tableChairPositions: arr });
+        });
+        if (rowProps.tableChairPositions?.includes(chairPositionInput.value)) {
+          chairPositionInput.checked = true;
+        }
+      }
     }
 
     return elem;
