@@ -25,7 +25,7 @@ class Lib {
       name: "",
       type: "block",
       x: Board.arenaSize.width / 50,
-      y: Board.arenaSize.length / 50,
+      y: Board.nextYPos,
       width: Board.arenaSize.width / 10,
       length: Board.arenaSize.length / 10,
     });

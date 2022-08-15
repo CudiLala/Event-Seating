@@ -374,20 +374,23 @@ class Board {
       for (let i = 1; i <= rows; i++) {
         for (
           let j = 1;
-          j <= width / (tableWidth + 2 * chairWidth + tableSpacing);
+          j <=
+          (width + tableSpacing) / (tableWidth + 2 * chairWidth + tableSpacing);
           j++
         ) {
           let surplus =
-            width -
+            width +
+            tableSpacing -
             (tableWidth + 2 * chairWidth + tableSpacing) *
-              Math.floor(width / (tableWidth + 2 * chairWidth + tableSpacing));
-
-          console.log(surplus);
+              Math.floor(
+                (width + tableSpacing) /
+                  (tableWidth + 2 * chairWidth + tableSpacing)
+              );
 
           let x =
             rX +
             (j - 1) * (tableWidth + 2 * chairWidth + tableSpacing) +
-            2 * chairWidth +
+            chairWidth +
             surplus / 2;
 
           let y =
