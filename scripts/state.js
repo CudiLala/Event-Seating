@@ -57,7 +57,7 @@ class State {
   static set scale(value) {
     value = Number(value);
     if (value < 1) return;
-    if (value > 5) return;
+    if (value > 10) return;
 
     if (this.globalParmas.scale) {
       board.style.transform = `scale(${value})`;

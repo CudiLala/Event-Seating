@@ -5,6 +5,7 @@ class Board {
   };
 
   static #nextYPos = 0;
+  static #numRow = 0;
 
   static addEventListeners() {
     board.querySelectorAll("[id^='area']").forEach((area) => {
@@ -119,12 +120,10 @@ class Board {
   }
 
   static getUniqueRowId(num = 1) {
-    let result = Lib.getLetterFromNum(num);
+    let result = `Row-group-${num}`;
     let ids = Object.keys(this.#store.content);
 
-    let pattern = `^(${result}(\-\-\\w)*)$`;
-    if (ids.some((id) => new RegExp(pattern).test(id)))
-      result = this.getUniqueRowId(num + 1);
+    if (ids.includes(result)) result = this.getUniqueRowId(num + 1);
 
     return result;
   }
@@ -139,7 +138,7 @@ class Board {
 
   static set nextYPos(value) {
     value = Number(value);
-    if (value > this.arenaSize.length || !value) {
+    if (value > (9 * this.arenaSize.length) / 10 || !value) {
       this.#nextYPos = this.arenaSize.length / 50;
     } else this.#nextYPos = value;
   }
@@ -320,6 +319,15 @@ class Board {
       let result = "";
 
       for (let i = 1; i <= rows; i++) {
+        let textX = x - bLength / 75;
+        let textY = y + ((2 * i - 1) * rowLength) / 2;
+        let textFS = chairWidth * 1.2;
+
+        result = result.concat(`
+          <text x="${textX}" y="${textY}" font-size="${textFS}" fill="${color}" text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
+            ${Lib.getLetterFromNum(++Board.#numRow)}
+          </text>
+        `);
         for (let j = 1; j <= width / (chairWidth + chairSpacing); j++) {
           let surplus =
             width -
@@ -372,6 +380,15 @@ class Board {
       let result = "";
 
       for (let i = 1; i <= rows; i++) {
+        let textX = rX - bLength / 75;
+        let textY = rY + ((2 * i - 1) * rowLength) / 2;
+        let textFS = chairWidth * 1.5;
+
+        result = result.concat(`
+          <text x="${textX}" y="${textY}" font-size="${textFS}" fill="${color}" text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
+            ${Lib.getLetterFromNum(++Board.#numRow)}
+          </text>
+        `);
         for (
           let j = 1;
           j <=
@@ -609,15 +626,8 @@ class Board {
 
             Board.nextYPos = Math.max(Board.nextYPos, y + rows * rowLength);
 
-            let textX = x - bLength / 75;
-            let textY = y + (rows * rowLength) / 2;
-            let textFS = bLength / 50;
-
             result = result.concat(`
             <g id="${elemId}" style="cursor: pointer" tab-index="0">
-              <text x="${textX}" y="${textY}" font-size="${textFS}" fill="${color}" text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
-                ${id.replace(/\-\-\w+/g, "")}
-              </text>
               <rect 
                 x="${x}"
                 y="${y}"
@@ -643,15 +653,8 @@ class Board {
 
             Board.nextYPos = Math.max(Board.nextYPos, y + rows * rowLength);
 
-            let textX = x - bLength / 75;
-            let textY = y + (rows * rowLength) / 2;
-            let textFS = bLength / 50;
-
             result = result.concat(`
             <g id="${elemId}" style="cursor: pointer" tab-index="0">
-              <text x="${textX}" y="${textY}" font-size="${textFS}" fill="${color}" text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
-                ${id.replace(/\-\-\w+/g, "")}
-              </text>
               <rect 
                 x="${x}"
                 y="${y}"
@@ -667,8 +670,15 @@ class Board {
             let { rows } = obj.content[id];
             Board.nextYPos = Math.max(Board.nextYPos, rows);
 
+            let textFS = bLength / 50;
+            let textX = x + width / 2;
+            let textY = y + rows / 2;
+
             result = result.concat(`
             <g id="${elemId}" style="cursor: pointer" tab-index="0">
+              <text x="${textX}" y="${textY}" font-size="${textFS}" fill="${color}" text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
+                Standing
+              </text>
               <rect 
                 x="${x}"
                 y="${y}"
@@ -702,6 +712,7 @@ class Board {
       </g>
     `;
 
+    this.#numRow = 0;
     return result;
   }
 }
