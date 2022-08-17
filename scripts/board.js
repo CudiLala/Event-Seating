@@ -381,6 +381,8 @@ class Board {
       tableSpacing,
       tableChairSpacing: chairSpacing,
       tableChairPositions: chairPositions,
+      tableVerticalRadius,
+      tableHorizontalRadius,
       color,
     }) {
       let result = "";
@@ -433,6 +435,8 @@ class Board {
             <rect 
               x="${x}"
               y="${y}"
+              rx="${tableVerticalRadius}"
+              ry="${tableHorizontalRadius}"
               width="${tableWidth}"
               height="${tableLength}"
               fill="transparent"

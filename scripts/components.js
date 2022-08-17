@@ -640,6 +640,16 @@ class Component {
             <label for="tcs-${rowProps.id}">Chair Spacing</label>
           </div>
         </div>
+        <div style="display: flex" class="group linear">
+          <div class="input-box">
+            <input type="number" id="tvr-${rowProps.id}" value="${rowProps.tableVerticalRadius}" />
+            <label for="tvr-${rowProps.id}">V Radius</label>
+          </div>
+          <div class="input-box">
+            <input type="number" id="thr-${rowProps.id}" value="${rowProps.tableHorizontalRadius}" />
+            <label for="thr-${rowProps.id}">H Radius</label>
+          </div>
+        </div>
         <div class="group">
           <div class="input-box">
             <label>Chair Position</label>
@@ -669,6 +679,8 @@ class Component {
       let tabsInput = elem.getElementById(`tabs-${rowProps.id}`);
       let tcwInput = elem.getElementById(`tcw-${rowProps.id}`);
       let tcsInput = elem.getElementById(`tcs-${rowProps.id}`);
+      let tvrInput = elem.getElementById(`tvr-${rowProps.id}`);
+      let thrInput = elem.getElementById(`thr-${rowProps.id}`);
       let chairPositionInputs = elem.querySelectorAll("[name='chair-pos']");
 
       rowlInput.addEventListener("input", () => {
@@ -688,6 +700,12 @@ class Component {
       });
       tcsInput.addEventListener("input", () => {
         setRowProps({ tableChairSpacing: Number(tcsInput.value) });
+      });
+      tvrInput.addEventListener("input", () => {
+        setRowProps({ tableVerticalRadius: Number(tvrInput.value) });
+      });
+      thrInput.addEventListener("input", () => {
+        setRowProps({ tableHorizontalRadius: Number(thrInput.value) });
       });
 
       for (let chairPositionInput of chairPositionInputs) {

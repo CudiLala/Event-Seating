@@ -64,6 +64,8 @@ class Lib {
       tableSpacing: 0.5,
       tableChairWidth: 0.5,
       tableChairSpacing: 0.25,
+      tableVerticalRadius: 0,
+      tableHorizontalRadius: 0,
       tableChairPositions: ["north", "south", "east", "west"],
     });
 
