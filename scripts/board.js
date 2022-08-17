@@ -175,7 +175,13 @@ class Board {
     delete this.#store.content[`${id}--e`];
     delete this.#store.content[`${id}--s`];
 
-    if (item.y + item.rows * item.rowLength >= Board.nextYPos)
+    if (
+      (item.type == "seat" &&
+        item.y + item.rows * item.rowLength >= Board.nextYPos) ||
+      (item.type == "table-seat" &&
+        item.y + item.rows * item.tableRowLength >= Board.nextYPos) ||
+      (item.type == "standing" && item.y + item.rows >= Board.nextYPos)
+    )
       Board.nextYPos = item.y;
 
     Lib.emptySideBar();
