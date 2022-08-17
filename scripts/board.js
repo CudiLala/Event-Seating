@@ -123,7 +123,8 @@ class Board {
     let result = `Row-group-${num}`;
     let ids = Object.keys(this.#store.content);
 
-    if (ids.includes(result)) result = this.getUniqueRowId(num + 1);
+    if (ids.some((id) => id.includes(result)))
+      result = this.getUniqueRowId(num + 1);
 
     return result;
   }
@@ -640,7 +641,8 @@ class Board {
           );
         } else if (objType === "Row") {
           if (type == "seat") {
-            let { rows, rowLength, chairWidth, chairSpacing } = obj.content[id];
+            let { rows, rowLength, chairWidth, chairSpacing, rowColor } =
+              obj.content[id];
 
             Board.nextYPos = Math.max(Board.nextYPos, y + rows * rowLength);
 
@@ -651,7 +653,7 @@ class Board {
                 y="${y}"
                 width="${width}"
                 height="${rows * rowLength}"
-                fill="transparent"
+                fill="${Lib.getRowColorRgb(rowColor)}"
                 stroke="${color}"
                 stroke-width="${strokeWidth}"
               />
@@ -667,7 +669,7 @@ class Board {
               })} 
            </g>`);
           } else if (type == "table-seat") {
-            let { rows, tableRowLength: rowLength } = obj.content[id];
+            let { rows, tableRowLength: rowLength, rowColor } = obj.content[id];
 
             Board.nextYPos = Math.max(Board.nextYPos, y + rows * rowLength);
 
@@ -678,14 +680,14 @@ class Board {
                 y="${y}"
                 width="${width}"
                 height="${rows * rowLength}"
-                fill="transparent"
+                fill="${Lib.getRowColorRgb(rowColor)}"
                 stroke="${color}"
                 stroke-width="${strokeWidth}"
               />
               ${addTable({ color, ...obj.content[id] })}
            </g>`);
           } else {
-            let { rows } = obj.content[id];
+            let { rows, rowColor } = obj.content[id];
             Board.nextYPos = Math.max(Board.nextYPos, rows);
 
             let textFS = bLength / 50;
@@ -702,7 +704,7 @@ class Board {
                 y="${y}"
                 width="${width}"
                 height="${rows}"
-                fill="transparent"
+                fill="${Lib.getRowColorRgb(rowColor)}"
                 stroke="${color}"
                 stroke-width="${strokeWidth}"
               />

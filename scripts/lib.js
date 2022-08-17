@@ -55,6 +55,7 @@ class Lib {
       y: Board.nextYPos,
       width: Board.arenaSize.width - Board.arenaSize.width / 25,
       rows: 2,
+      rowColor: "none",
       chairWidth: 0.5,
       rowLength: 1,
       chairSpacing: 0.3,
@@ -97,6 +98,16 @@ class Lib {
     if (typeof b == "number") b = String.fromCharCode(64 + b);
 
     return b.concat(a);
+  }
+
+  static getRowColorRgb(rowColor) {
+    if (!rowColor || rowColor == "none") return "rgba(255, 255, 255, 0)";
+    if (rowColor == "red") return "rgba(255, 0, 0, 0.035)";
+    if (rowColor == "orange") return "rgba(255, 177, 0, 0.04)";
+    if (rowColor == "yellow") return "rgba(255, 255, 0, 0.04)";
+    if (rowColor == "green") return "rgba(0, 255, 0, 0.04)";
+    if (rowColor == "blue-green") return "rgba(0, 255, 255, 0.03)";
+    if (rowColor == "blue") return "rgba(0, 0, 255, 0.03)";
   }
 
   /**
