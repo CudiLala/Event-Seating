@@ -319,9 +319,9 @@ class Board {
       let result = "";
 
       for (let i = 1; i <= rows; i++) {
-        let textX = x - bLength / 75;
+        let textFS = Math.min(bLength / 100, chairWidth * 1.2);
+        let textX = x - textFS;
         let textY = y + ((2 * i - 1) * rowLength) / 2;
-        let textFS = chairWidth * 1.2;
 
         result = result.concat(`
           <text x="${textX}" y="${textY}" font-size="${textFS}" fill="${color}" text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
@@ -346,7 +346,7 @@ class Board {
 
           result = result.concat(`
             <text x="${cx}" y="${cy}" font-size="${textFS}" fill="${color}" text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
-              ${(i - 1) * Math.floor(width / (chairWidth + chairSpacing)) + j}
+              ${j}
             </text>
             <circle 
               cx="${cx}" 
@@ -380,9 +380,9 @@ class Board {
       let result = "";
 
       for (let i = 1; i <= rows; i++) {
-        let textX = rX - bLength / 75;
+        let textFS = Math.min(bLength / 75, chairWidth * 1.5);
+        let textX = rX - textFS;
         let textY = rY + ((2 * i - 1) * rowLength) / 2;
-        let textFS = chairWidth * 1.5;
 
         result = result.concat(`
           <text x="${textX}" y="${textY}" font-size="${textFS}" fill="${color}" text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
@@ -416,7 +416,14 @@ class Board {
             chairWidth +
             (rowLength - (tableLength + 2 * chairWidth)) / 2;
 
+          let textX = x + tableWidth / 2;
+          let textY = y + tableLength / 2;
+          let textFS = Math.min(bLength / 75, tableLength / 2);
+
           result = result.concat(`
+            <text x="${textX}" y="${textY}" font-size="${textFS}" fill="${color}" text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
+              T${j}
+            </text>
             <rect 
               x="${x}"
               y="${y}"
@@ -579,8 +586,9 @@ class Board {
       if (!obj.content) return "";
 
       let result = "";
+      let objContentIds = Object.keys(obj.content).sort();
 
-      for (let id in obj.content) {
+      for (let id of objContentIds) {
         let { x, y, width, length, name, type } = obj.content[id];
 
         let textFS = Math.min(
