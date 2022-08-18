@@ -313,6 +313,8 @@ class Board {
     let bLength = Number(this.#store.size.length);
     let strokeWidth = 0.001 * ((bWidth + bLength) / 2);
 
+    Board.nextYPos = 0;
+
     function addSeating({
       x,
       y,
@@ -622,7 +624,8 @@ class Board {
             : "";
 
         if (objType === "Area") {
-          if (y >= Board.nextYPos) Board.nextYPos = y + length;
+          Board.nextYPos = Math.max(Board.nextYPos, y + length);
+
           result = result.concat(
             `<g id="${elemId}" fill="transparent" style="cursor: pointer" tab-index="0">
               <text x="${textX}" y="${textY}" font-size="${textFS}" fill="${color}" text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">

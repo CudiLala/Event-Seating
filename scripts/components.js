@@ -303,12 +303,13 @@ class Component {
             <label style="order: 0">Color</label>
             <div class="color-form-field" id="cff-${rowObj.id}">
               <div class="none" name="none"></div>
-              <div class="red" name="red"></div>
-              <div class="orange" name="orange"></div>
+              <div class="grey" name="grey"></div>
               <div class="yellow" name="yellow"></div>
               <div class="green" name="green"></div>
               <div class="blue-green" name="blue-green"></div>
               <div class="blue" name="blue"></div>
+              <div class="purple" name="purple"></div>
+              <div class="red" name="red"></div>
             </div>
           </div>
         </div>

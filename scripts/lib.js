@@ -102,12 +102,14 @@ class Lib {
 
   static getRowColorRgb(rowColor) {
     if (!rowColor || rowColor == "none") return "rgba(255, 255, 255, 0)";
-    if (rowColor == "red") return "rgba(255, 0, 0, 0.035)";
-    if (rowColor == "orange") return "rgba(255, 177, 0, 0.04)";
-    if (rowColor == "yellow") return "rgba(255, 255, 0, 0.04)";
-    if (rowColor == "green") return "rgba(0, 255, 0, 0.04)";
-    if (rowColor == "blue-green") return "rgba(0, 255, 255, 0.03)";
-    if (rowColor == "blue") return "rgba(0, 0, 255, 0.03)";
+    if (rowColor == "grey") return "rgba(127, 127, 127, 0.1)";
+    if (rowColor == "yellow") return "rgba(255, 255, 0, 0.1)";
+    if (rowColor == "green") return "rgba(0, 255, 0, 0.1)";
+    if (rowColor == "blue-green") return "rgba(0, 255, 255, 0.1)";
+    if (rowColor == "blue") return "rgba(0, 0, 255, 0.1)";
+    if (rowColor == "purple") return "rgba(255, 0, 255, 0.1)";
+    if (rowColor == "red") return "rgba(255, 0, 0, 0.1)";
+    return "rgba(255, 255, 255, 0)";
   }
 
   /**
