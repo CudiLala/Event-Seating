@@ -54,7 +54,7 @@ class Lib {
       x: Board.arenaSize.width / 50,
       y: Board.nextYPos,
       width: Board.arenaSize.width - Board.arenaSize.width / 25,
-      rows: 2,
+      rows: 1,
       rowColor: "none",
       rowCapacity: 1,
       chairWidth: 0.5,
@@ -166,6 +166,14 @@ class Lib {
     fragement.append(...div.children);
 
     return fragement;
+  }
+
+  static rowIdSortFn(a, b) {
+    if (!/Row-group-\d+/.test(a) || !/Row-group-\d+/.test(b)) return 0;
+    let numA = a.match(/\d+/)[0];
+    let numB = b.match(/\d+/)[0];
+
+    return numA - numB;
   }
 
   static showAreaEditor(areaObj) {

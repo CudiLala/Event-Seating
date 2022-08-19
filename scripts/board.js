@@ -119,14 +119,16 @@ class Board {
     return result;
   }
 
-  static getUniqueRowId(num = 1) {
-    let result = `Row-group-${num}`;
+  static getUniqueRowId() {
     let ids = Object.keys(this.#store.content);
+    ids = ids.filter((id) => /Row-group-\d+/.test(id));
 
-    if (ids.some((id) => id.includes(result)))
-      result = this.getUniqueRowId(num + 1);
+    if (ids.length === 0) return `Row-group-1`;
 
-    return result;
+    let lastId = ids.sort(Lib.rowIdSortFn)[ids.length - 1];
+    let lastNum = lastId.match(/\d+/)[0];
+
+    return `Row-group-${Number(lastNum) + 1}`;
   }
 
   static init() {
@@ -599,7 +601,7 @@ class Board {
       if (!obj.content) return "";
 
       let result = "";
-      let objContentIds = Object.keys(obj.content).sort();
+      let objContentIds = Object.keys(obj.content).sort(Lib.rowIdSortFn);
 
       for (let id of objContentIds) {
         let { x, y, width, length, name, type } = obj.content[id];
