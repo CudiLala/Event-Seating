@@ -54,7 +54,7 @@ class Lib {
       x: Board.arenaSize.width / 50,
       y: Board.nextYPos,
       width: Board.arenaSize.width - Board.arenaSize.width / 25,
-      rows: 1,
+      rows: 2,
       rowColor: "none",
       rowCapacity: 1,
       chairWidth: 0.5,
