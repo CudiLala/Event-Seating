@@ -581,9 +581,7 @@ class Component {
       elem = Lib.parseHtml(`
         <div style="display: flex">
           <div class="input-box">
-            <input type="number" id="stand-${rowProps.id}" name="stand-${
-        rowProps.id
-      }" value="${rowProps.rowCapacity || 1}"/>
+            <input type="number" id="stand-${rowProps.id}" name="stand-${rowProps.id}" value="${rowProps.rowCapacity}"/>
             <label for="stand-${rowProps.id}">Row Capacity</label>
           </div>
           <div class="input-box">
@@ -591,6 +589,11 @@ class Component {
           </div>
         </div>
       `);
+
+      let standInput = elem.getElementById(`stand-${rowProps.id}`);
+      standInput.addEventListener("input", () => {
+        setRowProps({ rowCapacity: Number(standInput.value) });
+      });
     } else if (rowType === "seat") {
       elem = Lib.parseHtml(`
         <div style="display: flex" class="group linear">

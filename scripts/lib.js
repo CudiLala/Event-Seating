@@ -56,6 +56,7 @@ class Lib {
       width: Board.arenaSize.width - Board.arenaSize.width / 25,
       rows: 2,
       rowColor: "none",
+      rowCapacity: 1,
       chairWidth: 0.5,
       rowLength: 1,
       chairSpacing: 0.3,

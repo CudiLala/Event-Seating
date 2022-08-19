@@ -690,17 +690,21 @@ class Board {
               ${addTable({ color, ...obj.content[id] })}
            </g>`);
           } else {
-            let { rows, rowColor } = obj.content[id];
-            Board.nextYPos = Math.max(Board.nextYPos, rows);
+            let { rows, rowColor, rowCapacity } = obj.content[id];
+            Board.nextYPos = Math.max(Board.nextYPos, y + rows);
 
             let textFS = bLength / 50;
             let textX = x + width / 2;
-            let textY = y + rows / 2;
+            let textY1 = y + rows / 2 - textFS / 2;
+            let textY2 = y + rows / 2 + textFS / 2;
 
             result = result.concat(`
             <g id="${elemId}" style="cursor: pointer" tab-index="0">
-              <text x="${textX}" y="${textY}" font-size="${textFS}" fill="${color}" text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
+              <text x="${textX}" y="${textY1}" font-size="${textFS}" fill="${color}" text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
                 Standing
+              </text>
+              <text x="${textX}" y="${textY2}" font-size="${textFS}" fill="${color}" text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
+                Row Capacity: ${rows * rowCapacity}
               </text>
               <rect 
                 x="${x}"
