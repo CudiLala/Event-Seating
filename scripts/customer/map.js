@@ -3,6 +3,7 @@ class Map {
     size: { width: 0, length: 0 },
     content: {},
   };
+  static #numRow = 0;
 
   static addEventListeners() {}
 
@@ -53,6 +54,11 @@ class Map {
         let textX = x - textFS;
         let textY = y + ((2 * i - 1) * rowLength) / 2;
 
+        result = result.concat(`
+          <text x="${textX}" y="${textY}" font-size="${textFS}" fill="${color}" text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
+            ${Lib.getLetterFromNum(++Map.#numRow)}
+          </text>
+        `);
         for (let j = 1; j <= width / (chairWidth + chairSpacing); j++) {
           let surplus =
             width -
@@ -70,6 +76,9 @@ class Map {
           let textFS = 1.5 * r;
 
           result = result.concat(`
+            <text x="${cx}" y="${cy}" font-size="${textFS}" fill="${color}" text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
+              ${j}
+            </text>
             <circle 
               cx="${cx}" 
               cy="${cy}" 
@@ -108,6 +117,11 @@ class Map {
         let textX = rX - textFS;
         let textY = rY + ((2 * i - 1) * rowLength) / 2;
 
+        result = result.concat(`
+          <text x="${textX}" y="${textY}" font-size="${textFS}" fill="${color}" text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
+            ${Lib.getLetterFromNum(++Map.#numRow)}
+          </text>
+        `);
         for (
           let j = 1;
           j <=
@@ -140,6 +154,9 @@ class Map {
           let textFS = Math.min(bLength / 75, tableLength / 2);
 
           result = result.concat(`
+            <text x="${textX}" y="${textY}" font-size="${textFS}" fill="${color}" text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
+              T${j}
+            </text>
             <rect 
               x="${x}"
               y="${y}"
@@ -390,6 +407,7 @@ class Map {
            </g>`);
           } else {
             let { rows, rowColor, rowCapacity } = obj.content[id];
+
             let textFS = bLength / 50;
             let textX = x + width / 2;
             let textY1 = y + rows / 2 - textFS / 2;
@@ -436,6 +454,7 @@ class Map {
       </g>
     `;
 
+    Map.#numRow = 0;
     return result;
   }
 }

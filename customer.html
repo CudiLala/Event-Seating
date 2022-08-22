@@ -11,65 +11,81 @@
   <body>
     <header class="header">
       <div class="padder">
-        <div></div>
-        <div class="cart">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="ionicon"
-            width="100%"
-            height="100%"
-            viewBox="0 0 512 512"
-          >
-            <circle
-              cx="176"
-              cy="416"
-              r="16"
-              fill="none"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="32"
-            />
-            <circle
-              cx="400"
-              cy="416"
-              r="16"
-              fill="none"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="32"
-            />
-            <path
-              fill="none"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="32"
-              d="M48 80h64l48 272h256"
-            />
-            <path
-              d="M160 288h249.44a8 8 0 007.85-6.43l28.8-144a8 8 0 00-7.85-9.57H128"
-              fill="none"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="32"
-            />
-          </svg>
-          <span style="margin-left: 4px">Cart</span>
+        <div>
+          <div class="info">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="ionicon"
+              width="100%"
+              height="100%"
+              viewBox="0 0 512 512"
+            >
+              <title>Help Circle</title>
+              <path
+                d="M256 80a176 176 0 10176 176A176 176 0 00256 80z"
+                fill="none"
+                stroke="currentColor"
+                stroke-miterlimit="10"
+                stroke-width="32"
+              />
+              <path
+                d="M200 202.29s.84-17.5 19.57-32.57C230.68 160.77 244 158.18 256 158c10.93-.14 20.69 1.67 26.53 4.45 10 4.76 29.47 16.38 29.47 41.09 0 26-17 37.81-36.37 50.8S251 281.43 251 296"
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-miterlimit="10"
+                stroke-width="28"
+              />
+              <circle cx="250" cy="348" r="20" fill="currentColor" />
+            </svg>
+            <span style="margin-left: 4px">Info</span>
+          </div>
+        </div>
+        <div>
+          <div class="c-magnifier">
+            <button id="zoom-scale-down" class="button">&minus;</button>
+            Zoom
+            <button id="zoom-scale-up" class="button">&plus;</button>
+          </div>
+        </div>
+        <div>
+          <div class="cart">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="ionicon"
+              width="100%"
+              height="100%"
+              viewBox="0 0 512 512"
+            >
+              <path
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="32"
+                d="M352 176L217.6 336 160 272"
+              />
+              <rect
+                x="64"
+                y="64"
+                width="384"
+                height="384"
+                rx="48"
+                ry="48"
+                fill="none"
+                stroke="currentColor"
+                stroke-linejoin="round"
+                stroke-width="32"
+              />
+            </svg>
+            <span style="margin-left: 4px">Selected</span>
+          </div>
         </div>
       </div>
     </header>
     <main>
       <div class="main-display">
         <div class="board-container" id="board-container" style="display: flex">
-          <div class="magnifier" id="magnifier">
-            <div class="magnifier-container">
-              <button id="zoom-scale-down" class="button">&minus;</button>
-              <button id="zoom-scale-up" class="button">&plus;</button>
-            </div>
-          </div>
           <div class="board-box" id="board-box">
             <svg width="100%" height="100%" id="board"></svg>
           </div>
