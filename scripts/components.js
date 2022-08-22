@@ -459,6 +459,19 @@ class Component {
               <label for="table-seat-${rowProps.id}">Table and Seat</label>
             </div>
           </div>
+          <div class="input-box">
+            <label style="order: 0">Color</label>
+            <div class="color-form-field" id="cff-${rowProps.id}">
+              <div class="none" name="none"></div>
+              <div class="grey" name="grey"></div>
+              <div class="yellow" name="yellow"></div>
+              <div class="green" name="green"></div>
+              <div class="blue-green" name="blue-green"></div>
+              <div class="blue" name="blue"></div>
+              <div class="purple" name="purple"></div>
+              <div class="red" name="red"></div>
+            </div>
+          </div>
           <div class="input-container" style="margin-top: 8px">
             <p class="caption">Position</p>
             <p class="note">All values in meters</p>
@@ -515,6 +528,7 @@ class Component {
     let wInput = elem.getElementById(`w-${rowProps.id}`);
     let lInput = elem.getElementById(`l-${rowProps.id}`);
     let rowTypeInputs = elem.querySelectorAll("input[name='row-type']");
+    let rowColorInputs = elem.querySelectorAll(".color-form-field > div");
     let capacityDiv = elem.getElementById("t-capacity");
 
     elem.querySelector("form").addEventListener("submit", (e) => {
@@ -548,6 +562,12 @@ class Component {
     lInput.addEventListener("input", () => {
       setRowProps({ rows: Number(lInput.value) });
     });
+
+    for (let rowColorInput of rowColorInputs) {
+      rowColorInput.addEventListener("click", () => {
+        setRowProps({ rowColor: rowColorInput.getAttribute("name") });
+      });
+    }
 
     for (let rowTypeInput of rowTypeInputs) {
       rowTypeInput.addEventListener("click", () => {

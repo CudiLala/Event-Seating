@@ -1,9 +1,9 @@
-board.addEventListener("click", () => {
+board?.addEventListener("click", () => {
   Lib.emptySideBar();
   Lib.unselectBoardComponents();
 });
 
-sizeForm.addEventListener("submit", (ev) => {
+sizeForm?.addEventListener("submit", (ev) => {
   ev.preventDefault();
 
   let width = sizeForm.width.value;
@@ -13,63 +13,63 @@ sizeForm.addEventListener("submit", (ev) => {
   State.display = "board";
 });
 
-toolNew.addEventListener("click", () => {
+toolNew?.addEventListener("click", () => {
   App.renew();
   Lib.emptySideBar();
   Lib.slideOutToolForm();
 });
 
-toolArea.addEventListener("click", () => {
+toolArea?.addEventListener("click", () => {
   if (State.display == "board") Lib.displayAreaForm();
 });
 
-toolRow.addEventListener("click", () => {
+toolRow?.addEventListener("click", () => {
   if (State.display == "board") Lib.displayRowForm();
 });
 
-toolToggleFullscreen.addEventListener("click", () => {
+toolToggleFullscreen?.addEventListener("click", () => {
   if (!document.fullscreenEnabled) return;
 
   if (document.fullscreenElement) document.exitFullscreen();
   else root.requestFullscreen();
 });
 
-toolGenerateJson.addEventListener("click", () => {
+toolGenerateJson?.addEventListener("click", () => {
   if (State.display == "board") {
     console.log("click generate json");
   }
 });
 
-zoomScaleUp.addEventListener("click", () => {
+zoomScaleUp?.addEventListener("click", () => {
   State.scale += 0.04;
 });
-zoomScaleUp.addEventListener("mousedown", () => {
+zoomScaleUp?.addEventListener("mousedown", () => {
   Lib.startContinousScaleUpAfter500ms();
 });
-zoomScaleUp.addEventListener("mouseup", () => {
+zoomScaleUp?.addEventListener("mouseup", () => {
   Lib.stopContinousScale();
 });
-zoomScaleUp.addEventListener("mouseleave", () => {
+zoomScaleUp?.addEventListener("mouseleave", () => {
   //implemented this due to chrome bugs
   Lib.stopContinousScale();
 });
 
-zoomScaleDown.addEventListener("click", () => {
+zoomScaleDown?.addEventListener("click", () => {
   State.scale -= 0.04;
 });
-zoomScaleDown.addEventListener("mousedown", () => {
+zoomScaleDown?.addEventListener("mousedown", () => {
   Lib.startContinousScaleDownAfter500ms();
 });
-zoomScaleDown.addEventListener("mouseup", () => {
+zoomScaleDown?.addEventListener("mouseup", () => {
   Lib.stopContinousScale();
 });
-zoomScaleDown.addEventListener("mouseleave", () => {
+zoomScaleDown?.addEventListener("mouseleave", () => {
   //implemented this due to chrome bugs
   Lib.stopContinousScale();
 });
 
 document.addEventListener("fullscreenchange", () => {
-  if (document.fullscreenElement)
+  if (document.fullscreenElement && toolToggleFullscreen)
     toolToggleFullscreen.innerText = "Exit Fullscreen";
   else toolToggleFullscreen.innerText = "Enter Fullscreen";
 });

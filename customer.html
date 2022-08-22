@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Customer Seating Reservation Application</title>
+    <link rel="stylesheet" href="/styles/index.css" />
+  </head>
+  <body>
+    <main>
+      <div class="side-bar" style="height: 100vh"></div>
+      <div class="main-display">
+        <div class="board-container" id="board-container" style="display: flex">
+          <div class="magnifier" id="magnifier">
+            <div class="magnifier-container">
+              <button id="zoom-scale-down" class="button">&minus;</button>
+              <button id="zoom-scale-up" class="button">&plus;</button>
+            </div>
+          </div>
+          <div class="board-box" id="board-box">
+            <svg width="100%" height="100%" id="board"></svg>
+          </div>
+        </div>
+      </div>
+      <script src="/scripts/customer/index.js"></script>
+      <script src="/scripts/index.js"></script>
+      <script src="/scripts/board.js"></script>
+      <script src="/scripts/lib.js"></script>
+      <script src="/scripts/events.js"></script>
+      <script src="/scripts/board.js"></script>
+      <script src="/scripts/components.js"></script>
+      <script src="/scripts/state.js"></script>
+      <script src="/scripts/domEventListeners.js"></script>
+    </main>
+  </body>
+</html>
