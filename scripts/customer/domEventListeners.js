@@ -1,44 +1,4 @@
-board?.addEventListener("click", () => {
-  Lib.emptySideBar();
-  Lib.unselectBoardComponents();
-});
-
-sizeForm?.addEventListener("submit", (ev) => {
-  ev.preventDefault();
-
-  let width = sizeForm.width.value;
-  let length = sizeForm.length.value;
-
-  Board.arenaSize = { width, length };
-  State.display = "board";
-});
-
-toolNew?.addEventListener("click", () => {
-  App.renew();
-  Lib.emptySideBar();
-  Lib.slideOutToolForm();
-});
-
-toolArea?.addEventListener("click", () => {
-  if (State.display == "board") Lib.displayAreaForm();
-});
-
-toolRow?.addEventListener("click", () => {
-  if (State.display == "board") Lib.displayRowForm();
-});
-
-toolToggleFullscreen?.addEventListener("click", () => {
-  if (!document.fullscreenEnabled) return;
-
-  if (document.fullscreenElement) document.exitFullscreen();
-  else root.requestFullscreen();
-});
-
-toolGenerateJson?.addEventListener("click", () => {
-  if (State.display == "board") {
-    console.log("click generate json");
-  }
-});
+board?.addEventListener("click", () => {});
 
 zoomScaleUp?.addEventListener("click", () => {
   State.scale += 0.04;
