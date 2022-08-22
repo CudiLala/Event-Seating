@@ -86,6 +86,7 @@ class Map {
               stroke="${color}" 
               fill="transparent"
               stroke-width="${strokeWidth}" 
+              style="cursor: pointer"
             />
           `);
         }
@@ -167,6 +168,7 @@ class Map {
               fill="transparent"
               stroke="${color}"
               stroke-width="${strokeWidth}"
+              style="cursor: pointer"
             />          
           `);
 
@@ -202,6 +204,7 @@ class Map {
                   fill="transparent"
                   stroke="${color}"
                   stroke-width="${strokeWidth}"
+                  style="cursor: pointer"
                 />
               `);
             }
@@ -238,6 +241,7 @@ class Map {
                   fill="transparent"
                   stroke="${color}"
                   stroke-width="${strokeWidth}"
+                  style="cursor: pointer"
                 />
               `);
             }
@@ -273,6 +277,7 @@ class Map {
                   fill="transparent"
                   stroke="${color}"
                   stroke-width="${strokeWidth}"
+                  style="cursor: pointer"
                 />
               `);
             }
@@ -308,6 +313,7 @@ class Map {
                   fill="transparent"
                   stroke="${color}"
                   stroke-width="${strokeWidth}"
+                  style="cursor: pointer"
                 />
               `);
             }
@@ -347,7 +353,7 @@ class Map {
 
         if (objType === "Area") {
           result = result.concat(
-            `<g id="${elemId}" fill="transparent" style="cursor: pointer" tab-index="0">
+            `<g id="${elemId}" fill="transparent" tab-index="0">
               <text x="${textX}" y="${textY}" font-size="${textFS}" fill="${color}" text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
                 ${name}
               </text>
@@ -368,7 +374,7 @@ class Map {
               obj.content[id];
 
             result = result.concat(`
-            <g id="${elemId}" style="cursor: pointer" tab-index="0">
+            <g id="${elemId}" tab-index="0">
               <rect 
                 x="${x}"
                 y="${y}"
@@ -393,7 +399,7 @@ class Map {
             let { rows, tableRowLength: rowLength, rowColor } = obj.content[id];
 
             result = result.concat(`
-            <g id="${elemId}" style="cursor: pointer" tab-index="0">
+            <g id="${elemId}" tab-index="0">
               <rect 
                 x="${x}"
                 y="${y}"
