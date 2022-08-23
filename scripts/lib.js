@@ -3,6 +3,16 @@ class Lib {
   /**
    * @param  {...HTMLButtonElement|HTMLInputElement} elems
    */
+
+  static colorMapItem(elem) {
+    board
+      .querySelectorAll("[id^='seat'], [id^='table'], [id^='stand']")
+      .forEach((elem) => {
+        elem.setAttribute("fill", "transparent");
+      });
+    if (elem) elem.setAttribute("fill", "#97c7ff");
+  }
+
   static disableElements(...elems) {
     for (let elem of elems) {
       elem.disabled = true;
@@ -124,6 +134,15 @@ class Lib {
     };
   }
 
+  static getBottomAndCenterPosition(elem) {
+    let { left, width, bottom } = elem.getBoundingClientRect();
+
+    return {
+      x: left + width / 2,
+      y: bottom,
+    };
+  }
+
   static displayRowCapacityFormSection(
     capacityDiv,
     inputElem,
@@ -158,6 +177,35 @@ class Lib {
     this.showRowEditor(rowObj);
   }
 
+  static moveSeatClipboard(elem) {
+    Lib.colorMapItem(elem);
+    let { x, y } = Lib.getBottomAndCenterPosition(elem);
+    let left = seatClipBoard.getBoundingClientRect().width / 2;
+
+    seatClipBoard.style.transform = `translate(${x - left}px, ${y + 2}px)`;
+    seatClipBoard.classList.add("active");
+
+    let elemId = "";
+    let type = "";
+
+    if (elem.id.startsWith("stand")) {
+      elemId = elem.id.slice(6);
+      type = "Stand";
+    } else if (elem.id.startsWith("seat")) {
+      elemId = elem.id.slice(5);
+      type = "Seat";
+    } else if (elem.id.startsWith("table-seat")) {
+      elemId = elem.id.slice(11);
+      type = "Table-seat";
+    } else if (elem.id.startsWith("table")) {
+      elemId = elem.id.slice(6);
+      type = "Table";
+    }
+
+    seatClipBoard.innerHTML = "";
+    seatClipBoard.append(Component.seatClipboard(type, elemId));
+  }
+
   static parseHtml(htmlstring) {
     let div = document.createElement("div");
     let fragement = new DocumentFragment();
@@ -166,6 +214,11 @@ class Lib {
     fragement.append(...div.children);
 
     return fragement;
+  }
+
+  static removeSeatClipboard() {
+    Lib.colorMapItem();
+    seatClipBoard.classList.remove("active");
   }
 
   static rowIdSortFn(a, b) {

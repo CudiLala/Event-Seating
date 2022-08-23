@@ -774,4 +774,18 @@ class Component {
 
     return elem;
   }
+
+  static seatClipboard(type, elemId) {
+    console.log(type, elemId);
+    let elem = Lib.parseHtml(`
+      <div class="head">
+        <p>${type} ${elemId}</p>
+      </div>
+      <div class="body">
+        <button type="button">Select</button>
+      </div>
+    `);
+
+    return elem;
+  }
 }

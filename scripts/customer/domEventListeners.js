@@ -1,7 +1,13 @@
-board?.addEventListener("click", () => {});
+board.addEventListener("click", (e) => {
+  Lib.removeSeatClipboard();
+});
+boardBox.addEventListener("scroll", () => {
+  Lib.removeSeatClipboard();
+});
 
 zoomScaleUp?.addEventListener("click", () => {
   State.scale += 0.04;
+  Lib.removeSeatClipboard();
 });
 zoomScaleUp?.addEventListener("mousedown", () => {
   Lib.startContinousScaleUpAfter500ms();
@@ -16,6 +22,7 @@ zoomScaleUp?.addEventListener("mouseleave", () => {
 
 zoomScaleDown?.addEventListener("click", () => {
   State.scale -= 0.04;
+  Lib.removeSeatClipboard();
 });
 zoomScaleDown?.addEventListener("mousedown", () => {
   Lib.startContinousScaleDownAfter500ms();

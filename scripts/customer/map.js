@@ -5,7 +5,26 @@ class Map {
   };
   static #numRow = 0;
 
-  static addEventListeners() {}
+  static addEventListeners() {
+    board.querySelectorAll("[id^='seat']").forEach((seat) => {
+      seat.addEventListener("click", (e) => {
+        e.stopPropagation();
+        Lib.moveSeatClipboard(seat);
+      });
+    });
+    board.querySelectorAll("[id^='table']").forEach((table) => {
+      table.addEventListener("click", (e) => {
+        e.stopPropagation();
+        Lib.moveSeatClipboard(table);
+      });
+    });
+    board.querySelectorAll("[id^='stand']").forEach((stand) => {
+      stand.addEventListener("click", (e) => {
+        e.stopPropagation();
+        Lib.moveSeatClipboard(stand);
+      });
+    });
+  }
 
   static init() {
     let store = localStorage.getItem("board");
@@ -53,12 +72,8 @@ class Map {
         let textFS = Math.min(bLength / 100, chairWidth * 1.2);
         let textX = x - textFS;
         let textY = y + ((2 * i - 1) * rowLength) / 2;
+        let text = Lib.getLetterFromNum(++Map.#numRow);
 
-        result = result.concat(`
-          <text x="${textX}" y="${textY}" font-size="${textFS}" fill="${color}" text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
-            ${Lib.getLetterFromNum(++Map.#numRow)}
-          </text>
-        `);
         for (let j = 1; j <= width / (chairWidth + chairSpacing); j++) {
           let surplus =
             width -
@@ -87,9 +102,17 @@ class Map {
               fill="transparent"
               stroke-width="${strokeWidth}" 
               style="cursor: pointer"
+              name="seat-${text}-${j}"
+              id="seat-${text}-${j}"
             />
           `);
         }
+
+        result = result.concat(`
+          <text x="${textX}" y="${textY}" font-size="${textFS}" fill="${color}" text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
+            ${text}
+          </text>
+        `);
       }
 
       return result;
@@ -117,12 +140,8 @@ class Map {
         let textFS = Math.min(bLength / 75, chairWidth * 1.5);
         let textX = rX - textFS;
         let textY = rY + ((2 * i - 1) * rowLength) / 2;
+        let text = Lib.getLetterFromNum(++Map.#numRow);
 
-        result = result.concat(`
-          <text x="${textX}" y="${textY}" font-size="${textFS}" fill="${color}" text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
-            ${Lib.getLetterFromNum(++Map.#numRow)}
-          </text>
-        `);
         for (
           let j = 1;
           j <=
@@ -155,9 +174,6 @@ class Map {
           let textFS = Math.min(bLength / 75, tableLength / 2);
 
           result = result.concat(`
-            <text x="${textX}" y="${textY}" font-size="${textFS}" fill="${color}" text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
-              T${j}
-            </text>
             <rect 
               x="${x}"
               y="${y}"
@@ -168,9 +184,16 @@ class Map {
               fill="transparent"
               stroke="${color}"
               stroke-width="${strokeWidth}"
+              name="table-${text}-T${j}"
+              id="table-${text}-T${j}"
               style="cursor: pointer"
             />          
+            <text x="${textX}" y="${textY}" font-size="${textFS}" fill="${color}" text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
+              T${j}
+            </text>
           `);
+
+          let numChairs = 0;
 
           if (chairPositions.includes("north"))
             for (
@@ -205,84 +228,13 @@ class Map {
                   stroke="${color}"
                   stroke-width="${strokeWidth}"
                   style="cursor: pointer"
-                />
-              `);
-            }
-
-          if (chairPositions.includes("south"))
-            for (
-              let k = 1;
-              k <= (tableWidth - chairSpacing) / (chairWidth + chairSpacing);
-              k++
-            ) {
-              let surplus =
-                tableWidth -
-                chairSpacing -
-                (chairWidth + chairSpacing) *
-                  Math.floor(
-                    (tableWidth - chairSpacing) / (chairWidth + chairSpacing)
-                  );
-
-              let r = chairWidth / 2;
-
-              let cx =
-                x +
-                ((2 * k - 1) * chairWidth) / 2 +
-                k * chairSpacing +
-                surplus / 2;
-
-              let cy = y + tableLength + r;
-
-              result = result.concat(`
-                <circle
-                  cx="${cx}"
-                  cy="${cy}"
-                  r="${r}"
-                  fill="transparent"
-                  stroke="${color}"
-                  stroke-width="${strokeWidth}"
-                  style="cursor: pointer"
+                  name="table-seat-${text}-T${j}-${++numChairs}"
+                  id="table-seat-${text}-T${j}-${numChairs}"
                 />
               `);
             }
 
           if (chairPositions.includes("east"))
-            for (
-              let k = 1;
-              k <= (tableLength - chairSpacing) / (chairWidth + chairSpacing);
-              k++
-            ) {
-              let surplus =
-                tableLength -
-                chairSpacing -
-                (chairWidth + chairSpacing) *
-                  Math.floor(
-                    (tableLength - chairSpacing) / (chairWidth + chairSpacing)
-                  );
-
-              let r = chairWidth / 2;
-              let cx = x - r;
-
-              let cy =
-                y +
-                ((2 * k - 1) * chairWidth) / 2 +
-                k * chairSpacing +
-                surplus / 2;
-
-              result = result.concat(`
-                <circle 
-                  cx="${cx}"
-                  cy="${cy}"
-                  r="${r}"
-                  fill="transparent"
-                  stroke="${color}"
-                  stroke-width="${strokeWidth}"
-                  style="cursor: pointer"
-                />
-              `);
-            }
-
-          if (chairPositions.includes("west"))
             for (
               let k = 1;
               k <= (tableLength - chairSpacing) / (chairWidth + chairSpacing);
@@ -314,10 +266,95 @@ class Map {
                   stroke="${color}"
                   stroke-width="${strokeWidth}"
                   style="cursor: pointer"
+                  name="table-seat-${text}-T${j}-${++numChairs}"
+                  id="table-seat-${text}-T${j}-${numChairs}"
+                />
+              `);
+            }
+
+          if (chairPositions.includes("south"))
+            for (
+              let k = 1;
+              k <= (tableWidth - chairSpacing) / (chairWidth + chairSpacing);
+              k++
+            ) {
+              let tt = Math.floor(
+                (tableWidth - chairSpacing) / (chairWidth + chairSpacing)
+              );
+
+              let surplus =
+                tableWidth - chairSpacing - (chairWidth + chairSpacing) * tt;
+
+              let r = chairWidth / 2;
+
+              let cx =
+                x +
+                ((2 * k - 1) * chairWidth) / 2 +
+                k * chairSpacing +
+                surplus / 2;
+
+              let cy = y + tableLength + r;
+
+              result = result.concat(`
+                <circle
+                  cx="${cx}"
+                  cy="${cy}"
+                  r="${r}"
+                  fill="transparent"
+                  stroke="${color}"
+                  stroke-width="${strokeWidth}"
+                  style="cursor: pointer"
+                  name="table-seat-${text}-T${j}-${
+                ++numChairs + tt - 2 * k + 1
+              }"
+                  id="table-seat-${text}-T${j}-${numChairs + tt - 2 * k + 1}"
+                />
+              `);
+            }
+
+          if (chairPositions.includes("west"))
+            for (
+              let k = 1;
+              k <= (tableLength - chairSpacing) / (chairWidth + chairSpacing);
+              k++
+            ) {
+              let tt = Math.floor(
+                (tableLength - chairSpacing) / (chairWidth + chairSpacing)
+              );
+              let surplus =
+                tableLength - chairSpacing - (chairWidth + chairSpacing) * tt;
+
+              let r = chairWidth / 2;
+              let cx = x - r;
+
+              let cy =
+                y +
+                ((2 * k - 1) * chairWidth) / 2 +
+                k * chairSpacing +
+                surplus / 2;
+
+              result = result.concat(`
+                <circle 
+                  cx="${cx}"
+                  cy="${cy}"
+                  r="${r}"
+                  fill="transparent"
+                  stroke="${color}"
+                  stroke-width="${strokeWidth}"
+                  style="cursor: pointer"
+                  name="table-seat-${text}-T${j}-${
+                ++numChairs + tt - 2 * k + 1
+              }"
+                  id="table-seat-${text}-T${j}-${numChairs + tt - 2 * k + 1}"
                 />
               `);
             }
         }
+        result = result.concat(`
+          <text x="${textX}" y="${textY}" font-size="${textFS}" fill="${color}" text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
+            ${text}
+          </text>
+        `);
       }
 
       return result;
@@ -338,11 +375,7 @@ class Map {
         );
         let textX = x + width / 2;
         let textY = y + length / 2;
-        let color = id.endsWith("--e")
-          ? "#00a929"
-          : id.endsWith("--s")
-          ? "#1760fd"
-          : "black";
+        let color = "black";
         let objType = id.startsWith("Area") ? "Area" : "Row";
         let elemId =
           objType === "Area"
@@ -418,15 +451,10 @@ class Map {
             let textX = x + width / 2;
             let textY1 = y + rows / 2 - textFS / 2;
             let textY2 = y + rows / 2 + textFS / 2;
+            let elemId = id.match(/\d+$/)?.[0];
 
             result = result.concat(`
-            <g id="${elemId}" style="cursor: pointer" tab-index="0">
-              <text x="${textX}" y="${textY1}" font-size="${textFS}" fill="${color}" text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
-                Standing
-              </text>
-              <text x="${textX}" y="${textY2}" font-size="${textFS}" fill="${color}" text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
-                Row Capacity: ${rows * rowCapacity}
-              </text>
+            <g  style="cursor: pointer" tab-index="0">
               <rect 
                 x="${x}"
                 y="${y}"
@@ -435,7 +463,15 @@ class Map {
                 fill="${Lib.getRowColorRgb(rowColor)}"
                 stroke="${color}"
                 stroke-width="${strokeWidth}"
+                id="stand-${elemId}" 
+                name="stand-${elemId}"
               />
+              <text x="${textX}" y="${textY1}" font-size="${textFS}" fill="${color}" text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
+                Standing
+              </text>
+              <text x="${textX}" y="${textY2}" font-size="${textFS}" fill="${color}" text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
+                Row Capacity: ${rows * rowCapacity}
+              </text>
             </g>
             `);
           }

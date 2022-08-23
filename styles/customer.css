@@ -16,7 +16,9 @@
   align-items: center;
   padding: 0;
   border: none;
-  background-color: none;
+  background-color: transparent;
+  color: white;
+  font-size: 15px;
 }
 .header .cart:hover {
   outline: none;
@@ -38,6 +40,7 @@
   border: none;
 
   background-color: #efeff3;
+  background-color: white;
   box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
 
   display: flex;
@@ -54,9 +57,51 @@
 .icon-w-num .num {
   position: absolute;
   background-color: red;
-  width: 12px;
-  height: 12px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
   bottom: 0;
   right: 0;
+  font-size: 10px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  font-family: Consolas, monospace;
+}
+
+#seat-clipboard {
+  position: absolute;
+  padding: 8px;
+  background-color: white;
+  z-index: 12;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+  transition: all 300ms;
+  opacity: 0;
+  visibility: hidden;
+  transform-origin: top left;
+}
+#seat-clipboard.active {
+  opacity: 1;
+  visibility: visible;
+}
+#seat-clipboard p {
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+}
+#seat-clipboard button {
+  color: white;
+  background-color: rgb(23, 96, 253);
+  border-radius: 5px;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+  font-weight: 400;
+  font-size: 14px;
+  border: none;
+  display: flex;
+  width: 75px;
+  margin: 4px auto 0;
+  justify-content: center;
+  padding: 4px;
+  text-align: center;
 }
