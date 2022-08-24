@@ -1,8 +1,17 @@
 class Lib {
-  static globalParams = {};
+  static globalParams = {
+    selectedSeats: [],
+  };
   /**
    * @param  {...HTMLButtonElement|HTMLInputElement} elems
    */
+
+  static addToSelectedSeats(text) {
+    this.globalParams.selectedSeats.push(text);
+    selectedCount.textContent = this.globalParams.selectedSeats.length;
+
+    Lib.updateSelectedModal();
+  }
 
   static colorMapItem(elem) {
     board
@@ -180,10 +189,6 @@ class Lib {
   static moveSeatClipboard(elem) {
     Lib.colorMapItem(elem);
     let { x, y } = Lib.getBottomAndCenterPosition(elem);
-    let left = seatClipBoard.getBoundingClientRect().width / 2;
-
-    seatClipBoard.style.transform = `translate(${x - left}px, ${y + 2}px)`;
-    seatClipBoard.classList.add("active");
 
     let elemId = "";
     let type = "";
@@ -204,6 +209,29 @@ class Lib {
 
     seatClipBoard.innerHTML = "";
     seatClipBoard.append(Component.seatClipboard(type, elemId));
+
+    if (
+      y + seatClipBoard.getBoundingClientRect().height + 30 >
+      window.innerHeight
+    )
+      y =
+        y -
+        elem.getBoundingClientRect().height -
+        seatClipBoard.getBoundingClientRect().height -
+        2;
+
+    if (seatClipBoard.classList.contains("active"))
+      seatClipBoard.style.transition = "";
+    else seatClipBoard.style.transition = "opacity 500ms";
+
+    let left = seatClipBoard.getBoundingClientRect().width / 2;
+
+    seatClipBoard.style.transform = `translate(${x - left}px, ${y + 2}px)`;
+    seatClipBoard.classList.add("active");
+  }
+
+  static isSeatSelected(text) {
+    return this.globalParams.selectedSeats.includes(text);
   }
 
   static parseHtml(htmlstring) {
@@ -219,6 +247,15 @@ class Lib {
   static removeSeatClipboard() {
     Lib.colorMapItem();
     seatClipBoard.classList.remove("active");
+  }
+
+  static removeSelectedSeat(text) {
+    this.globalParams.selectedSeats = this.globalParams.selectedSeats.filter(
+      (e) => e !== text
+    );
+
+    selectedCount.textContent = this.globalParams.selectedSeats.length;
+    Lib.updateSelectedModal();
   }
 
   static rowIdSortFn(a, b) {
@@ -279,5 +316,16 @@ class Lib {
     board.querySelectorAll("[id^='row']").forEach((row) => {
       Board.unselect(row.id.slice(4));
     });
+  }
+
+  static updateSelectedModal() {
+    let result = "";
+
+    this.globalParams.selectedSeats.forEach((text) => {
+      result = result.concat(`<p>${text}</p>`);
+    });
+
+    selectedModal.innerHTML = result;
+    console.log(selectedModal);
   }
 }

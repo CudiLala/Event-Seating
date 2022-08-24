@@ -776,15 +776,29 @@ class Component {
   }
 
   static seatClipboard(type, elemId) {
-    console.log(type, elemId);
     let elem = Lib.parseHtml(`
       <div class="head">
         <p>${type} ${elemId}</p>
       </div>
       <div class="body">
-        <button type="button">Select</button>
+        <button type="button">${
+          Lib.isSeatSelected(`${type} ${elemId}`) ? "Unselect" : "Select"
+        }</button>
       </div>
     `);
+
+    let text = elem.querySelector(".head p").textContent;
+    let button = elem.querySelector("button");
+
+    button.addEventListener("click", () => {
+      if (Lib.isSeatSelected(text)) {
+        Lib.removeSelectedSeat(text);
+        button.textContent = "Select";
+      } else {
+        Lib.addToSelectedSeats(text);
+        button.textContent = "Unselect";
+      }
+    });
 
     return elem;
   }

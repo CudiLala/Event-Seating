@@ -693,9 +693,19 @@ class Board {
            </g>`);
           } else {
             let { rows, rowColor, rowCapacity } = obj.content[id];
+            let tTextFS = bLength / 75;
+            let tTextX = x - tTextFS;
+            let tTextY = y + rows / 2;
+            let tText = Lib.getLetterFromNum(++Board.#numRow);
+
+            result = result.concat(`
+              <text x="${tTextX}" y="${tTextY}" font-size="${tTextFS}" fill="${color}" text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
+                ${tText}
+              </text>`);
+
             Board.nextYPos = Math.max(Board.nextYPos, y + rows);
 
-            let textFS = bLength / 50;
+            let textFS = bLength / 60;
             let textX = x + width / 2;
             let textY1 = y + rows / 2 - textFS / 2;
             let textY2 = y + rows / 2 + textFS / 2;

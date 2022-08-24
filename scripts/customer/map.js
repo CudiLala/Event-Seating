@@ -142,6 +142,11 @@ class Map {
         let textY = rY + ((2 * i - 1) * rowLength) / 2;
         let text = Lib.getLetterFromNum(++Map.#numRow);
 
+        result = result.concat(`
+          <text x="${textX}" y="${textY}" font-size="${textFS}" fill="${color}" text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
+            ${text}
+          </text>`);
+
         for (
           let j = 1;
           j <=
@@ -350,11 +355,6 @@ class Map {
               `);
             }
         }
-        result = result.concat(`
-          <text x="${textX}" y="${textY}" font-size="${textFS}" fill="${color}" text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
-            ${text}
-          </text>
-        `);
       }
 
       return result;
@@ -446,8 +446,17 @@ class Map {
            </g>`);
           } else {
             let { rows, rowColor, rowCapacity } = obj.content[id];
+            let tTextFS = bLength / 75;
+            let tTextX = x - tTextFS;
+            let tTextY = y + rows / 2;
+            let tText = Lib.getLetterFromNum(++Map.#numRow);
 
-            let textFS = bLength / 50;
+            result = result.concat(`
+              <text x="${tTextX}" y="${tTextY}" font-size="${tTextFS}" fill="${color}" text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
+                ${tText}
+              </text>`);
+
+            let textFS = bLength / 60;
             let textX = x + width / 2;
             let textY1 = y + rows / 2 - textFS / 2;
             let textY2 = y + rows / 2 + textFS / 2;
