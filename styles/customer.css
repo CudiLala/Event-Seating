@@ -47,16 +47,12 @@
 }
 .header .btn-modal:focus ~ .modal,
 .header .modal:focus {
-  outline: none;
   opacity: 1;
   visibility: visible;
 }
 
 .header #info-modal {
   left: 3px;
-}
-.header #selected-modal {
-  right: 0;
 }
 
 .header #info-modal .cancel-button-container {
@@ -111,13 +107,13 @@
   border: none;
 }
 
-.header .selected.modal p {
-  text-align: center;
-  padding: 4px 0;
-  margin: 0 4px;
+.header #checkout-btn ~ .modal {
+  right: 0;
+  color: rgb(247, 33, 26);
 }
-.header .selected.modal p:not(:last-child) {
-  border-bottom: 1px solid #999;
+.header #checkout-btn:focus ~ .modal {
+  opacity: 1;
+  visibility: visible;
 }
 
 .header .c-magnifier {

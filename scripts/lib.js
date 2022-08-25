@@ -8,7 +8,6 @@ class Lib {
 
   static addToSelectedSeats(text) {
     this.globalParams.selectedSeats.push(text);
-    selectedCount.textContent = this.globalParams.selectedSeats.length;
 
     Lib.updateSelectedModal();
   }
@@ -254,7 +253,6 @@ class Lib {
       (e) => e !== text
     );
 
-    selectedCount.textContent = this.globalParams.selectedSeats.length;
     Lib.updateSelectedModal();
   }
 
@@ -324,8 +322,5 @@ class Lib {
     this.globalParams.selectedSeats.forEach((text) => {
       result = result.concat(`<p>${text}</p>`);
     });
-
-    selectedModal.innerHTML = result;
-    console.log(selectedModal);
   }
 }

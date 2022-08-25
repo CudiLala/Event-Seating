@@ -116,15 +116,15 @@ button {
   transition: all 300ms;
 }
 
-.action:disabled {
+.action.disabled {
   background-color: rgb(74, 131, 255);
   border-color: rgb(74, 131, 255);
   color: rgba(255, 255, 255, 0.8);
   cursor: not-allowed;
 }
 
-.action:not(:disabled):hover,
-.action:not(:disabled):focus {
+.action:not(.disabled):hover,
+.action:not(.disabled):focus {
   box-shadow: 0 0 8px rgb(23, 96, 253);
 }
 

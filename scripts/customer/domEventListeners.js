@@ -34,3 +34,7 @@ zoomScaleDown?.addEventListener("mouseleave", () => {
   //implemented this due to chrome bugs
   Lib.stopContinousScale();
 });
+
+checkoutBtn.addEventListener("click", () => {
+  if (checkoutBtn.classList.contains("disabled")) console.log("disabled");
+});
