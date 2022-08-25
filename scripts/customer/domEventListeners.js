@@ -34,9 +34,3 @@ zoomScaleDown?.addEventListener("mouseleave", () => {
   //implemented this due to chrome bugs
   Lib.stopContinousScale();
 });
-
-document.addEventListener("fullscreenchange", () => {
-  if (document.fullscreenElement)
-    toolToggleFullscreen.innerText = "Exit Fullscreen";
-  else toolToggleFullscreen.innerText = "Enter Fullscreen";
-});

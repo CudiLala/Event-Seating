@@ -13,7 +13,7 @@
       <div class="padder">
         <div class="btn-modal-container">
           <button class="btn-modal info" id="info-btn">
-            <div class="icon-w-num">
+            <span class="icon-w-num">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="ionicon"
@@ -38,11 +38,40 @@
                 />
                 <circle cx="250" cy="348" r="20" fill="currentColor" />
               </svg>
-              <span class="num" id="info-count">3</span>
-            </div>
-            <span style="margin-left: 4px">Info</span>
+            </span>
+            <span class="text" style="margin-left: 4px">Info</span>
           </button>
-          <div class="modal" id="info-modal"></div>
+          <div class="modal" id="info-modal" tabindex="0">
+            <div class="cancel-button-container">
+              <button type="button" id="cancel-button">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="ionicon"
+                  viewBox="0 0 512 512"
+                  width="100%"
+                  height="100%"
+                >
+                  <path
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="32"
+                    d="M368 368L144 144M368 144L144 368"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div class="top">
+              <p>Ticket type: VIP table</p>
+              <p>Total to select: 2</p>
+            </div>
+            <div class="bottom">
+              <p class="available"><span></span>Available</p>
+              <p class="selected"><span></span>Selected</p>
+              <p class="reserved"><span></span>Reserved</p>
+            </div>
+          </div>
         </div>
         <div>
           <div class="c-magnifier">
@@ -51,7 +80,8 @@
             <button id="zoom-scale-up" class="button">&plus;</button>
           </div>
         </div>
-        <div class="btn-modal-container">
+        <button type="button" class="action" disabled>Checkout (0/2)</button>
+        <!-- <div class="btn-modal-container">
           <button class="btn-modal selected" id="selected-btn">
             <div class="icon-w-num">
               <svg
@@ -89,7 +119,7 @@
           <div class="modal selected" id="selected-modal">
             <p>Select seats</p>
           </div>
-        </div>
+        </div> -->
       </div>
     </header>
     <main>

@@ -13,4 +13,5 @@ let infoModal = document.getElementById("info-modal");
 
 window.addEventListener("DOMContentLoaded", () => {
   Map.init();
+  infoBtn.focus();
 });
