@@ -9,6 +9,8 @@ let infoCount = document.getElementById("info-count");
 let infoModal = document.getElementById("info-modal");
 let checkoutBtn = document.getElementById("checkout-btn");
 
+let maximumSeatSelection = 2;
+
 window.addEventListener("DOMContentLoaded", () => {
   Map.init();
   infoBtn.focus();

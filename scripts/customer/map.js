@@ -91,20 +91,20 @@ class Map {
           let textFS = 1.5 * r;
 
           result = result.concat(`
-            <text x="${cx}" y="${cy}" font-size="${textFS}" fill="${color}" text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
-              ${j}
-            </text>
-            <circle 
-              cx="${cx}" 
-              cy="${cy}" 
-              r="${r}" 
-              stroke="${color}" 
-              fill="transparent"
-              stroke-width="${strokeWidth}" 
-              style="cursor: pointer"
-              name="seat-${text}-${j}"
-              id="seat-${text}-${j}"
-            />
+            <g name="seat-${text}-${j}" id="seat-${text}-${j}" style="cursor: pointer">
+              <circle 
+                cx="${cx}" 
+                cy="${cy}" 
+                r="${r}" 
+                stroke="${color}" 
+                fill="transparent"
+                stroke-width="${strokeWidth}" 
+                style="cursor: pointer"
+              />
+              <text x="${cx}" y="${cy}" font-size="${textFS}" fill="${color}" text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
+                ${j}
+              </text>
+            </g>  
           `);
         }
 
@@ -179,23 +179,22 @@ class Map {
           let textFS = Math.min(bLength / 75, tableLength / 2);
 
           result = result.concat(`
-            <rect 
-              x="${x}"
-              y="${y}"
-              rx="${tableVerticalRadius}"
-              ry="${tableHorizontalRadius}"
-              width="${tableWidth}"
-              height="${tableLength}"
-              fill="transparent"
-              stroke="${color}"
-              stroke-width="${strokeWidth}"
-              name="table-${text}-T${j}"
-              id="table-${text}-T${j}"
-              style="cursor: pointer"
-            />          
-            <text x="${textX}" y="${textY}" font-size="${textFS}" fill="${color}" text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
-              T${j}
-            </text>
+            <g name="table-${text}-T${j}" id="table-${text}-T${j}" style="cursor: pointer">
+              <rect 
+                x="${x}"
+                y="${y}"
+                rx="${tableVerticalRadius}"
+                ry="${tableHorizontalRadius}"
+                width="${tableWidth}"
+                height="${tableLength}"
+                fill="transparent"
+                stroke="${color}"
+                stroke-width="${strokeWidth}"
+              />          
+              <text x="${textX}" y="${textY}" font-size="${textFS}" fill="${color}" text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
+                T${j}
+              </text>
+            </g>
           `);
 
           let numChairs = 0;
@@ -463,7 +462,7 @@ class Map {
             let elemId = id.match(/\d+$/)?.[0];
 
             result = result.concat(`
-            <g  style="cursor: pointer" tab-index="0">
+            <g id="stand-${tText}" style="cursor: pointer" tab-index="0">
               <rect 
                 x="${x}"
                 y="${y}"
@@ -472,8 +471,6 @@ class Map {
                 fill="${Lib.getRowColorRgb(rowColor)}"
                 stroke="${color}"
                 stroke-width="${strokeWidth}"
-                id="stand-${elemId}" 
-                name="stand-${elemId}"
               />
               <text x="${textX}" y="${textY1}" font-size="${textFS}" fill="${color}" text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
                 Standing

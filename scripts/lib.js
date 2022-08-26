@@ -7,18 +7,40 @@ class Lib {
    */
 
   static addToSelectedSeats(text) {
-    this.globalParams.selectedSeats.push(text);
+    if (this.globalParams.selectedSeats.length == maximumSeatSelection)
+      this.globalParams.selectedSeats.shift();
 
-    Lib.updateSelectedModal();
+    if (text.startsWith("stand")) {
+      this.globalParams.selectedSeats = new Array(maximumSeatSelection).fill(
+        text
+      );
+    } else if (text.startsWith("table") && !text.startsWith("table-seat")) {
+      let arr = [];
+      let letter = text.match(/table-\w+-T\d+/)[0];
+      letter = letter.slice(6, letter.length);
+      for (let i = 0; i < maximumSeatSelection; i++) {
+        arr.push(`table-seat-${letter}-${i + 1}`);
+      }
+      this.globalParams.selectedSeats = [...arr];
+    } else this.globalParams.selectedSeats.push(text);
+    Lib.performSeatSelectionSideEffect(true);
   }
 
   static colorMapItem(elem) {
     board
-      .querySelectorAll("[id^='seat'], [id^='table'], [id^='stand']")
+      .querySelectorAll("[id^='seat'] , [id^='table'], [id^='stand']")
       .forEach((elem) => {
-        elem.setAttribute("fill", "transparent");
+        if (elem.tagName === "g")
+          elem
+            .querySelector("circle, rect")
+            .setAttribute("fill", "transparent");
+        else elem.setAttribute("fill", "transparent");
       });
-    if (elem) elem.setAttribute("fill", "#97c7ff");
+    if (elem) {
+      if (elem.tagName === "g")
+        elem.querySelector("circle, rect").setAttribute("fill", "#97c7ff");
+      else elem.setAttribute("fill", "#97c7ff");
+    }
   }
 
   static disableElements(...elems) {
@@ -185,8 +207,11 @@ class Lib {
     this.showRowEditor(rowObj);
   }
 
+  static isSeatSelected(text) {
+    return this.globalParams.selectedSeats.includes(text);
+  }
+
   static moveSeatClipboard(elem) {
-    Lib.colorMapItem(elem);
     let { x, y } = Lib.getBottomAndCenterPosition(elem);
 
     let elemId = "";
@@ -207,7 +232,7 @@ class Lib {
     }
 
     seatClipBoard.innerHTML = "";
-    seatClipBoard.append(Component.seatClipboard(type, elemId));
+    seatClipBoard.append(Component.seatClipboard(elem.id));
 
     if (
       y + seatClipBoard.getBoundingClientRect().height + 30 >
@@ -221,16 +246,12 @@ class Lib {
 
     if (seatClipBoard.classList.contains("active"))
       seatClipBoard.style.transition = "";
-    else seatClipBoard.style.transition = "opacity 500ms";
+    else seatClipBoard.style.transition = "opacity 500ms, visibility 500ms";
 
     let left = seatClipBoard.getBoundingClientRect().width / 2;
 
     seatClipBoard.style.transform = `translate(${x - left}px, ${y + 2}px)`;
     seatClipBoard.classList.add("active");
-  }
-
-  static isSeatSelected(text) {
-    return this.globalParams.selectedSeats.includes(text);
   }
 
   static parseHtml(htmlstring) {
@@ -243,8 +264,22 @@ class Lib {
     return fragement;
   }
 
+  static performSeatSelectionSideEffect(added) {
+    console.log(this.globalParams.selectedSeats);
+    if (this.globalParams.selectedSeats.length === maximumSeatSelection)
+      checkoutBtn.classList.remove("disabled");
+    else checkoutBtn.classList.add("disabled");
+
+    Map.draw();
+    this.globalParams.selectedSeats.forEach((text) => {
+      let elem = document.getElementById(text);
+      if (elem.tagName === "g")
+        elem.querySelector("circle, rect").setAttribute("fill", "#97c7ff");
+      else elem.setAttribute("fill", "#97c7ff");
+    });
+  }
+
   static removeSeatClipboard() {
-    Lib.colorMapItem();
     seatClipBoard.classList.remove("active");
   }
 
@@ -252,8 +287,7 @@ class Lib {
     this.globalParams.selectedSeats = this.globalParams.selectedSeats.filter(
       (e) => e !== text
     );
-
-    Lib.updateSelectedModal();
+    Lib.performSeatSelectionSideEffect(false);
   }
 
   static rowIdSortFn(a, b) {
@@ -313,14 +347,6 @@ class Lib {
     });
     board.querySelectorAll("[id^='row']").forEach((row) => {
       Board.unselect(row.id.slice(4));
-    });
-  }
-
-  static updateSelectedModal() {
-    let result = "";
-
-    this.globalParams.selectedSeats.forEach((text) => {
-      result = result.concat(`<p>${text}</p>`);
     });
   }
 }

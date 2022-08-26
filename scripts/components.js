@@ -775,14 +775,14 @@ class Component {
     return elem;
   }
 
-  static seatClipboard(type, elemId) {
+  static seatClipboard(elemId) {
     let elem = Lib.parseHtml(`
       <div class="head">
-        <p>${type} ${elemId}</p>
+        <p>${elemId}</p>
       </div>
       <div class="body">
         <button type="button">${
-          Lib.isSeatSelected(`${type} ${elemId}`) ? "Unselect" : "Select"
+          Lib.isSeatSelected(`${elemId}`) ? "Unselect" : "Select"
         }</button>
       </div>
     `);
