@@ -476,7 +476,7 @@ class Map {
                 Standing
               </text>
               <text x="${textX}" y="${textY2}" font-size="${textFS}" fill="${color}" text-anchor="middle" dominant-baseline="middle" style="font-family: monospace">
-                Row Capacity: ${rows * rowCapacity}
+                Row Capacity: ${rowCapacity}
               </text>
             </g>
             `);
