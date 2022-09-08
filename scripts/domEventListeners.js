@@ -3,14 +3,15 @@ board?.addEventListener("click", () => {
   Lib.unselectBoardComponents();
 });
 
-sizeForm?.addEventListener("submit", (ev) => {
+startForm?.addEventListener("submit", async (ev) => {
   ev.preventDefault();
 
-  let width = sizeForm.width.value;
-  let length = sizeForm.length.value;
+  let name = startForm.name.value;
+  let width = startForm.width.value;
+  let length = startForm.length.value;
 
-  Board.arenaSize = { width, length };
-  State.display = "board";
+  let { pvId, mapId } = await Lib.createSeatingMapInDB(name, width, length);
+  window.location.href = `?pvId=${pvId}&mapId=${mapId}`;
 });
 
 toolNew?.addEventListener("click", () => {
@@ -34,9 +35,11 @@ toolToggleFullscreen?.addEventListener("click", () => {
   else root.requestFullscreen();
 });
 
-toolGenerateJson?.addEventListener("click", () => {
+toolSaveJson?.addEventListener("click", () => {
   if (State.display == "board") {
-    console.log("click generate json");
+    Lib.startSavingProgress();
+    Lib.saveSeatingMapToDB();
+    Lib.endSavingProgress();
   }
 });
 

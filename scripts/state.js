@@ -41,13 +41,8 @@ class State {
     this.store();
   }
 
-  static init() {
-    let state = localStorage.getItem("state");
-    if (state) this.#store = JSON.parse(state);
-
-    for (let key in this.#store) {
-      this[key] = this.#store[key];
-    }
+  static init(bool) {
+    this.display = bool ? "board" : "form";
   }
 
   static get scale() {

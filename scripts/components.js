@@ -802,4 +802,20 @@ class Component {
 
     return elem;
   }
+
+  static venueMapLinks(data) {
+    let elem = `<div class="venue-map-links-container"> <h2>Maps</h2>`;
+
+    data.forEach((obj) => {
+      elem = elem.concat(
+        `<div class="venue-map-links">
+          <a href="/?pvId=${obj.pvId}&mapId=${obj.id}">${obj.name}</a>
+        </div>`
+      );
+    });
+
+    elem = elem.concat("</div>");
+
+    return Lib.parseHtml(elem);
+  }
 }

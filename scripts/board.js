@@ -101,6 +101,10 @@ class Board {
     );
   }
 
+  static getBoardJson() {
+    return this.#store;
+  }
+
   static getRowById(rowId) {
     return (
       this.#store.content[rowId] ||
@@ -131,9 +135,8 @@ class Board {
     return `Row-group-${Number(lastNum) + 1}`;
   }
 
-  static init() {
-    let store = localStorage.getItem("board");
-    if (store) this.#store = JSON.parse(store);
+  static init(map) {
+    this.#store = map;
 
     this.store().draw();
     return this;

@@ -43,6 +43,25 @@ class Lib {
     }
   }
 
+  static async createSeatingMapInDB(name, width, length) {
+    let pvId = new URLSearchParams(window.location.search).get("pvId");
+
+    const res = await fetch(`http://localhost:5000/seatingMaps`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        pvId,
+        name,
+        size: { width, length },
+        content: {},
+      }),
+    });
+
+    let mapId = (await res.json()).id;
+
+    return { pvId, mapId };
+  }
+
   static disableElements(...elems) {
     for (let elem of elems) {
       elem.disabled = true;
@@ -129,6 +148,14 @@ class Lib {
     for (let elem of elems) {
       elem.disabled = false;
     }
+  }
+
+  static endSavingProgress() {
+    toolSaveJson.innerHTML = "Saved \u2713";
+
+    setTimeout(() => {
+      toolSaveJson.innerHTML = "Save Draft";
+    }, 2000);
   }
 
   static getLetterFromNum(num) {
@@ -296,6 +323,20 @@ class Lib {
     let numB = b.match(/\d+/)[0];
 
     return numA - numB;
+  }
+
+  static async saveSeatingMapToDB() {
+    let mapId = new URLSearchParams(window.location.search).get("mapId");
+
+    await fetch(`http://localhost:5000/seatingMaps/${mapId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(Board.getBoardJson()),
+    });
+  }
+
+  static async startSavingProgress() {
+    toolSaveJson.innerHTML = `Saving <span style="font-size: 12px">\u2022\u2022\u2022</span>`;
   }
 
   static showAreaEditor(areaObj) {
