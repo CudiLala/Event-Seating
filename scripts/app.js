@@ -14,6 +14,8 @@ class App {
         method: "GET",
       });
       let data = await res.json();
+      console.log(data);
+
       sideBarBody.innerHTML = "";
       sideBarBody.append(Component.venueMapLinks(data));
     } else {
@@ -21,6 +23,7 @@ class App {
         method: "GET",
       });
       let data = await res.json();
+      console.log(data);
 
       State.init(true);
       Board.init({ size: data.size, content: data.content });

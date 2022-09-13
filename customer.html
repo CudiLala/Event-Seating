@@ -9,101 +9,107 @@
     <link rel="stylesheet" href="/styles/customer.css" />
   </head>
   <body>
-    <header class="header">
-      <div class="padder">
-        <div class="btn-modal-container">
-          <button class="btn-modal info" id="info-btn">
-            <span class="icon-w-num">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="ionicon"
-                width="100%"
-                height="100%"
-                viewBox="0 0 512 512"
-              >
-                <path
-                  d="M256 80a176 176 0 10176 176A176 176 0 00256 80z"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-miterlimit="10"
-                  stroke-width="32"
-                />
-                <path
-                  d="M200 202.29s.84-17.5 19.57-32.57C230.68 160.77 244 158.18 256 158c10.93-.14 20.69 1.67 26.53 4.45 10 4.76 29.47 16.38 29.47 41.09 0 26-17 37.81-36.37 50.8S251 281.43 251 296"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-miterlimit="10"
-                  stroke-width="28"
-                />
-                <circle cx="250" cy="348" r="20" fill="currentColor" />
-              </svg>
-            </span>
-            <span class="text" style="margin-left: 4px">Info</span>
-          </button>
-          <div class="modal" id="info-modal" tabindex="0">
-            <div class="cancel-button-container">
-              <button type="button" id="cancel-button">
+    <div class="seating-map">
+      <header class="header">
+        <div class="padder">
+          <div class="btn-modal-container">
+            <button class="btn-modal info" id="info-btn">
+              <span class="icon-w-num">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   class="ionicon"
-                  viewBox="0 0 512 512"
                   width="100%"
                   height="100%"
+                  viewBox="0 0 512 512"
                 >
                   <path
+                    d="M256 80a176 176 0 10176 176A176 176 0 00256 80z"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-miterlimit="10"
+                    stroke-width="32"
+                  />
+                  <path
+                    d="M200 202.29s.84-17.5 19.57-32.57C230.68 160.77 244 158.18 256 158c10.93-.14 20.69 1.67 26.53 4.45 10 4.76 29.47 16.38 29.47 41.09 0 26-17 37.81-36.37 50.8S251 281.43 251 296"
                     fill="none"
                     stroke="currentColor"
                     stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="32"
-                    d="M368 368L144 144M368 144L144 368"
+                    stroke-miterlimit="10"
+                    stroke-width="28"
                   />
+                  <circle cx="250" cy="348" r="20" fill="currentColor" />
                 </svg>
-              </button>
+              </span>
+              <span class="text" style="margin-left: 4px">Info</span>
+            </button>
+            <div class="modal" id="info-modal" tabindex="0">
+              <div class="cancel-button-container">
+                <button type="button" id="cancel-button">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="ionicon"
+                    viewBox="0 0 512 512"
+                    width="100%"
+                    height="100%"
+                  >
+                    <path
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="32"
+                      d="M368 368L144 144M368 144L144 368"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <div class="top">
+                <p>Ticket type: VIP table</p>
+                <p>Total to select: 2</p>
+              </div>
+              <div class="bottom">
+                <p class="available"><span></span>Available</p>
+                <p class="selected"><span></span>Selected</p>
+                <p class="reserved"><span></span>Reserved</p>
+              </div>
             </div>
-            <div class="top">
-              <p>Ticket type: VIP table</p>
-              <p>Total to select: 2</p>
+          </div>
+          <div>
+            <div class="c-magnifier">
+              <button id="zoom-scale-down" class="button">&minus;</button>
+              Zoom
+              <button id="zoom-scale-up" class="button">&plus;</button>
             </div>
-            <div class="bottom">
-              <p class="available"><span></span>Available</p>
-              <p class="selected"><span></span>Selected</p>
-              <p class="reserved"><span></span>Reserved</p>
+          </div>
+          <div class="btn-modal-container">
+            <button
+              type="button"
+              id="checkout-btn"
+              class="action disabled"
+              style="padding: 4px 16px"
+            >
+              Submit
+            </button>
+            <div class="modal" id="checkout-modal" tabindex="0">
+              You need to select 2 more seats to proceed
             </div>
           </div>
         </div>
-        <div>
-          <div class="c-magnifier">
-            <button id="zoom-scale-down" class="button">&minus;</button>
-            Zoom
-            <button id="zoom-scale-up" class="button">&plus;</button>
-          </div>
-        </div>
-        <div class="btn-modal-container">
-          <button
-            type="button"
-            id="checkout-btn"
-            class="action disabled"
-            style="padding: 4px 16px"
+      </header>
+      <main>
+        <div class="main-display">
+          <div
+            class="board-container"
+            id="board-container"
+            style="display: flex"
           >
-            Submit
-          </button>
-          <div class="modal" id="checkout-modal" tabindex="0">
-            You need to select 2 more seats to proceed
+            <div class="board-box" id="board-box">
+              <svg width="100%" height="100%" id="board"></svg>
+            </div>
           </div>
         </div>
-      </div>
-    </header>
-    <main>
-      <div class="main-display">
-        <div class="board-container" id="board-container" style="display: flex">
-          <div class="board-box" id="board-box">
-            <svg width="100%" height="100%" id="board"></svg>
-          </div>
-        </div>
-      </div>
-    </main>
+      </main>
+    </div>
 
     <!--used by scripts-->
     <div id="seat-clipboard"></div>

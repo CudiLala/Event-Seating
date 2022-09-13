@@ -47,7 +47,7 @@ button {
   cursor: pointer;
 }
 
-.header {
+.seating-map .header {
   background-color: #222;
   color: white;
   padding: 6px 32px;
@@ -58,7 +58,7 @@ button {
   z-index: 10;
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
 }
-.header .tools button {
+.seating-map .header .tools button {
   font-family: inherit;
   font-size: inherit;
   background-color: transparent;
@@ -69,18 +69,18 @@ button {
   margin-right: 8px;
   transition: all 300ms;
 }
-.header .tools button:disabled {
+.seating-map .header .tools button:disabled {
   color: rgba(255, 255, 255, 0.65);
   cursor: not-allowed;
 }
-.header button {
+.seating-map .header button {
   line-height: 1.25em;
 }
-.header .magnifier {
+.seating-map .header .magnifier {
   display: flex;
   align-items: center;
 }
-.header .magnifier .button {
+.seating-map .header .magnifier .button {
   font-family: Consolas, monospace;
   font-size: 22px;
 
@@ -102,7 +102,7 @@ button {
   transition: all 300ms;
 }
 
-.action {
+.seating-map .action {
   background-color: rgb(23, 96, 253);
   font-family: inherit;
   font-size: inherit;
@@ -116,30 +116,30 @@ button {
   transition: all 300ms;
 }
 
-.action.disabled {
+ .seating-map .action.disabled {
   background-color: rgb(74, 131, 255);
   border-color: rgb(74, 131, 255);
   color: rgba(255, 255, 255, 0.8);
   cursor: not-allowed;
 }
 
-.action:not(.disabled):hover,
-.action:not(.disabled):focus {
+.seating-map .action:not(.disabled):hover,
+.seating-map .action:not(.disabled):focus {
   box-shadow: 0 0 8px rgb(23, 96, 253);
 }
 
-.action.action-secondary {
+.seating-map .action.action-secondary {
   background-color: white;
   border: 1px solid rgb(23, 96, 253);
   color: rgb(23, 96, 253);
 }
-.action.action-secondary:hover,
-.action.action-secondary:focus {
+.seating-map .action.action-secondary:hover,
+.seating-map .action.action-secondary:focus {
   box-shadow: none;
   background-color: rgba(23, 96, 253, 0.05);
 }
 
-.side-bar {
+.seating-map .side-bar {
   width: 250px;
   flex: 0 0 250px;
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
@@ -148,7 +148,7 @@ button {
   scrollbar-color: transparent;
   scrollbar-width: none;
 }
-.side-bar::-webkit-scrollbar {
+.seating-map .side-bar::-webkit-scrollbar {
   display: none;
 }
 
@@ -180,25 +180,25 @@ button {
   flex: 1 1 100%;
 }
 
-.input-container {
+.seating-map .input-container {
   margin: 4px 0;
   display: flex;
   flex-direction: column;
 }
-.input-box {
+.seating-map .input-box {
   padding: 0 8px;
   display: flex;
   flex-direction: column;
 }
-.input-box.linear {
+.seating-map .input-box.linear {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
-.input-box.linear.end {
+.seating-map .input-box.linear.end {
   justify-content: flex-end;
 }
-.input-box input {
+.seating-map .input-box input {
   padding: 4px 8px;
   display: flex;
   width: 100%;
@@ -210,51 +210,51 @@ button {
   transition: all 300ms;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
 }
-.input-box input.tiny {
+.seating-map .input-box input.tiny {
   max-width: 60px;
 }
-.input-box input.medium {
+.seating-map .input-box input.medium {
   max-width: 240px;
 }
 
-.input-box input:not(:disabled):hover,
-.input-box input:not(:disabled):focus {
+.seating-map .input-box input:not(:disabled):hover,
+.seating-map .input-box input:not(:disabled):focus {
   outline: none;
   color: rgb(23, 96, 253);
   box-shadow: 0 0 5px rgb(23, 96, 253);
 }
-.input-box input:not(:disabled):hover ~ label,
-.input-box input:not(:disabled):focus ~ label {
+.seating-map .input-box input:not(:disabled):hover ~ label,
+.seating-map .input-box input:not(:disabled):focus ~ label {
   outline: none;
   border-color: rgb(23, 96, 253);
   color: rgb(23, 96, 253);
 }
 
-.input-box label {
+.seating-map .input-box label {
   font-size: 14px;
   order: 1;
   transition: all 300ms;
   margin: 4px 0;
 }
-.input-box.linear label,
-.input-box.linear input {
+.seating-map .input-box.linear label,
+.seating-map .input-box.linear input {
   margin: 0 0 0 8px;
 }
-.input-box input[type="radio"],
-.input-box input[type="checkbox"] {
+.seating-map .input-box input[type="radio"],
+.seating-map .input-box input[type="checkbox"] {
   order: 1;
   box-shadow: none !important;
   display: inline;
   width: fit-content;
   cursor: pointer;
 }
-.input-box input[type="radio"] ~ label,
-.input-box input[type="checkbox"] ~ label {
+.seating-map .input-box input[type="radio"] ~ label,
+.seating-map .input-box input[type="checkbox"] ~ label {
   order: 2;
   cursor: pointer;
   line-height: 1.625em;
 }
-.form-container {
+.seating-map .form-container {
   position: relative;
   display: flex;
   justify-content: center;
@@ -262,21 +262,21 @@ button {
   width: 100%;
   height: 100%;
 }
-.form-container > .start-form {
+.seating-map .form-container > .start-form {
   padding: 20px;
   max-width: 420px;
 }
 
-.form-container > .start-form .section {
+.seating-map .form-container > .start-form .section {
   margin-bottom: 16px;
 }
 
-.form-container > .start-form .caption {
+.seating-map .form-container > .start-form .caption {
   padding: 6px 0;
   font-size: 20px;
   font-weight: 500;
 }
-.form-container > .start-form button {
+.seating-map .form-container > .start-form button {
   margin: 10px auto;
   display: flex;
   width: fit-content;
@@ -328,7 +328,7 @@ button {
   line-height: 32px;
 } */
 
-.board-container {
+.seating-map .board-container {
   display: none;
   width: 100%;
   height: 100%;
@@ -336,7 +336,7 @@ button {
   background-color: #efeff3;
 }
 
-.board-container .board-box {
+.seating-map .board-container .board-box {
   position: relative;
   flex: 1;
   overflow: auto;
@@ -345,16 +345,16 @@ button {
   margin: 4px 4px 8px;
 }
 
-.board-container .board-box::-webkit-scrollbar {
+.seating-map .board-container .board-box::-webkit-scrollbar {
   display: none;
 }
 
-.board-container svg {
+.seating-map .board-container svg {
   position: absolute;
   transform-origin: top left;
 }
 
-.tool-form {
+.seating-map .tool-form {
   position: absolute;
   background-color: white;
   box-shadow: 0 0 10px #aaa;
@@ -366,15 +366,15 @@ button {
   transition: all 300ms;
 }
 
-.form-one {
+.seating-map .form-one {
   display: flex;
   flex-direction: column;
   font-size: 14px;
 }
-.form-one > * {
+.seating-map .form-one > * {
   margin: 2px 0;
 }
-.form-one .heading {
+.seating-map .form-one .heading {
   text-align: center;
   border-bottom: 1px solid rgba(23, 96, 253, 0.3);
   font-size: 15px;
@@ -382,26 +382,26 @@ button {
   padding-bottom: 2px;
   color: #333;
 }
-.form-one .note {
+.seating-map .form-one .note {
   font-size: 14px;
   color: #666;
   margin: 0 8px;
 }
-.form-one .caption {
+.seating-map .form-one .caption {
   font-weight: 500;
   font-size: 15px;
   margin-bottom: 4px;
   color: #333;
 }
-.form-one .footer {
+.seating-map .form-one .footer {
   border-top: 1px solid rgba(23, 96, 253, 0.3);
   padding-top: 8px;
 }
 
-.area-editor {
+.seating-map .area-editor {
   padding: 16px;
 }
-.area-editor .heading {
+.seating-map .area-editor .heading {
   font-size: 16px;
   font-weight: 600;
   color: #333;
@@ -409,12 +409,12 @@ button {
   padding-bottom: 4px;
   display: flex;
 }
-.area-editor .heading .text {
+.seating-map .area-editor .heading .text {
   flex: 1 1;
   text-align: center;
   line-height: 22px;
 }
-.area-editor .heading button {
+.seating-map .area-editor .heading button {
   width: 22px;
   height: 22px;
   padding: 0;
@@ -424,38 +424,38 @@ button {
   flex: 0 0 22px;
   color: rgb(255, 114, 58);
 }
-.area-editor .heading button:hover,
-.area-editor .heading button:focus {
+.seating-map .area-editor .heading button:hover,
+.seating-map .area-editor .heading button:focus {
   outline: none;
   border: none;
 }
-.area-editor .group {
+.seating-map .area-editor .group {
   display: flex;
   flex-direction: column;
   margin: 16px 0;
 }
-.area-editor .group.linear {
+.seating-map .area-editor .group.linear {
   flex-direction: row;
 }
 
-.tool-form-container {
+.seating-map .tool-form-container {
   max-height: 65vh;
   overflow: auto;
   scrollbar-width: none;
 }
-.tool-form-container::-webkit-scrollbar {
+.seating-map .tool-form-container::-webkit-scrollbar {
   display: none;
 }
 
-.no-display {
+.seating-map .no-display {
   display: none;
 }
 
-.venue-map-links-container {
+.seating-map .venue-map-links-container {
   padding: 8px 16px;
 }
 
-.venue-map-links-container h2 {
+.seating-map .venue-map-links-container h2 {
   font-size: 16px;
   font-weight: 500;
   border-bottom: 1px solid rgba(23, 96, 253, 0.2);
@@ -463,57 +463,57 @@ button {
   margin-bottom: 8px;
 }
 
-.venue-map-links {
+.seating-map .venue-map-links {
   padding: 4px 8px;
 }
 
-.venue-map-links a {
+.seating-map .venue-map-links a {
   color: rgb(23, 96, 253);
   text-decoration: none;
   font-weight: 500;
   font-size: 14px;
 }
 
-.color-form-field {
+.seating-map .color-form-field {
   display: flex;
   justify-content: space-between;
 }
-.color-form-field > div {
+.seating-map .color-form-field > div {
   width: 16px;
   height: 16px;
   border-radius: 50%;
   border: 1px solid black;
   cursor: pointer;
 }
-.color-form-field .none {
+.seating-map .color-form-field .none {
   background-color: rgba(255, 255, 255, 0);
 }
-.color-form-field .grey {
+.seating-map .color-form-field .grey {
   background-color: rgba(127, 127, 127, 0.2);
 }
-.color-form-field .yellow {
+.seating-map .color-form-field .yellow {
   background-color: rgba(255, 255, 0, 0.2);
 }
-.color-form-field .green {
+.seating-map .color-form-field .green {
   background-color: rgba(0, 255, 0, 0.2);
 }
-.color-form-field .blue-green {
+.seating-map .color-form-field .blue-green {
   background-color: rgba(0, 255, 255, 0.2);
 }
-.color-form-field .blue {
+.seating-map .color-form-field .blue {
   background-color: rgba(0, 0, 255, 0.2);
 }
-.color-form-field .purple {
+.seating-map .color-form-field .purple {
   background-color: rgba(255, 0, 255, 0.2);
 }
-.color-form-field .red {
+.seating-map .color-form-field .red {
   background-color: rgba(255, 0, 0, 0.2);
 }
 @media screen and (max-width: 767px) {
-  main .side-bar {
+  .seating-map main .side-bar {
     flex: 1 3 100%;
   }
-  main .main-display {
+  .seating-map main .main-display {
     width: 100%;
     flex: 1 2 100%;
   }

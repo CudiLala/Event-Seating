@@ -8,79 +8,86 @@
     <link rel="stylesheet" href="/styles/index.css" />
   </head>
   <body>
-    <header class="header" id="header">
-      <div class="tools">
-        <button id="tool-new" disabled>New</button>
-        <button id="tool-area" disabled>Add Area</button>
-        <button id="tool-row" disabled>Add Rows</button>
-        <button id="tool-toggle-fullscreen">Enter Fullscreen</button>
-      </div>
-      <div class="magnifier" id="magnifier">
-        <button id="zoom-scale-down" class="button">&minus;</button>
-        Zoom
-        <button id="zoom-scale-up" class="button">&plus;</button>
-      </div>
-      <div>
-        <button class="action" id="tool-save-json">Save Draft</button>
-        <button class="action" id="tool-save-json" style="margin-left: 12px">
-          Publish
-        </button>
-      </div>
-    </header>
-
-    <main>
-      <div class="side-bar">
-        <div id="side-bar-body">
-          <p class="empty-text"><span>Sidebar</span></p>
+    <div class="seating-map">
+      <header class="header" id="header">
+        <div class="tools">
+          <button id="tool-new" disabled>New</button>
+          <button id="tool-area" disabled>Add Area</button>
+          <button id="tool-row" disabled>Add Rows</button>
+          <button id="tool-toggle-fullscreen">Enter Fullscreen</button>
         </div>
-      </div>
-      <div class="main-display">
-        <div class="board-container" id="board-container">
-          <div class="board-box" id="board-box">
-            <svg width="100%" height="100%" id="board"></svg>
+        <div class="magnifier" id="magnifier">
+          <button id="zoom-scale-down" class="button">&minus;</button>
+          Zoom
+          <button id="zoom-scale-up" class="button">&plus;</button>
+        </div>
+        <div>
+          <button class="action" id="tool-save-json">Save Draft</button>
+          <button class="action" id="tool-save-json" style="margin-left: 12px">
+            Publish
+          </button>
+        </div>
+      </header>
+
+      <main>
+        <div class="side-bar">
+          <div id="side-bar-body">
+            <p class="empty-text"><span>Sidebar</span></p>
           </div>
         </div>
-        <div class="form-container" id="form-container">
-          <form class="start-form" id="start-form" autocomplete="off">
-            <div class="section">
-              <p class="caption">Enter name of Map</p>
-              <div class="input-box">
-                <input id="name" name="name" placeholder="Map name" required />
-                <label>Name</label>
-              </div>
+        <div class="main-display">
+          <div class="board-container" id="board-container">
+            <div class="board-box" id="board-box">
+              <svg width="100%" height="100%" id="board"></svg>
             </div>
-            <div class="section">
-              <p class="caption">
-                Enter the width and length of venue in meters
-              </p>
-              <div class="input-box">
-                <input
-                  id="width"
-                  name="width"
-                  type="number"
-                  min="1"
-                  value="50"
-                />
-                <label for="width">Width(m)</label>
+          </div>
+          <div class="form-container" id="form-container">
+            <form class="start-form" id="start-form" autocomplete="off">
+              <div class="section">
+                <p class="caption">Enter name of Map</p>
+                <div class="input-box">
+                  <input
+                    id="name"
+                    name="name"
+                    placeholder="Map name"
+                    required
+                  />
+                  <label>Name</label>
+                </div>
               </div>
-              <div class="input-box">
-                <input
-                  id="length"
-                  name="length"
-                  type="number"
-                  min="1"
-                  value="50"
-                />
-                <label for="length">Length(m)</label>
+              <div class="section">
+                <p class="caption">
+                  Enter the width and length of venue in meters
+                </p>
+                <div class="input-box">
+                  <input
+                    id="width"
+                    name="width"
+                    type="number"
+                    min="1"
+                    value="50"
+                  />
+                  <label for="width">Width(m)</label>
+                </div>
+                <div class="input-box">
+                  <input
+                    id="length"
+                    name="length"
+                    type="number"
+                    min="1"
+                    value="50"
+                  />
+                  <label for="length">Length(m)</label>
+                </div>
               </div>
-            </div>
-            <button type="submit" class="action" style="margin-top: 32px">
-              Start Building
-            </button>
-          </form>
+              <button type="submit" class="action" style="margin-top: 32px">
+                Start Building
+              </button>
+            </form>
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
 
     <!--used by scripts-->
     <div class="tool-form" id="tool-form"></div>
