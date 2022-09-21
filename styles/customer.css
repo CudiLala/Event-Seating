@@ -5,17 +5,27 @@
 
 .seating-map .header {
   padding: 6px 8px;
+  width: 100%;
 }
 .seating-map .header .padder {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.seating-map .header .padder .child-padder {
   width: 100%;
   max-width: 900px;
   margin: auto;
   display: flex;
   justify-content: space-between;
 }
-.seating-map .header .padder > div {
+.seating-map .header .padder .child-padder > div {
   display: flex;
   align-items: center;
+}
+.seating-map .header .padder .top {
+  margin-bottom: 8px;
 }
 .seating-map .header .btn-modal-container {
   position: relative;
@@ -56,62 +66,6 @@
   visibility: visible;
 }
 
-.seating-map .header #info-modal {
-  left: 3px;
-}
-
-.seating-map .header #info-modal .cancel-button-container {
-  height: 24px;
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-}
-.seating-map .header #info-modal #cancel-button {
-  padding: 0;
-  background-color: transparent;
-  border: none;
-  color: rgba(0, 0, 0, 0.3);
-  transition: all 300ms;
-}
-.seating-map .header #info-modal #cancel-button:hover {
-  color: rgba(0, 0, 0, 0.8);
-}
-.seating-map .header #info-modal .top {
-  color: rgb(23, 96, 253);
-  padding-bottom: 4px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  font-size: 14px;
-  font-weight: 500;
-}
-.seating-map .header #info-modal .bottom {
-  padding: 8px 0 0 8px;
-}
-.seating-map .header #info-modal .bottom > p {
-  height: 24px;
-  line-height: 24px;
-  display: flex;
-  align-items: center;
-}
-.seating-map .header #info-modal .bottom > p span {
-  display: inline-block;
-  width: 18px;
-  height: 18px;
-  border: 1px solid rgba(0, 0, 0, 0.625);
-  border-radius: 4px;
-  margin-right: 8px;
-}
-.seating-map .header #info-modal .bottom p.available span {
-  background-color: transparent;
-}
-.seating-map .header #info-modal .bottom p.selected span {
-  background-color: rgb(23, 96, 253);
-  border: none;
-}
-.seating-map .header #info-modal .bottom p.reserved span {
-  background-color: rgb(247, 33, 26);
-  border: none;
-}
-
 .seating-map .header #checkout-btn ~ .modal {
   right: 0;
   color: rgb(247, 33, 26);
@@ -145,6 +99,33 @@
   align-items: center;
   justify-content: center;
   transition: all 300ms;
+}
+
+.seating-map .header .ticket-info > * {
+  margin-right: 24px;
+}
+
+.seating-map .child-padder.bottom .color-key > * {
+  margin-left: 24px;
+  display: flex;
+  align-items: center;
+}
+.seating-map .child-padder.bottom .color-key > * span {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  box-shadow: 0 0 1px black;
+  display: inline-block;
+  margin-right: 8px;
+}
+.seating-map .child-padder.bottom .available span {
+  background-color: white;
+}
+.seating-map .child-padder.bottom .selected span {
+  background-color: rgb(23, 96, 253);
+}
+.seating-map .child-padder.bottom .reserved span {
+  background-color: rgb(247, 88, 26);
 }
 
 .seating-map .icon-w-num {

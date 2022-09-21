@@ -38,3 +38,7 @@ zoomScaleDown?.addEventListener("mouseleave", () => {
 checkoutBtn.addEventListener("click", () => {
   if (checkoutBtn.classList.contains("disabled")) console.log("disabled");
 });
+
+backBtn.addEventListener("click", () => {
+  window.history.back();
+});
