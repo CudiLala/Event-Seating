@@ -17,7 +17,6 @@ body {
   flex-direction: column;
   height: 100vh;
   width: 100%;
-  background-color: white;
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -47,7 +46,7 @@ button {
   cursor: pointer;
 }
 
-.seating-map .header {
+.header {
   background-color: #222;
   color: white;
   padding: 6px 32px;
@@ -58,7 +57,7 @@ button {
   z-index: 10;
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
 }
-.seating-map .header .tools button {
+.header .tools button {
   font-family: inherit;
   font-size: inherit;
   background-color: transparent;
@@ -69,18 +68,18 @@ button {
   margin-right: 8px;
   transition: all 300ms;
 }
-.seating-map .header .tools button:disabled {
+.header .tools button:disabled {
   color: rgba(255, 255, 255, 0.65);
   cursor: not-allowed;
 }
-.seating-map .header button {
+.header button {
   line-height: 1.25em;
 }
-.seating-map .header .magnifier {
+.header .magnifier {
   display: flex;
   align-items: center;
 }
-.seating-map .header .magnifier .button {
+.header .magnifier .button {
   font-family: Consolas, monospace;
   font-size: 22px;
 
@@ -102,7 +101,7 @@ button {
   transition: all 300ms;
 }
 
-.seating-map .action {
+.action {
   background-color: rgb(23, 96, 253);
   font-family: inherit;
   font-size: inherit;
@@ -116,30 +115,30 @@ button {
   transition: all 300ms;
 }
 
-.seating-map .action.disabled {
+.action.disabled {
   background-color: rgb(74, 131, 255);
   border-color: rgb(74, 131, 255);
   color: rgba(255, 255, 255, 0.8);
   cursor: not-allowed;
 }
 
-.seating-map .action:not(.disabled):hover,
-.seating-map .action:not(.disabled):focus {
+.action:not(.disabled):hover,
+.action:not(.disabled):focus {
   box-shadow: 0 0 8px rgb(23, 96, 253);
 }
 
-.seating-map .action.action-secondary {
+.action.action-secondary {
   background-color: white;
   border: 1px solid rgb(23, 96, 253);
   color: rgb(23, 96, 253);
 }
-.seating-map .action.action-secondary:hover,
-.seating-map .action.action-secondary:focus {
+.action.action-secondary:hover,
+.action.action-secondary:focus {
   box-shadow: none;
   background-color: rgba(23, 96, 253, 0.05);
 }
 
-.seating-map .side-bar {
+.side-bar {
   width: 250px;
   flex: 0 0 250px;
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
@@ -148,7 +147,7 @@ button {
   scrollbar-color: transparent;
   scrollbar-width: none;
 }
-.seating-map .side-bar::-webkit-scrollbar {
+.side-bar::-webkit-scrollbar {
   display: none;
 }
 
@@ -180,25 +179,25 @@ button {
   flex: 1 1 100%;
 }
 
-.seating-map .input-container {
+.input-container {
   margin: 4px 0;
   display: flex;
   flex-direction: column;
 }
-.seating-map .input-box {
+.input-box {
   padding: 0 8px;
   display: flex;
   flex-direction: column;
 }
-.seating-map .input-box.linear {
+.input-box.linear {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
-.seating-map .input-box.linear.end {
+.input-box.linear.end {
   justify-content: flex-end;
 }
-.seating-map .input-box input {
+.input-box input {
   padding: 4px 8px;
   display: flex;
   width: 100%;
@@ -210,51 +209,51 @@ button {
   transition: all 300ms;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
 }
-.seating-map .input-box input.tiny {
+.input-box input.tiny {
   max-width: 60px;
 }
-.seating-map .input-box input.medium {
+.input-box input.medium {
   max-width: 240px;
 }
 
-.seating-map .input-box input:not(:disabled):hover,
-.seating-map .input-box input:not(:disabled):focus {
+.input-box input:not(:disabled):hover,
+.input-box input:not(:disabled):focus {
   outline: none;
   color: rgb(23, 96, 253);
   box-shadow: 0 0 5px rgb(23, 96, 253);
 }
-.seating-map .input-box input:not(:disabled):hover ~ label,
-.seating-map .input-box input:not(:disabled):focus ~ label {
+.input-box input:not(:disabled):hover ~ label,
+.input-box input:not(:disabled):focus ~ label {
   outline: none;
   border-color: rgb(23, 96, 253);
   color: rgb(23, 96, 253);
 }
 
-.seating-map .input-box label {
+.input-box label {
   font-size: 14px;
   order: 1;
   transition: all 300ms;
   margin: 4px 0;
 }
-.seating-map .input-box.linear label,
-.seating-map .input-box.linear input {
+.input-box.linear label,
+.input-box.linear input {
   margin: 0 0 0 8px;
 }
-.seating-map .input-box input[type="radio"],
-.seating-map .input-box input[type="checkbox"] {
+.input-box input[type="radio"],
+.input-box input[type="checkbox"] {
   order: 1;
   box-shadow: none !important;
   display: inline;
   width: fit-content;
   cursor: pointer;
 }
-.seating-map .input-box input[type="radio"] ~ label,
-.seating-map .input-box input[type="checkbox"] ~ label {
+.input-box input[type="radio"] ~ label,
+.input-box input[type="checkbox"] ~ label {
   order: 2;
   cursor: pointer;
   line-height: 1.625em;
 }
-.seating-map .form-container {
+.form-container {
   position: relative;
   display: flex;
   justify-content: center;
@@ -262,21 +261,21 @@ button {
   width: 100%;
   height: 100%;
 }
-.seating-map .form-container > .start-form {
+.form-container > .start-form {
   padding: 20px;
   max-width: 420px;
 }
 
-.seating-map .form-container > .start-form .section {
+.form-container > .start-form .section {
   margin-bottom: 16px;
 }
 
-.seating-map .form-container > .start-form .caption {
+.form-container > .start-form .caption {
   padding: 6px 0;
   font-size: 20px;
   font-weight: 500;
 }
-.seating-map .form-container > .start-form button {
+.form-container > .start-form button {
   margin: 10px auto;
   display: flex;
   width: fit-content;
@@ -328,7 +327,7 @@ button {
   line-height: 32px;
 } */
 
-.seating-map .board-container {
+.board-container {
   display: none;
   width: 100%;
   height: 100%;
@@ -336,7 +335,7 @@ button {
   background-color: #efeff3;
 }
 
-.seating-map .board-container .board-box {
+.board-container .board-box {
   position: relative;
   flex: 1;
   overflow: auto;
@@ -345,16 +344,16 @@ button {
   margin: 4px 4px 8px;
 }
 
-.seating-map .board-container .board-box::-webkit-scrollbar {
+.board-container .board-box::-webkit-scrollbar {
   display: none;
 }
 
-.seating-map .board-container svg {
+.board-container svg {
   position: absolute;
   transform-origin: top left;
 }
 
-.seating-map .tool-form {
+.tool-form {
   position: absolute;
   background-color: white;
   box-shadow: 0 0 10px #aaa;
@@ -366,15 +365,15 @@ button {
   transition: all 300ms;
 }
 
-.seating-map .form-one {
+.form-one {
   display: flex;
   flex-direction: column;
   font-size: 14px;
 }
-.seating-map .form-one > * {
+.form-one > * {
   margin: 2px 0;
 }
-.seating-map .form-one .heading {
+.form-one .heading {
   text-align: center;
   border-bottom: 1px solid rgba(23, 96, 253, 0.3);
   font-size: 15px;
@@ -382,26 +381,26 @@ button {
   padding-bottom: 2px;
   color: #333;
 }
-.seating-map .form-one .note {
+.form-one .note {
   font-size: 14px;
   color: #666;
   margin: 0 8px;
 }
-.seating-map .form-one .caption {
+.form-one .caption {
   font-weight: 500;
   font-size: 15px;
   margin-bottom: 4px;
   color: #333;
 }
-.seating-map .form-one .footer {
+.form-one .footer {
   border-top: 1px solid rgba(23, 96, 253, 0.3);
   padding-top: 8px;
 }
 
-.seating-map .area-editor {
+.area-editor {
   padding: 16px;
 }
-.seating-map .area-editor .heading {
+.area-editor .heading {
   font-size: 16px;
   font-weight: 600;
   color: #333;
@@ -409,12 +408,12 @@ button {
   padding-bottom: 4px;
   display: flex;
 }
-.seating-map .area-editor .heading .text {
+.area-editor .heading .text {
   flex: 1 1;
   text-align: center;
   line-height: 22px;
 }
-.seating-map .area-editor .heading button {
+.area-editor .heading button {
   width: 22px;
   height: 22px;
   padding: 0;
@@ -424,38 +423,38 @@ button {
   flex: 0 0 22px;
   color: rgb(255, 114, 58);
 }
-.seating-map .area-editor .heading button:hover,
-.seating-map .area-editor .heading button:focus {
+.area-editor .heading button:hover,
+.area-editor .heading button:focus {
   outline: none;
   border: none;
 }
-.seating-map .area-editor .group {
+.area-editor .group {
   display: flex;
   flex-direction: column;
   margin: 16px 0;
 }
-.seating-map .area-editor .group.linear {
+.area-editor .group.linear {
   flex-direction: row;
 }
 
-.seating-map .tool-form-container {
+.tool-form-container {
   max-height: 65vh;
   overflow: auto;
   scrollbar-width: none;
 }
-.seating-map .tool-form-container::-webkit-scrollbar {
+.tool-form-container::-webkit-scrollbar {
   display: none;
 }
 
-.seating-map .no-display {
+.no-display {
   display: none;
 }
 
-.seating-map .venue-map-links-container {
+.venue-map-links-container {
   padding: 8px 16px;
 }
 
-.seating-map .venue-map-links-container h2 {
+.venue-map-links-container h2 {
   font-size: 16px;
   font-weight: 500;
   border-bottom: 1px solid rgba(23, 96, 253, 0.2);
@@ -463,57 +462,57 @@ button {
   margin-bottom: 8px;
 }
 
-.seating-map .venue-map-links {
+.venue-map-links {
   padding: 4px 8px;
 }
 
-.seating-map .venue-map-links a {
+.venue-map-links a {
   color: rgb(23, 96, 253);
   text-decoration: none;
   font-weight: 500;
   font-size: 14px;
 }
 
-.seating-map .color-form-field {
+.color-form-field {
   display: flex;
   justify-content: space-between;
 }
-.seating-map .color-form-field > div {
+.color-form-field > div {
   width: 16px;
   height: 16px;
   border-radius: 50%;
   border: 1px solid black;
   cursor: pointer;
 }
-.seating-map .color-form-field .none {
+.color-form-field .none {
   background-color: rgba(255, 255, 255, 0);
 }
-.seating-map .color-form-field .grey {
+.color-form-field .grey {
   background-color: rgba(127, 127, 127, 0.2);
 }
-.seating-map .color-form-field .yellow {
+.color-form-field .yellow {
   background-color: rgba(255, 255, 0, 0.2);
 }
-.seating-map .color-form-field .green {
+.color-form-field .green {
   background-color: rgba(0, 255, 0, 0.2);
 }
-.seating-map .color-form-field .blue-green {
+.color-form-field .blue-green {
   background-color: rgba(0, 255, 255, 0.2);
 }
-.seating-map .color-form-field .blue {
+.color-form-field .blue {
   background-color: rgba(0, 0, 255, 0.2);
 }
-.seating-map .color-form-field .purple {
+.color-form-field .purple {
   background-color: rgba(255, 0, 255, 0.2);
 }
-.seating-map .color-form-field .red {
+.color-form-field .red {
   background-color: rgba(255, 0, 0, 0.2);
 }
 @media screen and (max-width: 767px) {
-  .seating-map main .side-bar {
+  main .side-bar {
     flex: 1 3 100%;
   }
-  .seating-map main .main-display {
+  main .main-display {
     width: 100%;
     flex: 1 2 100%;
   }
