@@ -11,4 +11,6 @@ let maximumSeatSelection = 2;
 
 window.addEventListener("DOMContentLoaded", () => {
   Map.init();
+  State.scale = 1;
+  State.scale = 2;
 });

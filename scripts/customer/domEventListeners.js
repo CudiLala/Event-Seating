@@ -6,7 +6,7 @@ boardBox.addEventListener("scroll", () => {
 });
 
 zoomScaleUp?.addEventListener("click", () => {
-  State.scale += 0.04;
+  State.scale += 0.1;
   Lib.removeSeatClipboard();
 });
 zoomScaleUp?.addEventListener("mousedown", () => {
@@ -21,7 +21,7 @@ zoomScaleUp?.addEventListener("mouseleave", () => {
 });
 
 zoomScaleDown?.addEventListener("click", () => {
-  State.scale -= 0.04;
+  State.scale -= 0.1;
   Lib.removeSeatClipboard();
 });
 zoomScaleDown?.addEventListener("mousedown", () => {
