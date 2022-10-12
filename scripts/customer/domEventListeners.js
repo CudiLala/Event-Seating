@@ -37,6 +37,7 @@ zoomScaleDown?.addEventListener("mouseleave", () => {
 
 checkoutBtn.addEventListener("click", () => {
   if (checkoutBtn.classList.contains("disabled")) console.log("disabled");
+  console.log(Lib.globalParams.selectedSeats);
 });
 
 backBtn.addEventListener("click", () => {

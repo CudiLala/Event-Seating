@@ -135,6 +135,8 @@ class Lib {
 
     let { x, y } = Lib.getPositionsForToolForm(toolRow);
     toolForm.style.transform = `translate(${x}px, ${y}px)`;
+
+    Board.zParse();
   }
 
   static emptySideBar() {
@@ -347,6 +349,8 @@ class Lib {
   static showRowEditor(rowObj) {
     sideBarBody.innerHTML = "";
     sideBarBody.append(Component.rowEditor(rowObj));
+
+    Board.zParse();
   }
 
   static slideOutToolForm() {
@@ -380,6 +384,19 @@ class Lib {
       clearTimeout(this.globalParams.scaleUpSetTime);
     if (this.globalParams.scaleUpSetInerval !== undefined)
       clearInterval(this.globalParams.scaleUpSetInerval);
+  }
+
+  static updateSeatCount(seatNumber, rowId) {
+    if (rowId && rowId.includes("--")) {
+      rowId = [...rowId].slice(0, rowId.length - 3).join("");
+    }
+
+    let noOfSeat_toolForm = document.getElementById("noOfSeat_toolForm");
+    let noOfSeat_editor = document.getElementById(`noOfSeat_editor-${rowId}`);
+    console.log(noOfSeat_editor, rowId);
+
+    if (noOfSeat_toolForm) noOfSeat_toolForm.innerHTML = seatNumber;
+    if (noOfSeat_editor) noOfSeat_editor.textContent = seatNumber;
   }
 
   static unselectBoardComponents() {

@@ -329,6 +329,7 @@ class Board {
       chairWidth,
       chairSpacing,
       color,
+      rowId,
     }) {
       let result = "";
 
@@ -374,6 +375,10 @@ class Board {
         }
       }
 
+      let seatNumber =
+        Math.floor(Math.floor(width / (chairWidth + chairSpacing))) * rows;
+      Lib.updateSeatCount(seatNumber, rowId);
+
       return result;
     }
 
@@ -392,6 +397,7 @@ class Board {
       tableVerticalRadius,
       tableHorizontalRadius,
       color,
+      rowId,
     }) {
       let result = "";
 
@@ -597,6 +603,21 @@ class Board {
         }
       }
 
+      let seatNumber =
+        Math.floor(
+          Math.floor(
+            (width + tableSpacing) /
+              (tableWidth + 2 * chairWidth + tableSpacing)
+          ) * rows
+        ) *
+        (Math.floor((tableWidth - chairSpacing) / (chairWidth + chairSpacing)) *
+          2 +
+          Math.floor(
+            (tableLength - chairSpacing) / (chairWidth + chairSpacing)
+          ) *
+            2);
+      Lib.updateSeatCount(seatNumber, rowId);
+
       return result;
     }
 
@@ -674,6 +695,7 @@ class Board {
                 chairWidth,
                 chairSpacing,
                 color,
+                rowId: id,
               })} 
            </g>`);
           } else if (type == "table-seat") {
@@ -692,7 +714,7 @@ class Board {
                 stroke="${color}"
                 stroke-width="${strokeWidth}"
               />
-              ${addTable({ color, ...obj.content[id] })}
+              ${addTable({ color, rowId: id, ...obj.content[id] })}
            </g>`);
           } else {
             let { rows, rowColor, rowCapacity } = obj.content[id];

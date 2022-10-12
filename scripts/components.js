@@ -334,6 +334,9 @@ class Component {
           </div>
         </div>
         <div id="capacity"></div>
+        <div style="font-size: 14px">
+          No. of seats: <span id="noOfSeat_editor-${rowObj.id}"></span>
+        </div>
       </form>
     `);
 
@@ -501,6 +504,9 @@ class Component {
             </div>
             <div id="t-capacity"></div>
           </div>
+        </div>
+        <div style="margin-top: 8px">
+          No. of seats: <span id="noOfSeat_toolForm"></span>
         </div>
         <div class="footer input-box linear end" style="margin-top: 8px">
           <button 
